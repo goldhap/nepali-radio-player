@@ -35,6 +35,13 @@
       letter-spacing: 1px;
     }
 
+    .credit {
+      text-align: center;
+      margin: 10px 0;
+      color: #aaa;
+      font-size: 14px;
+    }
+
     .player-controls {
       display: flex;
       gap: 15px;
@@ -165,6 +172,8 @@
     <h1>📻 Nepali Radio Player</h1>
   </header>
 
+  <div class="credit">Made with ❤️ by <strong>Bali</strong></div>
+
   <div class="player-controls">
     <button class="control-btn" id="playBtn">▶️ Play</button>
     <button class="control-btn" id="pauseBtn">⏸️ Pause</button>
@@ -175,10 +184,6 @@
 
   <div class="now-playing" id="nowPlaying">Not playing</div>
   <audio id="player" controls></audio>
-
-  <footer style="text-align:center; margin-top:40px; color:#aaa; font-size:14px;">
-    Made with ❤️ by <strong>Bali</strong>
-  </footer>
 
   <script src="radios.js"></script>
   <script>
