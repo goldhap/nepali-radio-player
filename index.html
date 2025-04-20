@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nepali Radio Player</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 20px; background: #f4f4f4; }
+    h1 { text-align: center; }
+    #search { width: 100%; max-width: 600px; margin: 20px auto; display: block; padding: 10px; font-size: 16px; }
+    #stations { max-width: 600px; margin: auto; }
+    .station { background: white; padding: 12px; margin: 10px 0; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .station:hover { background: #eef; }
+    audio { display: block; margin: 30px auto 0; width: 100%; max-width: 600px; }
+  </style>
+</head>
+<body>
+  <h1>Nepali Radio Player</h1>
+  <input type="text" id="search" placeholder="Search station..." />
+  <div id="stations"></div>
+  <audio id="player" controls autoplay></audio>
+
+  <script src="radios.js"></script>
+  <script>
+    const searchInput = document.getElementById("search");
+    const stationsDiv = document.getElementById("stations");
+    const player = document.getElementById("player");
+
+    function renderStations(filter = "") {
+      stationsDiv.innerHTML = "";
+      radios
+        .filter(station => station.name.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(station => {
+          const div = document.createElement("div");
+          div.className = "station";
+          div.textContent = station.name;
+          div.onclick = () => {
+            player.src = station.streamUrl;
+            player.play();
+          };
+          stationsDiv.appendChild(div);
+        });
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      renderStations(e.target.value);
+    });
+
+    renderStations(); // Initial render
+  </script>
+</body>
+</html>
