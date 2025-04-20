@@ -35,10 +35,39 @@
       letter-spacing: 1px;
     }
 
+    .player-controls {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .control-btn {
+      background: #673ab7;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-btn:hover {
+      background: #7e57c2;
+      transform: translateY(-2px);
+    }
+
+    .control-btn:active {
+      transform: translateY(0);
+    }
+
     #search {
       width: 90%;
       max-width: 600px;
-      margin: 30px auto 20px;
+      margin: 20px auto;
       padding: 14px 20px;
       border-radius: 50px;
       border: none;
@@ -123,21 +152,33 @@
       .station-name {
         font-size: 1rem;
       }
+      
+      .control-btn {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
-<footer style="text-align:center; margin-top:40px; color:#aaa; font-size:14px;">
-  Made with ❤️ by <strong>Bali</strong>
 <body>
   <header>
     <h1>📻 Nepali Radio Player</h1>
   </header>
 
+  <div class="player-controls">
+    <button class="control-btn" id="playBtn">▶️ Play</button>
+    <button class="control-btn" id="pauseBtn">⏸️ Pause</button>
+  </div>
+
   <input type="text" id="search" placeholder="🔍 Search your favorite station..." />
   <div id="stations"></div>
 
   <div class="now-playing" id="nowPlaying">Not playing</div>
-  <audio id="player" controls autoplay></audio>
+  <audio id="player" controls></audio>
+
+  <footer style="text-align:center; margin-top:40px; color:#aaa; font-size:14px;">
+    Made with ❤️ by <strong>Bali</strong>
+  </footer>
 
   <script src="radios.js"></script>
   <script>
@@ -145,6 +186,8 @@
     const stationsDiv = document.getElementById("stations");
     const player = document.getElementById("player");
     const nowPlaying = document.getElementById("nowPlaying");
+    const playBtn = document.getElementById("playBtn");
+    const pauseBtn = document.getElementById("pauseBtn");
     let currentStation = null;
 
     function renderStations(filter = "") {
@@ -178,6 +221,25 @@
           stationsDiv.appendChild(div);
         });
     }
+
+    // Play button functionality
+    playBtn.addEventListener("click", () => {
+      if (player.src) {
+        player.play();
+      } else if (radios.length > 0) {
+        // Play the first station if none is selected
+        currentStation = radios[0].name;
+        player.src = radios[0].streamUrl;
+        player.play();
+        nowPlaying.textContent = `Now Playing: ${radios[0].name}`;
+        renderStations(searchInput.value);
+      }
+    });
+
+    // Pause button functionality
+    pauseBtn.addEventListener("click", () => {
+      player.pause();
+    });
 
     searchInput.addEventListener("input", (e) => {
       renderStations(e.target.value);
