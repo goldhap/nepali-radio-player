@@ -1,0 +1,172 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background: linear-gradient(145deg, #121212, #1e1e1e);
+  color: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to right, #673ab7, #512da8);
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+
+.sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #1e1e1e;
+  width: 100%;
+  padding: 10px 0 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.player-controls {
+  display: flex;
+  gap: 10px;
+  margin: 5px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.control-btn {
+  background: #673ab7;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-btn:hover {
+  background: #7e57c2;
+  transform: translateY(-2px);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+}
+
+#search {
+  width: 90%;
+  max-width: 600px;
+  padding: 12px 20px;
+  margin: 10px 0;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  backdrop-filter: blur(8px);
+  transition: 0.3s ease;
+}
+
+#search::placeholder {
+  color: #ccc;
+}
+
+#search:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#stations {
+  width: 90%;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 50px;
+}
+
+.station {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  padding: 16px 20px;
+  margin: 10px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.station:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.01);
+}
+
+.station.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #9c27b0;
+}
+
+.station-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.icon {
+  font-size: 1.4rem;
+}
+
+audio {
+  display: block;
+  margin: 30px auto 10px;
+  width: 90%;
+  max-width: 700px;
+  border-radius: 10px;
+  background: white;
+}
+
+.now-playing {
+  text-align: center;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.credit {
+  text-align: center;
+  margin: 10px 0;
+  color: #aaa;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .station-name {
+    font-size: 1rem;
+  }
+  .control-btn {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
