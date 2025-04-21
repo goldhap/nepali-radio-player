@@ -9,7 +9,7 @@ const nextBtn = document.getElementById("nextBtn");
 let currentStation = null;
 
 // Replace 'your-repo' with your actual GitHub repository name, or set to "" if using a user site
-const repoName = "your-repo"; // e.g., "nepali-radio-player"
+const repoName = "nepali-radio-player"; // e.g., "nepali-radio-player"
 const basePath = repoName ? `/${repoName}` : "";
 
 // Function to render stations list
