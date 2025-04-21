@@ -72,3 +72,56 @@ searchInput.addEventListener("input", (e) => {
 });
 
 renderStations();
+function updateMediaSessionMetadata(station) {
+    if ('mediaSession' in navigator && station) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: station.name,
+        artist: "Nepali Radio",
+        album: "Live Streaming",
+        artwork: [
+          { src: "https://i.ibb.co/MRMhscs/nepaliradio.png", sizes: "96x96", type: "image/png" },
+          { src: "https://i.ibb.co/MRMhscs/nepaliradio.png", sizes: "128x128", type: "image/png" }
+        ]
+      });
+  
+      navigator.mediaSession.setActionHandler("play", () => {
+        player.play();
+      });
+  
+      navigator.mediaSession.setActionHandler("pause", () => {
+        player.pause();
+      });
+  
+      navigator.mediaSession.setActionHandler("previoustrack", () => {
+        playPreviousStation();
+      });
+  
+      navigator.mediaSession.setActionHandler("nexttrack", () => {
+        playNextStation();
+      });
+    }
+  }
+  
+  function playPreviousStation() {
+    if (!currentStation || !radios.length) return;
+    const currentIndex = radios.findIndex(r => r.name === currentStation);
+    const prevIndex = (currentIndex - 1 + radios.length) % radios.length;
+    playStation(radios[prevIndex]);
+  }
+  
+  function playNextStation() {
+    if (!currentStation || !radios.length) return;
+    const currentIndex = radios.findIndex(r => r.name === currentStation);
+    const nextIndex = (currentIndex + 1) % radios.length;
+    playStation(radios[nextIndex]);
+  }
+  
+  function playStation(station) {
+    currentStation = station.name;
+    player.src = station.streamUrl;
+    player.play();
+    nowPlaying.textContent = `Now Playing: ${station.name}`;
+    renderStations(searchInput.value);
+    updateMediaSessionMetadata(station);
+  }
+  
