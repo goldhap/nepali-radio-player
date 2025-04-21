@@ -5,18 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nepali Radio Player</title>
 
-  <!-- Web App Manifest for Android -->
-  <link rel="manifest" href="/manifest.json">
+  <!-- New Link Tags for Icons and Manifest -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 
-  <!-- iOS Meta Tags -->
+  <!-- Existing iOS Meta Tags (Keep These) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Nepali Radio">
-  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
 
-  <!-- Theme Color for Browser -->
-  <meta name="theme-color" content="#ff0000">
+  <!-- Theme Color (Updated to White to Avoid Red Background) -->
+  <meta name="theme-color" content="#ffffff">
 
-  <!-- Your existing CSS -->
+  <!-- Your Existing CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -38,7 +40,7 @@
   <div id="stations"></div>
   <audio id="player" controls></audio>
 
-  <!-- Your existing JavaScript -->
+  <!-- Your Existing JavaScript -->
   <script src="radios.js"></script>
   <script src="script.js"></script>
   <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'933a19050a0a12f5',t:'MTc0NTIwOTMxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
