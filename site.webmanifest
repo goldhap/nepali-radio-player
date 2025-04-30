@@ -2,7 +2,7 @@
   "name": "Nepali Radio Player",
   "short_name": "Nepali Radio",
   "description": "Listen to over 400 Nepali radio stations online",
-  "start_url": "/",
+  "start_url": "/nepali-radio-player/",
   "icons": [
     {
       "src": "/nepali-radio-player/icon/android-chrome-192x192.png",
