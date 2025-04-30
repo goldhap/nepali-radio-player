@@ -3,10 +3,10 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0;
-  background: linear-gradient(135deg, #f5f7fa, #e2e8f0);
-  color: #1f2937;
+  background: linear-gradient(145deg, #1a1a1a, #2c2c2c);
+  color: #f5f5f5;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -16,17 +16,34 @@ body {
 header {
   width: 100%;
   padding: 1.5rem;
-  background: linear-gradient(to right, #3b82f6, #2563eb);
+  background: linear-gradient(to right, #b22222, #8b0000);
   text-align: center;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.25rem;
+  font-size: 2rem;
   font-weight: 700;
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" opacity="0.1"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-14l1.5 4.5h4.5l-3.5 2.5 1.5 4.5-3.5-2.5-3.5 2.5 1.5-4.5-3.5-2.5h4.5z"/></svg>') no-repeat center;
+  background-size: 50%;
+  opacity: 0.1;
+  transform: translate(-50%, -50%);
 }
 
 .sticky-bar {
@@ -35,11 +52,12 @@ header h1 {
   z-index: 10;
   width: 100%;
   padding: 0.75rem 0;
-  background: #ffffff;
+  background: rgba(28, 28, 28, 0.9);
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .player-controls {
@@ -51,7 +69,7 @@ header h1 {
 }
 
 .control-btn {
-  background: #3b82f6;
+  background: #003087;
   color: #ffffff;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -62,16 +80,16 @@ header h1 {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .control-btn:hover {
-  background: #2563eb;
-  transform: translateY(-1px);
+  background: #b22222;
+  transform: scale(1.05);
 }
 
 .control-btn:active {
-  transform: translateY(0);
+  transform: scale(1);
 }
 
 #search {
@@ -80,26 +98,27 @@ header h1 {
   padding: 0.75rem 1.25rem;
   margin: 0.5rem 0;
   border-radius: 9999px;
-  border: 1px solid #d1d5db;
+  border: none;
   font-size: 1rem;
-  background: #f9fafb;
-  color: #1f2937;
-  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
 }
 
 #search::placeholder {
-  color: #6b7280;
+  color: #b0b0b0;
 }
 
 #search:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 3px rgba(178, 34, 34, 0.3);
 }
 
 #stations {
   width: 90%;
-  max-width: 48rem;
+  max-width: 44rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -107,34 +126,35 @@ header h1 {
 }
 
 .station {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
   padding: 1rem 1.25rem;
   margin: 0.5rem 0;
   border-radius: 0.75rem;
   cursor: pointer;
   display: flex;
   align-items: center;
-  border: 1px solid #e5e7eb;
-  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
 .station:hover {
-  background: #f9fafb;
-  transform: translateX(2px);
+  background: rgba(0, 48, 135, 0.2);
+  transform: translateX(3px);
 }
 
 .station.active {
-  background: #eff6ff;
-  border-left: 4px solid #3b82f6;
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #b22222;
 }
 
 .station-logo {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .station-info {
@@ -145,12 +165,12 @@ header h1 {
 
 .station-name {
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .station-address {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.7);
   display: none;
 }
 
@@ -161,28 +181,35 @@ header h1 {
 .now-playing {
   text-align: center;
   font-size: 1rem;
-  color: #4b5563;
-  padding: 0.75rem;
-  background: #f9fafb;
+  color: #e5e7eb;
+  padding: 0.75rem 1.25rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
   border-radius: 0.5rem;
   margin: 0.75rem 0;
   width: 90%;
   max-width: 36rem;
+  border: 1px solid rgba(178, 34, 34, 0.2);
+  transition: all 0.3s ease;
+}
+
+.now-playing:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .now-playing-name {
   font-weight: 600;
-  color: #1f2937;
+  color: #ffffff;
 }
 
 .now-playing-address {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.7);
   margin-top: 0.25rem;
 }
 
 .error {
-  color: #ef4444;
+  color: #ff4d4d;
 }
 
 audio {
@@ -192,13 +219,13 @@ audio {
 .credit {
   text-align: center;
   margin: 1.5rem 0;
-  color: #6b7280;
+  color: #9ca3af;
   font-size: 0.875rem;
 }
 
 @media (max-width: 600px) {
   header h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .station {
@@ -219,8 +246,13 @@ audio {
     font-size: 0.75rem;
   }
 
-  .control-btn=control-btn {
+  .control-btn {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
+  }
+
+  .now-playing {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
   }
 }
