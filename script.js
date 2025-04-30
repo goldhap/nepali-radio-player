@@ -48,15 +48,25 @@ function playStation(station) {
     player.src = station.streamUrl;
     player.play().catch(error => {
       console.error("Error playing audio:", error);
-      nowPlaying.textContent = `Error: Unable to play ${station.name}`;
+      nowPlaying.innerHTML = `<span class="error">Error: Unable to play ${station.name}</span>`;
     });
-    nowPlaying.textContent = `Now Playing: ${station.name}`;
+
+    // Update Now Playing with name, address, and frequency (if available)
+    let nowPlayingContent = `<span class="now-playing-name">${station.name}</span>`;
+    if (station.address || station.frequency) {
+      const details = [];
+      if (station.address) details.push(station.address);
+      if (station.frequency) details.push(`${station.frequency}`);
+      nowPlayingContent += `<span class="now-playing-address">${details.join(' | ')}</span>`;
+    }
+    nowPlaying.innerHTML = nowPlayingContent;
+
     renderStations(searchInput.value);
     updateMediaSessionMetadata(station);
     updateButtonStates();
   } catch (error) {
     console.error("Error in playStation:", error);
-    nowPlaying.textContent = `Error: Failed to load station`;
+    nowPlaying.innerHTML = `<span class="error">Error: Failed to load station</span>`;
   }
 }
 
@@ -80,7 +90,7 @@ function playPreviousStation() {
 function updateMediaSessionMetadata(station) {
   if ('mediaSession' in navigator && station) {
     try {
-      navigator.mediaSession.metadata = new MediaMetadata({
+      const metadata = {
         title: station.name,
         artist: "Nepali Radio",
         album: "Live Streaming",
@@ -101,7 +111,17 @@ function updateMediaSessionMetadata(station) {
             type: "image/jpeg" 
           }
         ]
-      });
+      };
+
+      // Add address and frequency to metadata description if available
+      if (station.address || station.frequency) {
+        const details = [];
+        if (station.address) details.push(station.address);
+        if (station.frequency) details.push(`${station.frequency}`);
+        metadata.description = details.join(' | ');
+      }
+
+      navigator.mediaSession.metadata = new MediaMetadata(metadata);
 
       navigator.mediaSession.setActionHandler("play", () => {
         player.play().catch(error => console.error("Media play error:", error));
