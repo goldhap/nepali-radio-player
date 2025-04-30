@@ -81,8 +81,8 @@ function updateMediaSessionMetadata(station) {
         artist: "Nepali Radio",
         album: "Live Streaming",
         artwork: [
-          { src: `${basePath}/icon/android-chrome-192x192.png`, sizes: "96x96", type: "image/png" },
-          { src: `${basePath}/icon/android-chrome-192x192.png`, sizes: "128x128", type: "image/png" }
+          { src: `${basePath}/icons/android-chrome-192x192.png`, sizes: "96x96", type: "image/png" },
+          { src: `${basePath}/icons/android-chrome-192x192.png`, sizes: "128x128", type: "image/png" }
         ]
       });
 
