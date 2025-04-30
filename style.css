@@ -3,10 +3,10 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   margin: 0;
-  background: linear-gradient(145deg, #121212, #1e1e1e);
-  color: #f0f0f0;
+  background: linear-gradient(135deg, #f5f7fa, #e2e8f0);
+  color: #1f2937;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -15,57 +15,59 @@ body {
 
 header {
   width: 100%;
-  padding: 20px;
-  background: linear-gradient(to right, #673ab7, #512da8);
+  padding: 1.5rem;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
   text-align: center;
-  color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
   margin: 0;
-  font-size: 2rem;
-  letter-spacing: 1px;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .sticky-bar {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #1e1e1e;
   width: 100%;
-  padding: 10px 0 5px;
+  padding: 0.75rem 0;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .player-controls {
   display: flex;
-  gap: 10px;
-  margin: 5px 0;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .control-btn {
-  background: #673ab7;
-  color: white;
+  background: #3b82f6;
+  color: #ffffff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-size: 16px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
 }
 
 .control-btn:hover {
-  background: #7e57c2;
-  transform: translateY(-2px);
+  background: #2563eb;
+  transform: translateY(-1px);
 }
 
 .control-btn:active {
@@ -74,66 +76,65 @@ header h1 {
 
 #search {
   width: 90%;
-  max-width: 600px;
-  padding: 12px 20px;
-  margin: 10px 0;
-  border-radius: 50px;
-  border: none;
-  font-size: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  backdrop-filter: blur(8px);
-  transition: 0.3s ease;
+  max-width: 36rem;
+  padding: 0.75rem 1.25rem;
+  margin: 0.5rem 0;
+  border-radius: 9999px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  background: #f9fafb;
+  color: #1f2937;
+  transition: all 0.2s ease;
 }
 
 #search::placeholder {
-  color: #ccc;
+  color: #6b7280;
 }
 
 #search:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.2);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 #stations {
   width: 90%;
-  max-width: 700px;
+  max-width: 48rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding-bottom: 50px;
+  padding-bottom: 3rem;
 }
 
 .station {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(6px);
-  padding: 16px 20px;
-  margin: 10px 0;
-  border-radius: 12px;
+  background: #ffffff;
+  padding: 1rem 1.25rem;
+  margin: 0.5rem 0;
+  border-radius: 0.75rem;
   cursor: pointer;
-  transition: 0.3s ease;
   display: flex;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
 }
 
 .station:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.01);
+  background: #f9fafb;
+  transform: translateX(2px);
 }
 
 .station.active {
-  background: rgba(255, 255, 255, 0.15);
-  border-left: 4px solid #9c27b0;
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
 }
 
 .station-logo {
-  width: 50px;
-  height: 50px;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 15px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  margin-right: 1rem;
+  border: 2px solid #e5e7eb;
 }
 
 .station-info {
@@ -143,14 +144,13 @@ header h1 {
 }
 
 .station-name {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
 .station-address {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  color: #6b7280;
   display: none;
 }
 
@@ -161,28 +161,28 @@ header h1 {
 .now-playing {
   text-align: center;
   font-size: 1rem;
-  color: #ccc;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  margin: 10px 0;
+  color: #4b5563;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  margin: 0.75rem 0;
   width: 90%;
-  max-width: 600px;
+  max-width: 36rem;
 }
 
 .now-playing-name {
-  font-weight: bold;
-  color: #fff;
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .now-playing-address {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 5px;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
 }
 
 .error {
-  color: #ff5252;
+  color: #ef4444;
 }
 
 audio {
@@ -191,36 +191,36 @@ audio {
 
 .credit {
   text-align: center;
-  margin: 20px 0;
-  color: #aaa;
-  font-size: 14px;
+  margin: 1.5rem 0;
+  color: #6b7280;
+  font-size: 0.875rem;
 }
 
 @media (max-width: 600px) {
   header h1 {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
-  
+
   .station {
-    padding: 12px 15px;
+    padding: 0.75rem 1rem;
   }
-  
+
   .station-logo {
-    width: 40px;
-    height: 40px;
-    margin-right: 12px;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 0.75rem;
   }
-  
+
   .station-name {
     font-size: 1rem;
   }
-  
+
   .station-address {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
-  
-  .control-btn {
-    padding: 8px 15px;
-    font-size: 14px;
+
+  .control-btn=control-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
   }
 }
