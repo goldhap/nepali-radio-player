@@ -169,13 +169,14 @@ audio {
     padding: 8px 15px;
     font-size: 14px;
   }
-}
+/* ===== RADIO STATION LOGOS ===== */
 .station-logo {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 10px;
+  border: 1px solid #e1e1e1;
 }
 
 .station {
@@ -183,4 +184,29 @@ audio {
   align-items: center;
   padding: 8px 12px;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
+
+.station:hover {
+  background-color: #f5f5f5;
+}
+
+.station.active {
+  background-color: #e3f2fd;
+  font-weight: bold;
+}
+
+.station-name {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .station-logo {
+    width: 32px;
+    height: 32px;
+  }
+  .station-name {
+    font-size: 14px;
+  }
