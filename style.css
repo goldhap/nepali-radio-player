@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
@@ -112,7 +113,6 @@ header h1 {
   cursor: pointer;
   transition: 0.3s ease;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -127,33 +127,71 @@ header h1 {
   border-left: 4px solid #9c27b0;
 }
 
+.station-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.station-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .station-name {
   font-size: 1.1rem;
   font-weight: 500;
+  margin-bottom: 4px;
 }
 
-.icon {
-  font-size: 1.4rem;
+.station-address {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  display: none;
 }
 
-audio {
+.station.active .station-address {
   display: block;
-  margin: 30px auto 10px;
-  width: 90%;
-  max-width: 700px;
-  border-radius: 10px;
-  background: white;
 }
 
 .now-playing {
   text-align: center;
   font-size: 1rem;
   color: #ccc;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin: 10px 0;
+  width: 90%;
+  max-width: 600px;
+}
+
+.now-playing-name {
+  font-weight: bold;
+  color: #fff;
+}
+
+.now-playing-address {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 5px;
+}
+
+.error {
+  color: #ff5252;
+}
+
+audio {
+  display: none;
 }
 
 .credit {
   text-align: center;
-  margin: 10px 0;
+  margin: 20px 0;
   color: #aaa;
   font-size: 14px;
 }
@@ -162,83 +200,27 @@ audio {
   header h1 {
     font-size: 1.5rem;
   }
+  
+  .station {
+    padding: 12px 15px;
+  }
+  
+  .station-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+  }
+  
   .station-name {
     font-size: 1rem;
   }
+  
+  .station-address {
+    font-size: 0.8rem;
+  }
+  
   .control-btn {
     padding: 8px 15px;
     font-size: 14px;
   }
-/* ===== RADIO STATION LOGOS ===== */
-.station-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-  border: 1px solid #e1e1e1;
-}
-
-.station {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.station:hover {
-  background-color: #f5f5f5;
-}
-
-.station.active {
-  background-color: #e3f2fd;
-  font-weight: bold;
-}
-
-.station-name {
-  margin-left: 10px;
-  font-size: 16px;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 600px) {
-  .station-logo {
-    width: 32px;
-    height: 32px;
-  }
-  .station-name {
-    font-size: 14px;
-  }
-/* Station Info */
-.station-info {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-}
-
-.station-address {
-  font-size: 12px;
-  color: #666;
-  margin-top: 4px;
-  display: none;
-}
-
-.station.active .station-address {
-  display: block;
-}
-
-/* Now Playing Display */
-.now-playing-name {
-  font-weight: bold;
-}
-
-.now-playing-address {
-  font-size: 12px;
-  color: #666;
-  margin-top: 2px;
-}
-
-.error {
-  color: #d32f2f;
 }
