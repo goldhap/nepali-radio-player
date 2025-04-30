@@ -92,7 +92,7 @@ const radios = [
   },
   {
     "name": "Radio Sagarmatha",
-    "streamUrl": "https://216.55.141.189:8004",
+    "streamUrl": "http://216.55.141.189:8004",
     "id": "XoF2YnA5lSASjlAKxAxVA",
     "province": 3,
     "address": "Lalitpur, Nepal"
