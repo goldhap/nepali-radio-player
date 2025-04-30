@@ -41,6 +41,35 @@ function renderStations(filter = "") {
     });
 }
 
+// Function to play the next station
+function playNextStation() {
+  if (!currentStation || !radios.length) return;
+  const currentIndex = radios.findIndex(r => r.name === currentStation);
+  const nextIndex = (currentIndex + 1) % radios.length;
+  playStation(radios[nextIndex]);
+}
+
+// Function to play the previous station
+function playPreviousStation() {
+  if (!currentStation || !radios.length) return;
+  const currentIndex = radios.findIndex(r => r.name === currentStation);
+  const prevIndex = (currentIndex - 1 + radios.length) % radios.length;
+  playStation(radios[prevIndex]);
+}
+
+// Function to update Media Session for background control
+function updateMediaSessionMetadata(station) {
+  if ('mediaSession' in navigator && station) {
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: station.name,
+        artist: "Nepali Radio",
+        album: "Live Streaming",
+        artwork: [
+          { src: `${basePath}/icons/android-chrome-192x192.png`, sizes: "96x96", type: "image/png" },
+          { src: `${basePath}/icons/android-chrome-192x192.png`, sizes: "128x128", type: "image/png" }
+        ]
+      });
 // Function to play a specific station
 function playStation(station) {
   try {
