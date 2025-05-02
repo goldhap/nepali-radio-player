@@ -5,14 +5,14 @@ const nowPlaying = document.getElementById("nowPlaying");
 const playBtn = document.getElementById("playBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
 
 let currentStation = null;
 
-// Replace 'your-repo' with your actual GitHub repository name, or set to "" if using a user site
-const repoName = "nepali-radio-player"; // e.g., "nepali-radio-player"
+const repoName = "nepali-radio-player";
 const basePath = repoName ? `/${repoName}` : "";
 
-// Function to render stations list
+// Function to render stations list with logos
 function renderStations(filter = "") {
   stationsDiv.innerHTML = "";
   radios
@@ -22,17 +22,20 @@ function renderStations(filter = "") {
       div.className = "station";
       if (currentStation === station.name) div.classList.add("active");
 
+      const logo = document.createElement("img");
+      logo.className = "station-logo";
+      logo.src = `${basePath}/logo/${station.id}.jpg`;
+      logo.alt = `${station.name} logo`;
+      logo.onerror = function() {
+        this.src = `${basePath}/logo/default.jpg`;
+      };
+
       const nameSpan = document.createElement("span");
       nameSpan.className = "station-name";
       nameSpan.textContent = station.name;
 
-      const icon = document.createElement("span");
-      icon.className = "icon";
-      icon.textContent = "🎵";
-
+      div.appendChild(logo);
       div.appendChild(nameSpan);
-      div.appendChild(icon);
-
       div.onclick = () => playStation(station);
       stationsDiv.appendChild(div);
     });
@@ -45,14 +48,25 @@ function playStation(station) {
     player.src = station.streamUrl;
     player.play().catch(error => {
       console.error("Error playing audio:", error);
-      nowPlaying.textContent = `Error: Unable to play ${station.name}`;
+      nowPlaying.innerHTML = `<span class="error">Error: Unable to play ${station.name}</span>`;
     });
-    nowPlaying.textContent = `Now Playing: ${station.name}`;
+
+    // Update Now Playing with name, address, and frequency (if available)
+    let nowPlayingContent = `<span class="now-playing-name">${station.name}</span>`;
+    if (station.address || station.frequency) {
+      const details = [];
+      if (station.address) details.push(station.address);
+      if (station.frequency) details.push(`${station.frequency}`);
+      nowPlayingContent += `<span class="now-playing-address">${details.join(' | ')}</span>`;
+    }
+    nowPlaying.innerHTML = nowPlayingContent;
+
     renderStations(searchInput.value);
     updateMediaSessionMetadata(station);
+    updateButtonStates();
   } catch (error) {
     console.error("Error in playStation:", error);
-    nowPlaying.textContent = `Error: Failed to load station`;
+    nowPlaying.innerHTML = `<span class="error">Error: Failed to load station</span>`;
   }
 }
 
@@ -72,22 +86,51 @@ function playPreviousStation() {
   playStation(radios[prevIndex]);
 }
 
-// Function to update Media Session for background control
+// Function to update media session metadata
 function updateMediaSessionMetadata(station) {
   if ('mediaSession' in navigator && station) {
     try {
-      navigator.mediaSession.metadata = new MediaMetadata({
+      const metadata = {
         title: station.name,
         artist: "Nepali Radio",
         album: "Live Streaming",
         artwork: [
-          { src: `${basePath}/icons/android-chrome-192x192.png`, sizes: "96x96", type: "image/png" },
-          { src: `${basePath}/icons/android-chrome-192x192.png`, sizes: "128x128", type: "image/png" }
+          { 
+            src: `${basePath}/logo/${station.id}.jpg`, 
+            sizes: "96x96", 
+            type: "image/jpeg" 
+          },
+          { 
+            src: `${basePath}/logo/${station.id}.jpg`, 
+            sizes: "128x128", 
+            type: "image/jpeg" 
+          },
+          { 
+            src: `${basePath}/logo/default.jpg`, 
+            sizes: "96x96", 
+            type: "image/jpeg" 
+          }
         ]
-      });
+      };
 
-      navigator.mediaSession.setActionHandler("play", () => player.play().catch(error => console.error("Media play error:", error)));
-      navigator.mediaSession.setActionHandler("pause", () => player.pause());
+      // Add address and frequency to metadata description if available
+      if (station.address || station.frequency) {
+        const details = [];
+        if (station.address) details.push(station.address);
+        if (station.frequency) details.push(`${station.frequency}`);
+        metadata.description = details.join(' | ');
+      }
+
+      navigator.mediaSession.metadata = new MediaMetadata(metadata);
+
+      navigator.mediaSession.setActionHandler("play", () => {
+        player.play().catch(error => console.error("Media play error:", error));
+        updateButtonStates();
+      });
+      navigator.mediaSession.setActionHandler("pause", () => {
+        player.pause();
+        updateButtonStates();
+      });
       navigator.mediaSession.setActionHandler("previoustrack", playPreviousStation);
       navigator.mediaSession.setActionHandler("nexttrack", playNextStation);
     } catch (error) {
@@ -96,23 +139,48 @@ function updateMediaSessionMetadata(station) {
   }
 }
 
-// Event Listeners
+// Function to update play/pause button visibility
+function updateButtonStates() {
+  if (player.paused) {
+    playBtn.style.display = "inline-flex";
+    pauseBtn.style.display = "none";
+  } else {
+    playBtn.style.display = "none";
+    pauseBtn.style.display = "inline-flex";
+  }
+}
+
+// Event listeners for buttons
 playBtn.addEventListener("click", () => {
-  if (player.src) {
-    player.play().catch(error => {
-      console.error("Error playing audio:", error);
-      nowPlaying.textContent = "Error: Unable to play";
-    });
+  if (currentStation) {
+    player.play().catch(error => console.error("Play error:", error));
+    updateButtonStates();
   } else if (radios.length > 0) {
-    playStation(radios[0]);
+    playStation(radios[0]); // Play first station if none selected
   }
 });
 
-pauseBtn.addEventListener("click", () => player.pause());
+pauseBtn.addEventListener("click", () => {
+  player.pause();
+  updateButtonStates();
+});
 
 nextBtn.addEventListener("click", playNextStation);
+prevBtn.addEventListener("click", playPreviousStation);
 
-searchInput.addEventListener("input", (e) => renderStations(e.target.value));
+// Search input event listener
+searchInput.addEventListener("input", () => {
+  renderStations(searchInput.value);
+});
+
+// Update button states on player events
+player.addEventListener("play", updateButtonStates);
+player.addEventListener("pause", updateButtonStates);
 
 // Initial rendering of stations
 renderStations();
+
+// Optionally play the first station on load
+if (radios.length > 0) {
+  // playStation(radios[0]); // Uncomment to auto-play first station
+}
