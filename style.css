@@ -121,21 +121,25 @@ header::before {
   max-width: 44rem;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   padding-bottom: 3rem;
+  justify-content: space-between;
 }
 
 .station {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(6px);
   padding: 1rem 1.25rem;
-  margin: 0.5rem 0;
+  margin: 0;
   border-radius: 0.75rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
+  flex: 1 1 calc(50% - 0.25rem); /* Two columns with gap adjustment */
+  box-sizing: border-box;
 }
 
 .station:hover {
@@ -230,6 +234,7 @@ audio {
 
   .station {
     padding: 0.75rem 1rem;
+    flex: 1 1 100%; /* Single column on small screens */
   }
 
   .station-logo {
