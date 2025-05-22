@@ -21,20 +21,6 @@ const radios = [
     "address": "Kathmandu, Nepal"
   },
   {
-    "name": "BBC World Service English",
-    "streamUrl": "https://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/nonuk/sbr_vlow/ak/bbc_world_service_news_internet.m3u8",
-    "id": "KfKe5QlSGPSMjNS6j4OwC",
-    "province": null,
-    "address": "London, UK"
-  },
-  {
-    "name": "BBC Nepali",
-    "streamUrl": "https://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/nonuk/sbr_low/ak/bbc_nepali_radio.m3u8",
-    "id": "8tR2HH2NMt-h-pyog459v",
-    "province": 3,
-    "address": "Kathmandu, Nepal"
-  },
-  {
     "name": "Kalika FM",
     "streamUrl": "https://streaming.softnep.net:10828/;stream.nsv&type=mp3&volume=70",
     "id": "XIQtxSR27snR6vkvJD2Al",
@@ -508,7 +494,7 @@ const radios = [
     "streamUrl": "https://live.itech.host:8429/stream",
     "id": "d4pC5WA9oEq0AhCae5Mrc",
     "province": 5,
-    "address": "\u0915\u0943\u0937\u094d\u0923\u0938\u093e\u0930\u092e\u093e\u0930\u094d\u0917 \u0967\u0968, \u0928\u0947\u092a\u093e\u0932\u0917\u091e\u094d\u091c \u0909\u092a\u092e\u0939\u093e\u0928\u0917\u0930\u092a\u093e\u0932\u093f\u0915\u093e, \u092c\u093e\u0901\u0915\u0947"
+    "address": "nepal"
   },
   {
     "name": "Nuwakot FM",
@@ -704,7 +690,7 @@ const radios = [
     "streamUrl": "http://streaming.hamropatro.com:8236/",
     "id": "qmkn8Isf6nHsAI7N8Nej9",
     "province": 5,
-    "address": "\u0924\u093e\u0928\u0938\u0947\u0928 \u0928\u0917\u0930\u092a\u093e\u0932\u093f\u0915\u093e \u096e \u092e\u0926\u0928\u092a\u093e\u0947\u0916\u0930\u093e \u092a\u093e\u0932\u094d\u092a\u093e"
+    "address": "nepal"
   },
   {
     "name": "Damauli FM",
@@ -1838,7 +1824,7 @@ const radios = [
     "streamUrl": "https://live.itech.host:1580/stream",
     "id": "SS0VXRCpxR_mX23bPoGjL",
     "province": 3,
-    "address": "\u0939\u0947\u091f\u094c\u0902\u0921\u093e\u2013\u096a \u0905\u091c\u0930\u0905\u092e\u0930\u0930\u094b\u0921 (\u0905\u091c\u0930\u0905\u092e\u0930 \u092d\u0935\u0928)"
+    "address": "nepal"
   },
   {
     "name": "Radio Nagarik",
@@ -1936,7 +1922,7 @@ const radios = [
     "streamUrl": "http://live.itechnepal.com:2160/stream",
     "id": "zslomZ7bB220tXwYwIu9V",
     "province": 3,
-    "address": "\u0938\u093f\u0928\u094d\u0927\u0941\u092a\u093e\u0932\u094d\u091a\u094b\u0915 \u0932\u093f\u0938\u0902\u0916\u0941\u092a\u093e\u0916\u0930-\u096b, \u0938\u093f\u0932\u0922\u0941\u0919\u094d\u0917\u093e, \u0928\u0947\u092a\u093e\u0932"
+    "address": "nepal"
   },
   {
     "name": "Madhesh Jana Aawaj FM",
@@ -2216,7 +2202,7 @@ const radios = [
     "streamUrl": "https://onlineradio.websoftitnepal.com/8170/stream",
     "id": "0HgmhM0kxZBflpplik_iH",
     "province": 3,
-    "address": "\u092e\u0928\u0939\u0930\u0940 \u090f\u092b\u090f\u092e \u0967\u0966\u096a.\u0969 \u092e\u0947\u0918\u093e\u0939\u0930\u094d\u091c \u092e\u0928\u0939\u0930\u0940\u2013\u096d, \u092e\u0915\u0935\u093e\u0928\u092a\u0941\u0930"
+    "address": "nepal"
   },
   {
     "name": "Happy FM",
@@ -2272,7 +2258,7 @@ const radios = [
     "streamUrl": "http://streaming.softnep.net:8341/",
     "id": "1iPfm9uboUU4HbqdQKK3p",
     "province": 1,
-    "address": "\u0924\u094d\u0930\u093f\u092f\u0941\u0917\u093e \u0928\u0917\u0930\u092a\u093e\u0932\u093f\u0915\u093e - \u0967\u0967, \u0917\u093e\u0908\u0918\u093e\u091f, \u0909\u0926\u092f\u092a\u0941\u0930"
+    "address": "nepal"
   },
   {
     "name": "Radio Rukmini",
@@ -2524,7 +2510,7 @@ const radios = [
     "streamUrl": "http://stream.zeno.fm/qe715t14gwzuv",
     "id": "BzyU5KI5u-hUkr-VPmb3B",
     "province": 3,
-    "address": "\u0915\u093e\u0920\u092e\u093e\u0921\u094c\u0901 -\u0969\u0968, \u0915\u094b\u091f\u0947\u0936\u094d\u0935\u094b\u0930, \u0928\u0947\u092a\u093e\u0932"
+    "address": "nepal"
   },
   {
     "name": "Radio BSC Nepal",
@@ -2734,7 +2720,7 @@ const radios = [
     "streamUrl": "http://streaming.softnep.net:8009",
     "id": "zb2RywfTKhZ1ZDIFaql1M",
     "province": 3,
-    "address": "\u0938\u093e\u092e\u0941\u0926\u093e\u092f\u093f\u0915 \u0938\u0942\u091a\u0928\u093e \u0928\u0947\u091f\u0935\u0930\u094d\u0915 (\u0938\u0940\u0906\u0908\u090f\u0928) \u091a\u093e\u0915\u0941\u092a\u093e\u091f \u0932\u0932\u093f\u0924\u092a\u0941\u0930, \u092a\u093e\u091f\u0928"
+    "address": "nepal"
   },
   {
     "name": "Radio Comedy Champion",
@@ -2748,7 +2734,7 @@ const radios = [
     "streamUrl": "https://onlineradio.websoftitnepal.com/8066/stream",
     "id": "3IwkA3fVsnqlkmKGWwJwv",
     "province": 1,
-    "address": "\u0907\u091f\u0939\u0930\u0940 20 \u0924\u0930\u0939\u0930\u093e \u0938\u0941\u0928\u0938\u0930\u0940"
+    "address": "nepal"
   },
   {
     "name": "Radio Arun",
@@ -2762,7 +2748,7 @@ const radios = [
     "streamUrl": "https://live.itech.host:1525/stream",
     "id": "a9kNLeBGU7F_-2I2nZmoB",
     "province": 3,
-    "address": "\u0915\u092e\u0932\u093e\u092e\u093e\u0908 \u0928\u0917\u0930\u092a\u093e\u0932\u093f\u0915\u093e  ( \u0915.\u0928.\u092a\u093e.) - \u096c \u0930\u093e\u0924\u092e\u093e\u091f\u093e \u0939\u093e\u0908\u091f \u0938\u093f\u0928\u094d\u0927\u0941\u0932\u0940"
+    "address": "nepal"
   },
   {
     "name": "Radio Madhaypahad",
@@ -2783,7 +2769,7 @@ const radios = [
     "streamUrl": "https://live.itech.host:8645/stream",
     "id": "NfDOcWjhYAbULZrg3j_Ww",
     "province": 2,
-    "address": "\u091c\u0928\u0915\u092a\u0941\u0930\u0927\u093e\u092e, \u0927\u0928\u0941\u0937\u093e, \u0928\u0947\u092a\u093e\u0932"
+    "address": "nepal"
   },
   {
     "name": "Broad FM",
@@ -2797,7 +2783,7 @@ const radios = [
     "streamUrl": "http://streaming.hamropatro.com:8817",
     "id": "QtC9xr2cupW4SkVIf_MiK",
     "province": 6,
-    "address": "\u092e\u0902\u0917\u0932\u0938\u0948\u0928 \u0928\u0917\u0930\u092a\u093e\u0932\u093f\u0915\u093e \u096c \u0920\u0941\u0932\u093e\u0938\u0948\u0928 \u0905\u091b\u093e\u092e"
+    "address": "nepal"
   },
   {
     "name": "Radio Galkot",
@@ -2867,7 +2853,7 @@ const radios = [
     "streamUrl": "https://streaming.softnep.net:10826/;stream",
     "id": "-u1e1tAWJ-L6TxVGZKatw",
     "province": 5,
-    "address": "\u092c\u0902\u0917\u0932\u093e\u091a\u0941\u0932\u0940 \u0917\u093e\u0909\u0901\u092a\u093e\u0932\u093f\u0915\u093e \u0935\u0921\u093e \u0928\u092e\u094d\u092c\u0930 -\u0969 \u0915\u092e\u093f\u0930\u0947\u091a\u094c\u0930 \u0926\u093e\u0919 \u0932\u0941\u092e\u094d\u092c\u093f\u0928\u0940 \u092a\u094d\u0930\u0926\u0947\u0936 \u0928\u0947\u092a\u093e\u0932"
+    "address": "nepal"
   },
   {
     "name": "Ganatantra FM",
@@ -3021,14 +3007,14 @@ const radios = [
     "streamUrl": "https://onlineradio.websoftitnepal.com/8046/stream",
     "id": "kWqeGS7Sl_4sBn7fNJyNO",
     "province": 2,
-    "address": "\u091a\u0928\u094d\u0926\u094d\u0930\u092a\u0941\u0930 - \u096a, \u091a\u0928\u094d\u0926\u094d\u0930\u0928\u093f\u0917\u093e\u0939\u092a\u0941\u0930, \u0930\u094c\u0924\u0939\u091f"
+    "address": "nepal"
   },
   {
     "name": "Radio Madhesh FM",
     "streamUrl": "http://streaming.hamropatro.com:8347",
     "id": "LmFHhrmRq9Ib43VXkivqF",
     "province": 2,
-    "address": "\u091c\u0928\u0915\u092a\u0941\u0930\u0927\u093e\u092e - \u096d \u091c\u093f\u0930\u094b\u092e\u093e\u0908\u0932"
+    "address": "nepal"
   },
   {
     "name": "Sarobar Radio Network",
@@ -3133,7 +3119,7 @@ const radios = [
     "streamUrl": "https://live.itech.host:4775/stream",
     "id": "TjPcKd_tt2LPeVe8z3whF",
     "province": 1,
-    "address": "\u0924\u094d\u0930\u093f\u092f\u0941\u0917\u093e \u0928\u0917\u0930\u092a\u093e\u0932\u093f\u0915\u093e \u0967\u0967 \u0917\u093e\u0908\u0918\u093e\u091f  \u0909\u0926\u092f\u092a\u0941\u0930"
+    "address": "nepal"
   },
   {
     "name": "Radio Famous Fm",
@@ -3154,7 +3140,7 @@ const radios = [
     "streamUrl": "http://216.55.141.189:8066",
     "id": "V-VYoSKhj2Eqgl97r-nrV",
     "province": 7,
-    "address": "\u0938\u0942\u0926\u0941\u0930\u092a\u0936\u094d\u091a\u093f\u092e \u092a\u094d\u0930\u0926\u0947\u0936 \u0921\u093e\u0947\u091f\u0940 \u091c\u093f\u0932\u094d\u0932\u093e \u092a\u0941\u0930\u094d\u0935\u093f\u091a\u093e\u0948\u0915\u0940 \u0917\u093e\u0909\u0901\u092a\u093e\u0932\u093f\u0915 \u0935\u0921\u093e \u0928\u0902 \u096a \u0938\u093e\u0928\u093e\u0917\u093e\u0909\u0901 \u0921\u093e\u0947\u091f\u0940"
+    "address": "nepal"
   },
   {
     "name": "ARK FM",
@@ -3175,7 +3161,7 @@ const radios = [
     "streamUrl": "https://radio-streaming-serv.hamropatro.com:8150/radio.mp3",
     "id": "Wngcd1Y9pnt5Vri8qJPZX",
     "province": 7,
-    "address": "\u0917\u094b\u0926\u093e\u0935\u0930\u0940 \u0928 \u092a\u093e \u0968 \u0905\u0924\u094d\u0924\u0930\u093f\u092f\u093e \u0915\u0948\u0932\u093e\u0932\u0940 "
+    "address": "nepal"
   },
   {
     "name": "Gujaramai Fm 99.7",
@@ -3203,7 +3189,7 @@ const radios = [
     "streamUrl": "http://stream.zeno.fm/qe715t14gwzuv",
     "id": "BzyU5KI5u-hUkr-VPmb3B",
     "province": 3,
-    "address": "\u0915\u093e\u0920\u092e\u093e\u0921\u094c\u0901 -\u0969\u0968, \u0915\u094b\u091f\u0947\u0936\u094d\u0935\u094b\u0930, \u0928\u0947\u092a\u093e\u0932"
+    "address": "nepal"
   },
   {
     "name": "Bajjika FM",
@@ -3280,7 +3266,7 @@ const radios = [
     "streamUrl": "http://streaming.hamropatro.com:8537",
     "id": "NFMVr2cFgKDe3pSoCUL5U",
     "province": 6,
-    "address": "\u0906\u0920\u0935\u093f\u0938\u0915\u094b\u091f\u2013\u096f, \u0930\u0941\u0915\u0941\u092e (\u092a\u0936\u094d\u091a\u093f\u092e)"
+    "address": "nepal"
   },
   {
     "name": "Suryamukhi FM",
@@ -3399,7 +3385,7 @@ const radios = [
     "streamUrl": "https://streaming.webhostnepal.com/8032/stream",
     "id": "BSXvhBV8k3NxESzRg9qpr",
     "province": 7,
-    "address": "\u0905\u092e\u0930\u0917\u0922\u0940 \u0928\u0917\u0930\u092a\u093e\u0932\u093f\u0915\u093e \u0966\u096b- \u0916\u0932\u0919\u094d\u0917\u093e, \u0921\u0921\u0947\u0932\u094d\u0927\u0941\u0930\u093e  \u0938\u0941\u0926\u0942\u0930\u092a\u0936\u094d\u091a\u093f\u092e \u092a\u094d\u0930\u0926\u0947\u0936, \u0928\u0947\u092a\u093e\u0932"
+    "address": "nepal"
   },
   {
     "name": "Radio Syangja",
@@ -3539,7 +3525,7 @@ const radios = [
     "streamUrl": "http://streaming.hamropatro.com:8867",
     "id": "n3GZpSowSOrHbYjedvV6h",
     "province": 5,
-    "address": "\u0936\u093f\u0924\u0917\u0902\u0917\u093e \u0928\u0917\u0930\u092a\u093e\u0932\u093f\u0915\u093e \u0969 \u0905\u0930\u094d\u0918\u093e\u0916\u093e\u0901\u091a\u0940"
+    "address": "nepal"
   },
   {
     "name": "Radio Indreni",
@@ -3553,7 +3539,7 @@ const radios = [
     "streamUrl": "https://onlineradio.websoftitnepal.com/8024/stream",
     "id": "N3rBrzu2z5FDbqae3g6DL",
     "province": 1,
-    "address": "\u0907\u0928\u0930\u0941\u0935\u093e - \u0968 \u091c\u093f.\u0935\u093f.\u0938.\u0930\u094b\u0921, \u0938\u0941\u0928\u0938\u0930\u0940"
+    "address": "nepal"
   },
   {
     "name": "Samad FM",
