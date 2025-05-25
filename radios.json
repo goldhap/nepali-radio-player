@@ -42,7 +42,7 @@
   {
     "id": "XoF2YnA5lSASjlAKxAxVA",
     "name": "Radio Sagarmatha",
-    "streamUrl": "http://216.55.141.189:8004",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8004",
     "frequency": 102.4,
     "address": "Lalitpur, Nepal",
     "province": 3
@@ -82,7 +82,7 @@
   {
     "id": "6g5aK_OCZNmsr2OfE88-P",
     "name": "Music City - Nonstop Music",
-    "streamUrl": "http://streaming.hamropatro.com:8739",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8739",
     "frequency": null,
     "address": null
   },
@@ -97,7 +97,7 @@
   {
     "id": "GGsFIWQfHG6qQjc4BKeE3",
     "name": "Radio Kathmandu",
-    "streamUrl": "http://216.55.141.189:8088/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8088/;",
     "frequency": 92.1,
     "address": "Chabahil, Kathmandu, Nepal",
     "province": 3
@@ -105,14 +105,14 @@
   {
     "id": "HifZP7rq51i4QJvlFClTn",
     "name": "BODHI FM ",
-    "streamUrl": "http://216.55.141.189:8721/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8721/;",
     "frequency": null,
     "address": "Texas, USA"
   },
   {
     "id": "oUwFc8m6AJjILdz2lMWAI",
     "name": "Radio Birgunj",
-    "streamUrl": "http://216.55.141.189:8294/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8294/;",
     "frequency": 99,
     "address": "Murlibagaicha-12",
     "province": 2
@@ -120,7 +120,7 @@
   {
     "id": "0szzSsELRZyP2XmixgmUn",
     "name": "Radio Thaha Sanchar FM (Kathmandu)",
-    "streamUrl": "http://streaming.softnep.net:8025",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8025",
     "frequency": 99.4,
     "address": "Babarmahal, Kathmandu",
     "province": 3
@@ -128,7 +128,7 @@
   {
     "id": "-x3uUlGN0hUB4EyuGaO6p",
     "name": "FM Adhyatma Jyoti",
-    "streamUrl": "http://streaming.hamropatro.com:8074",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8074",
     "frequency": 104.8,
     "address": "Dillibazar, Kathmandu",
     "province": 3
@@ -136,7 +136,7 @@
   {
     "id": "w-xqQkq10wg-Fyxshi5C4",
     "name": "Nepaliko Radio",
-    "streamUrl": "http://95.217.153.73:9888/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://95.217.153.73:9888/",
     "frequency": 88.8,
     "address": "Koteshwor, Kathmandu, Nepal",
     "province": 3
@@ -144,7 +144,7 @@
   {
     "id": "HXI4zAYGRAgGDVWrJLNR-",
     "name": "Nepal FM Network",
-    "streamUrl": "http://streaming.hamropatro.com:8230",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8230",
     "frequency": 91.8,
     "address": "Kathmandu -14, Lampati",
     "province": 3
@@ -152,7 +152,7 @@
   {
     "id": "7937eooqXAT_2U436bJ2v",
     "name": "Classic FM",
-    "streamUrl": "http://streaming.hamropatro.com:8783",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8783",
     "frequency": 101.2,
     "address": "Jawalakhel, Lalitpur, Kathmandu",
     "province": 3
@@ -160,7 +160,7 @@
   {
     "id": "0VeUtBNBS-wttKle3ERji",
     "name": "Radio Bheri  FM 98.6 & 102.7 MHz",
-    "streamUrl": "http://streaming.hamropatro.com:8313",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8313",
     "frequency": 98.6,
     "address": "Birendranagar-7, Surkhet",
     "province": 6
@@ -168,7 +168,7 @@
   {
     "id": "LM_enGAagFchyHlVaBzzL",
     "name": "KEEPS FM",
-    "streamUrl": "http://streaming.hamropatro.com:8385",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8385",
     "frequency": 98.3,
     "address": "Kuleshwor Awaschhetra",
     "province": 3
@@ -176,7 +176,7 @@
   {
     "id": "k3TM7nhxH15YcYQJ-QVwQ",
     "name": "Antenna Foundation Nepal",
-    "streamUrl": "http://streaming.hamropatro.com:8290",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8290",
     "frequency": null,
     "address": "Kathmandu, Nepal,",
     "province": 3
@@ -192,7 +192,7 @@
   {
     "id": "VRBjPy-wHobyYrlrswY2h",
     "name": "Radio Taplejung",
-    "streamUrl": "http://live.itech.host:9012/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:9012/stream",
     "frequency": 94,
     "address": "Phungling-4, Taplejung",
     "province": 1
@@ -216,7 +216,7 @@
   {
     "id": "jp9k0BBld0wYJJ3QL2cX8",
     "name": "BFM",
-    "streamUrl": "http://216.55.141.189:8124/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8124/;",
     "frequency": 91.2,
     "address": "Biratnagar-7, Morang",
     "province": 1
@@ -232,7 +232,7 @@
   {
     "id": "YWSPMLVxw7jvkKgiq5Hdv",
     "name": "Radio Nagarik",
-    "streamUrl": "http://streaming.hamropatro.com:8789/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8789/",
     "frequency": 96.5,
     "address": "Kathmandu, Nepal",
     "province": 3
@@ -240,7 +240,7 @@
   {
     "id": "Zl-axkaydGRY6_yHBBpoP",
     "name": "Community Radio Sky FM",
-    "streamUrl": "http://streaming.hamropatro.com:8421",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8421",
     "frequency": 90.4,
     "address": "Tamghas, Gulmi",
     "province": 5
@@ -248,7 +248,7 @@
   {
     "id": "KvGhkxXHt0YXgeaPTYG_c",
     "name": "Kalinchowk FM",
-    "streamUrl": "http://streaming.softnep.net:8109/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8109/;",
     "frequency": 106.4,
     "address": "Charikot, Dolakh",
     "province": 3
@@ -256,7 +256,7 @@
   {
     "id": "d_P1h8_ssbHMa5M-405Pn",
     "name": "Radio Suseli",
-    "streamUrl": "http://streaming.hamropatro.com:8443",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8443",
     "frequency": 106.3,
     "address": "Sundarharaicha 10 Municipality, Biratchowk, Morang",
     "province": 1
@@ -264,7 +264,7 @@
   {
     "id": "tkz5PN265yPEQRRVqxQod",
     "name": "Khasyauli FM",
-    "streamUrl": "http://streaming.softnep.net:8167/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8167/;",
     "frequency": 91.8,
     "address": "Rupandehi, Butwal",
     "province": 5
@@ -272,14 +272,14 @@
   {
     "id": "zDi_BW77aHDQWSdXBp0Yu",
     "name": "Radio Himalayan",
-    "streamUrl": "http://stream.zeno.fm/9ghqvd62238uv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/9ghqvd62238uv",
     "frequency": 99.7,
     "address": "Nepal"
   },
   {
     "id": "63DAluhRgl-PcYeixk5eY",
     "name": "Radio Nepal",
-    "streamUrl": "http://stream1.radionepal.gov.np/live",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream1.radionepal.gov.np/live",
     "frequency": 100,
     "address": "Kathmandu, Nepal",
     "province": 3
@@ -287,7 +287,7 @@
   {
     "id": "LbG6D9eqAk7R85B1khBti",
     "name": "Radio Mithila",
-    "streamUrl": "http://streaming.hamropatro.com:8244",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8244",
     "frequency": 100.8,
     "address": "Janakpurdham, Dhanusa",
     "province": 2
@@ -303,7 +303,7 @@
   {
     "id": "-sikpxUWz1mDGxkKDmuy5",
     "name": "Butwal FM",
-    "streamUrl": "http://streaming.softnep.net:8003/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8003/;",
     "frequency": 94.4,
     "address": "Butwal-12, Kalikanager",
     "province": 5
@@ -319,7 +319,7 @@
   {
     "id": "77lQtQiKSCYLeI4aIf9aF",
     "name": "Radio Himshikhar",
-    "streamUrl": "http://streaming.hamropatro.com:5507",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:5507",
     "frequency": 103.3,
     "address": "Damak",
     "province": 1
@@ -327,14 +327,14 @@
   {
     "id": "Rc2vjF1R7zdxV9zm5Mu8V",
     "name": "QN Radio",
-    "streamUrl": "http://216.55.141.189:8060/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8060/;",
     "frequency": null,
     "address": "Doha, Qatar"
   },
   {
     "id": "4oIQ5G54eNW5nYt9SLHTg",
     "name": "Radio Buddha Awaaz",
-    "streamUrl": "http://streaming.hamropatro.com:8349/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8349/;",
     "frequency": 89.6,
     "address": "Baanganga-8, Kapilvastu",
     "province": 5
@@ -342,7 +342,7 @@
   {
     "id": "_BUqsfiSUUZ8alnMNLWAu",
     "name": "Radio Didibahini",
-    "streamUrl": "http://live.itech.host:8326/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:8326/stream",
     "frequency": 95.2,
     "address": "Kusma, Parbat",
     "province": 4
@@ -350,7 +350,7 @@
   {
     "id": "XVuElUMXaqHI5meet4nvc",
     "name": "24 Online Radio",
-    "streamUrl": "http://streaming.hamropatro.com:8553",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8553",
     "frequency": null,
     "address": "Onair Nepal Pvt. Ltd., Kalikasthan, Kathmandu",
     "province": 3
@@ -358,7 +358,7 @@
   {
     "id": "X6YekIVXUR_c0qtOpHQTI",
     "name": "Radio Nepalbani",
-    "streamUrl": "http://live.itechnepal.com:8676/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itechnepal.com:8676/stream",
     "frequency": 94.9,
     "address": "Mala Path - 2, Ilam",
     "province": 1
@@ -366,7 +366,7 @@
   {
     "id": "jxI6jGz2Nc0CFGXwyG7sS",
     "name": "Radio Amurta",
-    "streamUrl": "http://95.217.153.73:8004/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://95.217.153.73:8004/;",
     "frequency": 91.6,
     "address": "Triyuga Municipality - 11, Gaighat, Udayapur",
     "province": 1
@@ -374,7 +374,7 @@
   {
     "id": "XvDPsa1K1HHAsuecm2TqU",
     "name": "Radio Sankhuwasava",
-    "streamUrl": "http://live.itech.host:7016/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:7016/stream",
     "frequency": 95.5,
     "address": "Khandbari 1, Sankhuwasabha",
     "province": 1
@@ -382,7 +382,7 @@
   {
     "id": "E44hS4cQ3MMajpSrh-TJF",
     "name": "Khozee Radio",
-    "streamUrl": "http://streaming.hamropatro.com:8060/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8060/;",
     "frequency": null,
     "address": "New Baneshwor, Kathmandu, Nepal",
     "province": 3
@@ -390,7 +390,7 @@
   {
     "id": "e27ZQMKf6nMAyRAlHR7-A",
     "name": "Radio Times",
-    "streamUrl": "http://216.55.141.189:8387/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8387/;",
     "frequency": 94.8,
     "address": "Sainamaina-2, Rupandehi",
     "province": 5
@@ -398,7 +398,7 @@
   {
     "id": "K_VyHWE3NoLx0HXDELLlI",
     "name": "Pathivara FM",
-    "streamUrl": "http://live.itech.host:8744/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:8744/stream",
     "frequency": 93.6,
     "address": "Damak, Nepal",
     "province": 1
@@ -414,7 +414,7 @@
   {
     "id": "HojLeYuGlBgAqQ9IbckmU",
     "name": "Hajurko Radio",
-    "streamUrl": "http://streaming.hamropatro.com:8258/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8258/;",
     "frequency": 102.1,
     "address": "Ramechhap",
     "province": 3
@@ -422,7 +422,7 @@
   {
     "id": "1BdjpH6pUNhRLNTnMnQCw",
     "name": "Khandbari fm",
-    "streamUrl": "http://live.itechnepal.com:8286/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itechnepal.com:8286/stream",
     "frequency": 105.8,
     "address": "Khandbari 1, Budda Tole",
     "province": 1
@@ -430,7 +430,7 @@
   {
     "id": "Gl0Z9b1y01wf-K_Oj7Wtv",
     "name": "Pradesh FM",
-    "streamUrl": "http://streaming.hamropatro.com:8491",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8491",
     "frequency": 105,
     "address": "Birendranagar-6, Surkhet",
     "province": 6
@@ -438,7 +438,7 @@
   {
     "id": "oLNikWcidmqO2eriT9hr9",
     "name": "Nuwakot FM",
-    "streamUrl": "http://216.55.141.189:8669/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8669/;",
     "frequency": 106.8,
     "address": "Bidhur-2, Nuwakot",
     "province": 3
@@ -454,7 +454,7 @@
   {
     "id": "g-orbf1Fd3-iEIDiQ1VBN",
     "name": "Himal FM ",
-    "streamUrl": "http://streaming.hamropatro.com:8054/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8054/;",
     "frequency": 90.2,
     "address": "Salleri-5, Solukhumbu",
     "province": 1
@@ -470,7 +470,7 @@
   {
     "id": "-djJs2ZRHsNb43WHvixDS",
     "name": "Ilam FM",
-    "streamUrl": "http://live.itechnepal.com:9635/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itechnepal.com:9635/stream",
     "frequency": 93,
     "address": "Tarakuti, Ilam - 2, Ilam",
     "province": 1
@@ -478,7 +478,7 @@
   {
     "id": "nQVKiopZioZ28P0Bsg97t",
     "name": "Radio Amargadhi",
-    "streamUrl": "http://live.itechnepal.com:8922/live",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itechnepal.com:8922/live",
     "frequency": 97.4,
     "address": "Amargadhi-5, Dadeldhura",
     "province": 7
@@ -502,7 +502,7 @@
   {
     "id": "U7HJmCDUjoM95Hm1YrVnK",
     "name": "Tinjure Online",
-    "streamUrl": "http://streaming.hamropatro.com:8455/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8455/;",
     "frequency": null,
     "address": "Myanglung-1, Terhathum",
     "province": 1
@@ -510,7 +510,7 @@
   {
     "id": "vFsMscYrvs-sKzj6loMSY",
     "name": "Radio Melamchi",
-    "streamUrl": "http://streaming.softnep.net:8051/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8051/;",
     "frequency": 107.2,
     "address": "Duwachaur VDC, Sindhupalchok, Nepal",
     "province": 3
@@ -518,7 +518,7 @@
   {
     "id": "DBeiUztuOfcWyY2MnlVD2",
     "name": "ACORAB",
-    "streamUrl": "http://streaming.softnep.net:8009/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8009/;",
     "frequency": null,
     "address": "Lalitpur, Nepal",
     "province": 3
@@ -550,7 +550,7 @@
   {
     "id": "OsDo0rlOCKTd-WW74TJkv",
     "name": "Chitwan Radio Network",
-    "streamUrl": "http://streaming.hamropatro.com:8603/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8603/;",
     "frequency": null,
     "address": "Bharatpur - 22, Patihani",
     "province": 3
@@ -558,7 +558,7 @@
   {
     "id": "7cVQb53NoJSCsRVWglsp7",
     "name": "Mero Sathi FM",
-    "streamUrl": "http://streaming.hamropatro.com:8571/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8571/;",
     "frequency": 107.2,
     "address": "Aanbookhaireni, Tanahun",
     "province": 4
@@ -574,7 +574,7 @@
   {
     "id": "IhYwXQU9v7Ixv6Q9uk38X",
     "name": "Radio Parasi",
-    "streamUrl": "http://streaming.softnep.net:8129/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8129/;",
     "frequency": 90.2,
     "address": "Ramgram-3, Parasi, Nawalparasi",
     "province": 5
@@ -582,7 +582,7 @@
   {
     "id": "u6oxtSMRf9azLQ0Qpdwz2",
     "name": "Radio Sarada",
-    "streamUrl": "http://live.itech.host:9443/stream?mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:9443/stream?mp3",
     "frequency": 99.2,
     "address": "Khalanga, Salyan",
     "province": 6
@@ -590,7 +590,7 @@
   {
     "id": "qmkn8Isf6nHsAI7N8Nej9",
     "name": "Radio Madanpokhara FM",
-    "streamUrl": "http://streaming.hamropatro.com:8236/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8236/;",
     "frequency": 106.9,
     "address": "तानसेन नगरपालिका ८ मदनपाेखरा पाल्पा",
     "province": 5
@@ -598,7 +598,7 @@
   {
     "id": "vZdbgmBPqOrWUFYetMLwn",
     "name": "Bhaktapur FM",
-    "streamUrl": "http://streaming.softnep.net:8309/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8309/;",
     "frequency": 105.4,
     "address": "Itachhen-15, Bhaktapur",
     "province": 3
@@ -614,7 +614,7 @@
   {
     "id": "HlBZ2nrii6AJbC5IqaS--",
     "name": "Damauli FM",
-    "streamUrl": "http://streaming.hamropatro.com:8529/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8529/;",
     "frequency": 94.2,
     "address": "Balmandir Line, Byas - 2, Damauli, Tanahun, Gandaki Pradesh",
     "province": 4
@@ -630,7 +630,7 @@
   {
     "id": "TGpm4LfEJBTfcTvViBlcU",
     "name": "Radio Mandavi FM",
-    "streamUrl": "http://streaming.hamropatro.com:8477/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8477/;",
     "frequency": 97,
     "address": "Mallarani Rural Municipality-4, Khalanga, Pyuthan",
     "province": 5
@@ -646,7 +646,7 @@
   {
     "id": "P8XRs5DoaNUlbyvQX2pwj",
     "name": "Ichchhakamana FM",
-    "streamUrl": "http://streaming.softnep.net:8139/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8139/;",
     "frequency": 102.4,
     "address": "Ichchhakamana-4, Chitwan",
     "province": 3
@@ -654,7 +654,7 @@
   {
     "id": "rjUkgL_fX75NQzqNPIuIH",
     "name": "Radio Arpan ",
-    "streamUrl": "http://streaming.hamropatro.com:8138/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8138/;",
     "frequency": 104.5,
     "address": "Ratnanagar-1, Bakulahar, Chitwan",
     "province": 3
@@ -662,7 +662,7 @@
   {
     "id": "cNv4yXHBqhNExdCmYgFw8",
     "name": "Radio Mukti",
-    "streamUrl": "http://216.55.141.189:8593/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8593/;",
     "frequency": 95.5,
     "address": "Butwal-4, Rupandehi",
     "province": 5
@@ -670,7 +670,7 @@
   {
     "id": "kxQenrUOiZeZwkHUJg3sR",
     "name": "Radio Bindas",
-    "streamUrl": "http://streaming.hamropatro.com:8615/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8615/;",
     "frequency": 94.8,
     "address": "Birgunj-10, Panitanki Bayarek Road, Nepal",
     "province": 2
@@ -678,7 +678,7 @@
   {
     "id": "2vprwzDXqjfdbQWmVYG-N",
     "name": "Radio Palpa",
-    "streamUrl": "http://streaming.hamropatro.com:8467/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8467/;",
     "frequency": 97.1,
     "address": "Rampur-5, Palpa",
     "province": 5
@@ -686,7 +686,7 @@
   {
     "id": "DIWkzcedbnZc7CJITtNZC",
     "name": "Radio Baadal",
-    "streamUrl": "http://streaming.hamropatro.com:8188/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8188/;",
     "frequency": 89,
     "address": "Simraungadh, Bara, Nepal",
     "province": 2
@@ -694,7 +694,7 @@
   {
     "id": "RVcSKrrgq7RQKjpQp28Us",
     "name": "Radio Rajmarga",
-    "streamUrl": "http://streaming.softnep.net:8299/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8299/;",
     "frequency": 92.1,
     "address": "Naubishe, Dharke, Dhading",
     "province": 3
@@ -718,7 +718,7 @@
   {
     "id": "WY2auAGQzxcnbRhrN4OPf",
     "name": "Radio Chhimkeshwori",
-    "streamUrl": "http://streaming.hamropatro.com:8487/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8487/;",
     "frequency": 106.2,
     "address": "Bandipur-1, Tanahun",
     "province": 4
@@ -726,7 +726,7 @@
   {
     "id": "qBnaZTwvoc34P3QkANVYg",
     "name": "Radio Holeri FM",
-    "streamUrl": "http://streaming.hamropatro.com:8659/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8659/;",
     "frequency": 102.5,
     "address": "Runtigadhi-6, Rolpa",
     "province": 5
@@ -734,7 +734,7 @@
   {
     "id": "_1nHns4vLpPQWnPiMzOvV",
     "name": "Radio Madi Aawaj",
-    "streamUrl": "http://streaming.hamropatro.com:8629/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8629/;",
     "frequency": 98.6,
     "address": "Madi-2, Rolpa",
     "province": 5
@@ -742,7 +742,7 @@
   {
     "id": "qn8igX0KawEkXTYjR1EI5",
     "name": "Radio Makawanpur gadi",
-    "streamUrl": "http://streaming.hamropatro.com:8767/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8767/;",
     "frequency": 95,
     "address": "Makwanpurgadhi, Makranchuli",
     "province": 3
@@ -750,7 +750,7 @@
   {
     "id": "CTpZ6AisxFZzj5euxpL6M",
     "name": "Radio Madhesh",
-    "streamUrl": "http://streaming.hamropatro.com:8417/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8417/;",
     "frequency": 89.3,
     "address": "Malangwa-10, Sarlahi",
     "province": 2
@@ -758,7 +758,7 @@
   {
     "id": "oUwsGRuj-9IzbLGxybgJM",
     "name": "Newa FM",
-    "streamUrl": "http://streaming.hamropatro.com:8835/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8835/;",
     "frequency": 106.6,
     "address": "Kirtipur-2, Kathmandu",
     "province": 3
@@ -790,7 +790,7 @@
   {
     "id": "bMvuiIRwaz1ydEZrc3d4v",
     "name": "Sandhikharka FM",
-    "streamUrl": "http://streaming.hamropatro.com:8373/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8373/;",
     "frequency": 89.8,
     "address": "Sandhikharka-2, Arghakhanchi",
     "province": 5
@@ -814,7 +814,7 @@
   {
     "id": "NjCEoYdMvTUH6Qs06lWnh",
     "name": "Narayani FM 103.8 MHz",
-    "streamUrl": "http://streaming.hamropatro.com:8272/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8272/;",
     "frequency": null,
     "address": "PO Box: 23,Link Road Birgunj, Parsa, Nepal",
     "province": 2
@@ -822,7 +822,7 @@
   {
     "id": "YDG1c7F7Lpx9I0NvNsqYN",
     "name": "Radio Barahi",
-    "streamUrl": "http://streaming.softnep.net:8083/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8083/;",
     "frequency": 99.2,
     "address": "Rastrabank Chowk, Pokhara",
     "province": 4
@@ -838,7 +838,7 @@
   {
     "id": "cXeNgbuF0NzKsCmeij6TZ",
     "name": "Radio Bharatpur",
-    "streamUrl": "http://streaming.hamropatro.com:8325/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8325/;",
     "frequency": 105.2,
     "address": "Bharatpur-7, Chitwan",
     "province": 3
@@ -846,7 +846,7 @@
   {
     "id": "t9KYKo3pQmWwQtIFjtCgg",
     "name": "Radio Akala ",
-    "streamUrl": "http://streaming.hamropatro.com:8821/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8821/;",
     "frequency": 105.3,
     "address": "Pokhara Metropolitican City, Lamachour-16, Pokhara",
     "province": 4
@@ -854,7 +854,7 @@
   {
     "id": "r-ZlAg2A4eRDkeYlHUWuG",
     "name": "Radio Simana",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 106.9,
     "address": "Kakarvitta, Mechinagar 6, Jhapa, Nepal",
     "province": 1
@@ -862,14 +862,14 @@
   {
     "id": "g7Q8ZCDs0IWP9QVOiffji",
     "name": "Radio Mero Fm",
-    "streamUrl": "http://streaming.hamropatro.com:8078/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8078/;",
     "frequency": 93.3,
     "address": null
   },
   {
     "id": "gmkAZx2UOZRC7_EkTevPa",
     "name": "Vision FM (Okhaldhunga)",
-    "streamUrl": "http://streaming.hamropatro.com:8645/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8645/;",
     "frequency": 90.5,
     "address": "Okhaldhunga",
     "province": 1
@@ -877,14 +877,14 @@
   {
     "id": "aAtFRbc3JbU-AN4_PpWiA",
     "name": "Radio Paryabaran",
-    "streamUrl": "http://streaming.hamropatro.com:8733/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8733/;",
     "frequency": 104.2,
     "address": null
   },
   {
     "id": "pULAzyHa8Nc46Ey7Jz22U",
     "name": "Radio Sarlahi",
-    "streamUrl": "http://216.55.141.189:8633/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8633/;",
     "frequency": 105.7,
     "address": "Harion-11, Sarlahi",
     "province": 2
@@ -892,7 +892,7 @@
   {
     "id": "oFK4rG6jTEINJR8-tH7m8",
     "name": "Radio Ramechhap",
-    "streamUrl": "http://streaming.hamropatro.com:8098/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8098/;",
     "frequency": 95.8,
     "address": "Davkota Chok Manthali",
     "province": 3
@@ -900,7 +900,7 @@
   {
     "id": "rT3iMB2y44kIYVsCEJ7R5",
     "name": "Bhanu FM",
-    "streamUrl": "http://streaming.softnep.net:8211/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8211/;",
     "frequency": 106.9,
     "address": "Myagde, Tanahun",
     "province": 4
@@ -908,7 +908,7 @@
   {
     "id": "5BRpCDVPyzjOTcPVIstfF",
     "name": "Radio Netrajyot",
-    "streamUrl": "http://streaming.softnep.net:8227/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8227/;",
     "frequency": 106.6,
     "address": "Barabise, Sindhupalchok",
     "province": 3
@@ -916,7 +916,7 @@
   {
     "id": "XZxVWa__0wEso9UKanise",
     "name": "Rautahat FM",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 90.8,
     "address": "Gaur",
     "province": 2
@@ -924,7 +924,7 @@
   {
     "id": "hFP_PP5NrUJDqHRgKgWGH",
     "name": "Radio Malangwa",
-    "streamUrl": "http://streaming.hamropatro.com:8711/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8711/;",
     "frequency": 95.6,
     "address": " Malangwa 8, Sarlahi",
     "province": 2
@@ -932,7 +932,7 @@
   {
     "id": "pGxlwsxIsD1c6_ief96Cj",
     "name": "Radio Madhyapaschim",
-    "streamUrl": "http://live.itech.host:9006/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:9006/stream",
     "frequency": 91.4,
     "address": "Ghorahi - Dang",
     "province": 5
@@ -940,7 +940,7 @@
   {
     "id": "TZEM3SgpK41vHbu8Ydizu",
     "name": "Neelkantha FM ",
-    "streamUrl": "http://streaming.softnep.net:8251/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8251/;",
     "frequency": 98.5,
     "address": "Neelkantha Municipality-3, Dhading",
     "province": 3
@@ -948,14 +948,14 @@
   {
     "id": "Qhv-M1pquVjyOD9rb-on1",
     "name": "Dhaulagiri Fm",
-    "streamUrl": "http://streaming.hamropatro.com:8535/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8535/;",
     "frequency": 98.6,
     "address": null
   },
   {
     "id": "aMMg4qcnf7gB01m7wFQO1",
     "name": "Radio Muktinath",
-    "streamUrl": "http://live.itechnepal.com:9180/live",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itechnepal.com:9180/live",
     "frequency": 90.8,
     "address": "Palpa,Nepal",
     "province": 5
@@ -963,7 +963,7 @@
   {
     "id": "iByB0y9LMIDKEw53C1lC7",
     "name": "Online Radio Tribeni (Rolpa)",
-    "streamUrl": "http://streaming.hamropatro.com:8827/;",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8827/;",
     "frequency": null,
     "address": "Tribeni Gaupalika 5, Jugar, Rolpa",
     "province": 5
@@ -971,7 +971,7 @@
   {
     "id": "X5qiXpykrt1Rx1A37wLpE",
     "name": "Radio Namaste",
-    "streamUrl": "http://live.itech.host:8338/stream?mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:8338/stream?mp3",
     "frequency": 96.5,
     "address": "Tikapur-1, Kailali",
     "province": 7
@@ -988,7 +988,7 @@
   {
     "id": "xT70TNYpdZZNMr_o31O8L",
     "name": "Dullu FM",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 101.5,
     "address": "Dullu, Dailekh",
     "province": 6
@@ -1012,7 +1012,7 @@
   {
     "id": "DiLDLN3Nc-o6_4Dpjxz4G",
     "name": "Radio Thaha Sanchar FM (Hetauda)",
-    "streamUrl": "http://streaming.softnep.net:8001/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8001/",
     "frequency": 99.6,
     "address": "Hetauda -4 AjarAmar  Road",
     "province": 3
@@ -1020,7 +1020,7 @@
   {
     "id": "Wj-cPStXVNN_khh-GXE87",
     "name": "Capital FM",
-    "streamUrl": "http://streaming.softnep.net:8037/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8037/",
     "frequency": 92.4,
     "address": "Saraswati Mart, Thapagaun, New Baneshwor",
     "province": 3
@@ -1028,7 +1028,7 @@
   {
     "id": "f-aUIgLRfHnm63rz89amL",
     "name": "Saipal FM",
-    "streamUrl": "http://streaming.softnep.net:8165",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8165",
     "frequency": 100.6,
     "address": "Chainpur, Bajhang, Nepal",
     "province": 7
@@ -1036,7 +1036,7 @@
   {
     "id": "4hSrOeHLTIR7hOQI140YE",
     "name": "Radio Planet",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 89.1,
     "address": "Chuatara, Shindhupalchwok",
     "province": 3
@@ -1044,7 +1044,7 @@
   {
     "id": "iexiwpSUsgNY8K7g75DXN",
     "name": "Rupandehi FM",
-    "streamUrl": "http://streaming.softnep.net:8201",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8201",
     "frequency": 102,
     "address": "Siddharthanagar - 8, Rupandehi",
     "province": 5
@@ -1052,7 +1052,7 @@
   {
     "id": "fkXEYM7Kh0i0HNqzLzTW8",
     "name": "Hamro FM",
-    "streamUrl": "http://216.55.141.189:8114",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8114",
     "frequency": 94,
     "address": "Bharatpur, Chitwan",
     "province": 3
@@ -1060,14 +1060,14 @@
   {
     "id": "gZoIDcEVt-BNYHMR0b3jx",
     "name": "BFBS Gurkha Radio",
-    "streamUrl": "http://edge-audio-03-gos2.sharp-stream.com/ssvcbfbs3.mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://edge-audio-03-gos2.sharp-stream.com/ssvcbfbs3.mp3",
     "frequency": null,
     "address": ""
   },
   {
     "id": "voHc4yRXo2Z-SepdlhhBG",
     "name": "Apostle FM",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 102.6,
     "address": "Kaski, Pokhara ",
     "province": 4
@@ -1075,7 +1075,7 @@
   {
     "id": "Ly611Ak7bVnTmcU-6vMD3",
     "name": "Pathivara Online Radio",
-    "streamUrl": "http://streaming.hamropatro.com:8208/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8208/",
     "frequency": null,
     "address": " Prabas Pvt. Ltd., Phidim-1, Paanchthar",
     "province": 1
@@ -1091,7 +1091,7 @@
   {
     "id": "zSHXgtbLGeBw5YOf_33cZ",
     "name": "Radio Kawasoti",
-    "streamUrl": "http://streaming.hamropatro.com:8435",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8435",
     "frequency": 102.6,
     "address": "Kawasoti, Nawalparasi",
     "province": 5
@@ -1107,7 +1107,7 @@
   {
     "id": "Qmq2V5W26Lm9DZElzjz4D",
     "name": "Radio Udaypur",
-    "streamUrl": "http://streaming.hamropatro.com:8021",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8021",
     "frequency": 102.4,
     "address": "Triyuga, Udayapur, Nepal",
     "province": 1
@@ -1115,7 +1115,7 @@
   {
     "id": "HqZ3YD91D7xCNyBXZdwKO",
     "name": "Radio Makawanpur",
-    "streamUrl": "http://streaming.softnep.net:8057",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8057",
     "frequency": 101.3,
     "address": "Hetauda-2, Palpasa road, Makawanpur, Nepal",
     "province": 3
@@ -1123,7 +1123,7 @@
   {
     "id": "SvMjy_sFJdRtlnszcq8v9",
     "name": "Radio Sindhu",
-    "streamUrl": "http://streaming.softnep.net:8041/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8041/",
     "frequency": 105,
     "address": "Chautara-8, Sindhupalchok",
     "province": 3
@@ -1147,7 +1147,7 @@
   {
     "id": "XhYbdk5jp2ZjaJGn8sj_Y",
     "name": "Radio Samarpan",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 98.2,
     "address": "Simara, Bara, Nepal",
     "province": 2
@@ -1155,7 +1155,7 @@
   {
     "id": "BDErWXYruI9X5SgG_zsts",
     "name": "Radio Satellite",
-    "streamUrl": "http://streaming.hamropatro.com:8250/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8250/",
     "frequency": 105.5,
     "address": "Ramgram-6 ,Parasi, Nawalparasi",
     "province": 5
@@ -1187,7 +1187,7 @@
   {
     "id": "AhOfN9XwY_4a6wANjIOQZ",
     "name": "Tinau FM",
-    "streamUrl": "http://streaming.softnep.net:8293",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8293",
     "frequency": 98.2,
     "address": "Rupandehi, Nepal",
     "province": 5
@@ -1203,14 +1203,14 @@
   {
     "id": "LILbR2p37ZwCHxm0ZDw-L",
     "name": "Radio Sahino",
-    "streamUrl": "http://live.itech.host:7093/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:7093/stream",
     "frequency": null,
     "address": null
   },
   {
     "id": "EtZWDNQdF9wCn6d5IDs91",
     "name": "Radio Nation",
-    "streamUrl": "http://live.itech.host:1440/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:1440/stream",
     "frequency": 103.9,
     "address": null
   },
@@ -1225,7 +1225,7 @@
   {
     "id": "7Kjum3V5I6rnuBZM914ue",
     "name": "Radio Sanfebagar",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 101,
     "address": "Sanfebagar Achham, Nepal",
     "province": 7
@@ -1233,14 +1233,14 @@
   {
     "id": "qRlDjNRUd96EH7-mCT3th",
     "name": "Sindhu FM",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 102.8,
     "address": null
   },
   {
     "id": "z1eynRR78TuDylJcGeaKh",
     "name": "A One FM",
-    "streamUrl": "http://streaming.hamropatro.com:8619",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8619",
     "frequency": 99,
     "address": "Khudunabari, Jhapa",
     "province": 1
@@ -1248,7 +1248,7 @@
   {
     "id": "7mUbxXIvmVv6fipRSzgmn",
     "name": "Radio Rolpa",
-    "streamUrl": "http://streaming.hamropatro.com:8150",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8150",
     "frequency": 93.8,
     "address": "Rolpa, Nepal",
     "province": 5
@@ -1256,7 +1256,7 @@
   {
     "id": "xn7-UplacOWYe3DtTku4Z",
     "name": "Times FM",
-    "streamUrl": "http://streaming.hamropatro.com:8663",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8663",
     "frequency": 90.6,
     "address": "Chabahil, Kathmandu",
     "province": 3
@@ -1264,7 +1264,7 @@
   {
     "id": "LuyELZWQQyHov6c_nlAWq",
     "name": "Radio Rampur",
-    "streamUrl": "http://live.itech.host:2030/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:2030/stream",
     "frequency": 103.6,
     "address": "Palpa, Nepal",
     "province": 5
@@ -1280,7 +1280,7 @@
   {
     "id": "U3gYTt5yR9wUxqOs3OTbg",
     "name": "Radio Jiri",
-    "streamUrl": "http://streaming.hamropatro.com:8727",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8727",
     "frequency": 94,
     "address": "Jiri-6, Dolakha",
     "province": 3
@@ -1288,7 +1288,7 @@
   {
     "id": "HOOIt-3-SFg8C7iYEJZXa",
     "name": "Radio Namaste",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 92.8,
     "address": "Kalikanagar, Butwal-12, Rupandehi, Nepal",
     "province": 5
@@ -1296,7 +1296,7 @@
   {
     "id": "U1zUp6wu3jAVOZDvWxElN",
     "name": "Kites FM",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 91.8,
     "address": "Tikapur, Kailali",
     "province": 7
@@ -1304,14 +1304,14 @@
   {
     "id": "SNHz9PgWoJJaUqv8GJ2sJ",
     "name": "Nepali Sanchar Radio",
-    "streamUrl": "http://onlineradio.websoftitnepal.com:8048/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://onlineradio.websoftitnepal.com:8048/",
     "frequency": null,
     "address": "Melbourne, VIC, Australia"
   },
   {
     "id": "aQ0TDOm0KHUYazFiwVVMX",
     "name": "Radio Mangsebung",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": null,
     "address": "https://www.facebook.com/mewanambin"
   },
@@ -1326,7 +1326,7 @@
   {
     "id": "skDbFCAwjSGuJ-HoSqy3L",
     "name": "Music Joy Radio",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": null,
     "address": "Kuleshwor, Kathmandu",
     "province": 3
@@ -1334,7 +1334,7 @@
   {
     "id": "grp4t5UfjPt4HfPltN97o",
     "name": "Shakti FM",
-    "streamUrl": "http://streaming.hamropatro.com:8709",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8709",
     "frequency": 103.4,
     "address": "Hetauda 4, Makawanpur",
     "province": 3
@@ -1350,7 +1350,7 @@
   {
     "id": "DizHOi8XLbJmDXdp1J4Ts",
     "name": "Radio Deurali",
-    "streamUrl": "http://streaming.hamropatro.com:8569",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8569",
     "frequency": 101,
     "address": "Sandhikharka-1, Arghakhachi",
     "province": 5
@@ -1358,7 +1358,7 @@
   {
     "id": "g7HX5EKmEk8TZoIm_gqcV",
     "name": "Triveni Times FM 100.6",
-    "streamUrl": "http://216.55.141.189:8046",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8046",
     "frequency": 100.6,
     "address": "Chitwan, Bharatpur Nepal",
     "province": 3
@@ -1366,7 +1366,7 @@
   {
     "id": "9bfFbk30xuc49fO55LfVh",
     "name": "Radio Ekata",
-    "streamUrl": "http://216.55.141.189:8515",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8515",
     "frequency": 92.4,
     "address": "Lalbandi Municipality-9,Sarlahi",
     "province": 2
@@ -1389,7 +1389,7 @@
   {
     "id": "UmzPflv27vd5x6sm6Hkga",
     "name": "Radio Burtibang",
-    "streamUrl": "http://streaming.hamropatro.com:8016/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8016/",
     "frequency": 95.6,
     "address": "Burtibang, Baglung",
     "province": 4
@@ -1397,7 +1397,7 @@
   {
     "id": "4HEAyP78tNJkzwgL9XiPu",
     "name": "Hamro malika FM",
-    "streamUrl": "http://streaming.hamropatro.com:8112",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8112",
     "frequency": 99,
     "address": "Lamki Chua-1, Kailali",
     "province": 7
@@ -1413,7 +1413,7 @@
   {
     "id": "BXRLcF-TQNJc1BKNX-ABP",
     "name": "Radio Mayadevi",
-    "streamUrl": "http://streaming.hamropatro.com:8379",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8379",
     "frequency": 106.1,
     "address": "Banganga Kapilvastu Nepal",
     "province": 5
@@ -1421,7 +1421,7 @@
   {
     "id": "QJyIzOc0XLeJxXCl4G6Ze",
     "name": "Colors FM",
-    "streamUrl": "http://stream.orangictech.com.np:8050/colorsfm.mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.orangictech.com.np:8050/colorsfm.mp3",
     "frequency": 102.4,
     "address": "Sita Chowk, Janakpurdham-1, Nepal",
     "province": 2
@@ -1437,7 +1437,7 @@
   {
     "id": "TMia13GiCzOObxoEj-DN3",
     "name": "Radio Jalpa",
-    "streamUrl": "http://streaming.hamropatro.com:8377",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8377",
     "frequency": 104.5,
     "address": "Ranipauwa, Nuwakot, Nepal",
     "province": 3
@@ -1453,7 +1453,7 @@
   {
     "id": "oM-XYU0zdSqhiNpeJr2pu",
     "name": "Unique FM",
-    "streamUrl": "http://streaming.hamropatro.com:8128",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8128",
     "frequency": 94.2,
     "address": "Kailashnagar 7, Tansen, Palpa",
     "province": 5
@@ -1461,7 +1461,7 @@
   {
     "id": "TmNxpvnhplG0sBVIBwu8E",
     "name": "24 Nepali Online Radio",
-    "streamUrl": "http://node-25.zeno.fm/v3e78tqm5gruv.aac",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://node-25.zeno.fm/v3e78tqm5gruv.aac",
     "frequency": null,
     "address": null
   },
@@ -1484,7 +1484,7 @@
   {
     "id": "86NT1PtJNHdt1YzajvFvE",
     "name": "Radio Mahila Aawaj",
-    "streamUrl": "http://streaming.hamropatro.com:8361",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8361",
     "frequency": 90,
     "address": "Khalanga-5, Pyuthan",
     "province": 5
@@ -1492,7 +1492,7 @@
   {
     "id": "pYP7nHuZvDJZ5REarGcoL",
     "name": "Radio Tahalka",
-    "streamUrl": "http://live.itech.host:8910/stream?mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:8910/stream?mp3",
     "frequency": 91.9,
     "address": "SaNaPa-2, Khalanga, Salyan",
     "province": 6
@@ -1500,7 +1500,7 @@
   {
     "id": "EOHV5XPYpYdwo7iOtHunn",
     "name": "Radio Malarani",
-    "streamUrl": "http://streaming.hamropatro.com:8755",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8755",
     "frequency": 95.7,
     "address": null
   },
@@ -1515,7 +1515,7 @@
   {
     "id": "yTcgmFxCvWoU97vrCcwHk",
     "name": "Radio Sambridha Nepal",
-    "streamUrl": "http://streaming.hamropatro.com:8879",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8879",
     "frequency": 92,
     "address": "kusma, Parbat",
     "province": 4
@@ -1523,7 +1523,7 @@
   {
     "id": "lF1bJNV95zluaFVzmLWX8",
     "name": "Suryodaya FM",
-    "streamUrl": "http://live.itechnepal.com:7165/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itechnepal.com:7165/stream",
     "frequency": 94,
     "address": "Sandhikharka -1, Argakhanchi",
     "province": 5
@@ -1531,7 +1531,7 @@
   {
     "id": "eKm-_l7gNZPHOEjyiKeEG",
     "name": "Radio Anmol",
-    "streamUrl": "http://streaming.hamropatro.com:8751",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8751",
     "frequency": 90,
     "address": "Hetauda 4 Khopegalli",
     "province": 3
@@ -1539,7 +1539,7 @@
   {
     "id": "gZK246rpKVasv4xmpTMoi",
     "name": "Radio Chapakot",
-    "streamUrl": "http://live.itech.host:2320/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:2320/stream",
     "frequency": 91.6,
     "address": "Chapakot-4, Syangja, Nepal",
     "province": 4
@@ -1547,7 +1547,7 @@
   {
     "id": "thGXhMqv_DyooFzgxkCIM",
     "name": "Radio Dhurkot",
-    "streamUrl": "http://streaming.hamropatro.com:8459",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8459",
     "frequency": 102.2,
     "address": "Dhurkot-4, Barbot Gulmi",
     "province": 5
@@ -1555,7 +1555,7 @@
   {
     "id": "aVXXQcS1igj12P5DWTvlm",
     "name": "Radio Rastriya",
-    "streamUrl": "http://centova1.toofancom.com:4753",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://centova1.toofancom.com:4753",
     "frequency": 89.8,
     "address": "Kanchanpur",
     "province": 7
@@ -1563,7 +1563,7 @@
   {
     "id": "6OnvAO1G2XP-8oCLbEQCg",
     "name": "Bhojpuriya FM",
-    "streamUrl": "http://streaming.softnep.net:8143/stream.mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8143/stream.mp3",
     "frequency": 92.8,
     "address": "Birgunj, Parsa",
     "province": 2
@@ -1571,7 +1571,7 @@
   {
     "id": "tZY6-Z38RTF8pBewH3AaA",
     "name": "Radio Artha Sarokar",
-    "streamUrl": "http://live.itech.host:2430/stream?mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:2430/stream?mp3",
     "frequency": null,
     "address": "Koteshwor, Kathmandu, Nepal",
     "province": 3
@@ -1579,7 +1579,7 @@
   {
     "id": "bv_rdhw2m6XLpBKclAGG5",
     "name": "Galkot FM",
-    "streamUrl": "http://live.itech.host:1260/stream?type=.mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:1260/stream?type=.mp3",
     "frequency": 102.4,
     "address": "Galkot-3, Baglung",
     "province": 4
@@ -1587,7 +1587,7 @@
   {
     "id": "7Cd1McH03h5fwaXOcZAkX",
     "name": "Radio Kamal",
-    "streamUrl": "http://streaming.hamropatro.com:8849",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8849",
     "frequency": null,
     "address": null
   },
@@ -1602,7 +1602,7 @@
   {
     "id": "tS8xtso7li2wUAHskEecm",
     "name": "Power FM",
-    "streamUrl": "http://streaming.hamropatro.com:8587/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8587/stream",
     "frequency": 95.6,
     "address": "Bandipur-1, Tanahu",
     "province": 4
@@ -1610,7 +1610,7 @@
   {
     "id": "lBgXR6biCQQmkbfRN3_RD",
     "name": "24 Asal Sathi Radio",
-    "streamUrl": "http://streaming.hamropatro.com:4156",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:4156",
     "frequency": 98.9,
     "address": "Pokhara, Kaski",
     "province": 4
@@ -1618,7 +1618,7 @@
   {
     "id": "Xi5IIsYLmJSLx8fgOOHgK",
     "name": "Itahari FM 92.5 MHZ",
-    "streamUrl": "http://live.itech.host:2870/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:2870/stream",
     "frequency": 92.5,
     "address": "Itahari - 6",
     "province": 1
@@ -1626,7 +1626,7 @@
   {
     "id": "HAU6ZqH5gj6suGDlIuqf3",
     "name": "Radio Bulletin",
-    "streamUrl": "http://live.itech.host:2650/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:2650/stream",
     "frequency": 89.7,
     "address": "Hetauda-5, Makawanpur",
     "province": 3
@@ -1634,7 +1634,7 @@
   {
     "id": "TFtatGGpCbEdTD8zWQm3g",
     "name": "Halesi FM",
-    "streamUrl": "http://185.181.63.148:8010/halesifm",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://185.181.63.148:8010/halesifm",
     "frequency": 102.4,
     "address": "DiktelRupakot Majhuwagadhi Municlipty 01 Diktel",
     "province": 1
@@ -1642,7 +1642,7 @@
   {
     "id": "Bs7o1CxkbaQ-gsMHEoJKg",
     "name": "3 Angels Community Radio",
-    "streamUrl": "http://streaming.hamropatro.com:8234",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8234",
     "frequency": 94.6,
     "address": "Pokhara, Kaski",
     "province": 4
@@ -1650,7 +1650,7 @@
   {
     "id": "07lFlWpPOHdwu3NLyl0Wc",
     "name": "Radio Chimteshwor",
-    "streamUrl": "http://live.itech.host:8974/stream?mp3",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:8974/stream?mp3",
     "frequency": 90.9,
     "address": "Belkot, Nuwakot",
     "province": 3
@@ -1658,7 +1658,7 @@
   {
     "id": "iFYZorRvgvmQ_z77bNAO_",
     "name": "Online Radio Darpan",
-    "streamUrl": "http://onlineradio.websoftitnepal.com:8006/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://onlineradio.websoftitnepal.com:8006/",
     "frequency": null,
     "address": "Shikha Media Pvt.Ltd. Sunwal-1, Nawalparasi, Lumbini",
     "province": 5
@@ -1674,7 +1674,7 @@
   {
     "id": "6GdfAuOiO9e7xVf783Hsm",
     "name": "Kalika FM Musical",
-    "streamUrl": "http://streaming.softnep.net:8740",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8740",
     "frequency": 91,
     "address": "Bharatpur -10, Kalika marg",
     "province": 3
@@ -1722,7 +1722,7 @@
   {
     "id": "_F5QNnkvlKmwxIBfeX16w",
     "name": "Radio Maurakhara FM",
-    "streamUrl": "http://streaming.softnep.net:8317",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8317",
     "frequency": 106.5,
     "address": "Sanibhaeri, Rukum",
     "province": 6
@@ -1738,7 +1738,7 @@
   {
     "id": "Z1O8wdXmEbWY-feVVYy5P",
     "name": "NepalBodh",
-    "streamUrl": "http://streaming.softnep.net:8241/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8241/",
     "frequency": null,
     "address": "Beldandi - 01, Kanchanpur",
     "province": 7
@@ -1746,7 +1746,7 @@
   {
     "id": "uI9iDzENe7o2tnpmUjc5Q",
     "name": "Radio Nigarani",
-    "streamUrl": "http://streaming.hamropatro.com:5501",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:5501",
     "frequency": 107,
     "address": "Ishwarpur Mun.-6, Bayalbas Bazaar",
     "province": 2
@@ -1754,7 +1754,7 @@
   {
     "id": "C6W277h0gJY0NduOKVaKK",
     "name": "Kochila  FM",
-    "streamUrl": "http://streaming.softnep.net:8307/",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8307/",
     "frequency": 91.5,
     "address": "Sunsari, Nepal",
     "province": 1
@@ -1802,7 +1802,7 @@
   {
     "id": "i6PH2y9_mCarY_TCsTFd8",
     "name": "Radio Bijayakilla",
-    "streamUrl": "http://streaming.hamropatro.com:8719",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8719",
     "frequency": 93,
     "address": "Kamalamai Municipality-6, Sindhuli",
     "province": 3
@@ -1810,7 +1810,7 @@
   {
     "id": "S-GS05dR7z1QQ2XBsRVoC",
     "name": "Radio Pariwartan",
-    "streamUrl": "http://centova1.toofancom.com:4770",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://centova1.toofancom.com:4770",
     "frequency": 89.4,
     "address": "Itahari-5, Sunsari",
     "province": 1
@@ -1818,14 +1818,14 @@
   {
     "id": "d_R7ycY_MjpupOsJwaF8X",
     "name": "Baideshik Rojgar",
-    "streamUrl": "http://stream.zeno.fm/5uewmme4e8zuv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/5uewmme4e8zuv",
     "frequency": null,
     "address": null
   },
   {
     "id": "HbBA8bMFoXO9NeMikeMCk",
     "name": "Radio Puspanjali",
-    "streamUrl": "http://streaming.hamropatro.com:8679",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8679",
     "frequency": 97.4,
     "address": "Musikot Municipality-7, Gulmi",
     "province": 5
@@ -1865,7 +1865,7 @@
   {
     "id": "dPFdZh3xMkhRHmIX2IVri",
     "name": "Samabeshi FM",
-    "streamUrl": "http://streaming.hamropatro.com:5511",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:5511",
     "frequency": 92.3,
     "address": "Katari, Udayapur, Katari, Benin",
     "province": 1
@@ -1881,7 +1881,7 @@
   {
     "id": "-SIjub787tzJOo7FFnSBM",
     "name": "Radio Kanchanpur",
-    "streamUrl": "http://live.itechnepal.com:8294/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itechnepal.com:8294/stream",
     "frequency": 90.2,
     "address": "Mahendranagar -4, Kanchanpur",
     "province": 7
@@ -1912,7 +1912,7 @@
   {
     "id": "KO4sLmO-SnbrBCfaBowpN",
     "name": "Apan FM",
-    "streamUrl": "http://streaming.hamropatro.com:8445",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8445",
     "frequency": 96.8,
     "address": "Rajbiraj-7. Pulchowk, Saptari",
     "province": 2
@@ -1936,7 +1936,7 @@
   {
     "id": "dRbvSAz8sUtsh02eGFhIn",
     "name": "Bhairab Radio",
-    "streamUrl": "http://stream.zeno.fm/qe715t14gwzuv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/qe715t14gwzuv",
     "frequency": null,
     "address": "Tansen-6, Palpa",
     "province": 5
@@ -1968,7 +1968,7 @@
   {
     "id": "s7tgvXGRP-DYlxSde8ZVZ",
     "name": "Radio Mission",
-    "streamUrl": "http://centova1.toofancom.com:4163",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://centova1.toofancom.com:4163",
     "frequency": 105.3,
     "address": "Indrawati -5, Sindhupalchowk",
     "province": 3
@@ -1983,7 +1983,7 @@
   {
     "id": "_dERlS1BlofJUZbCLsKtK",
     "name": "Radio Lipulek",
-    "streamUrl": "http://216.55.141.189:8321",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8321",
     "frequency": 99.6,
     "address": " Shailyashikhar-6, Panebaj Darchula",
     "province": 7
@@ -2007,7 +2007,7 @@
   {
     "id": "59MkZc7ECFvkp3VXE2k-k",
     "name": "Radio Energy 106.2 MHz",
-    "streamUrl": "http://streaming.hamropatro.com:8799",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8799",
     "frequency": 106.2,
     "address": null
   },
@@ -2022,7 +2022,7 @@
   {
     "id": "heTRSx1cMdjdzYNluuogZ",
     "name": "Radio Prabhu FM",
-    "streamUrl": "http://streaming.hamropatro.com:8805",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8805",
     "frequency": 102.6,
     "address": "Shuklaphanta 10 kanchanpur Nepal",
     "province": 7
@@ -2030,7 +2030,7 @@
   {
     "id": "zb2RywfTKhZ1ZDIFaql1M",
     "name": "CIN",
-    "streamUrl": "http://streaming.softnep.net:8009",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8009",
     "frequency": null,
     "address": "सामुदायिक सूचना नेटवर्क (सीआईएन) चाकुपाट ललितपुर, पाटन",
     "province": 3
@@ -2038,7 +2038,7 @@
   {
     "id": "60KVW2BdSJ6Gh4d_a2arC",
     "name": "Radio Madhaypahad",
-    "streamUrl": "http://streaming.hamropatro.com:8815",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8815",
     "frequency": 88.2,
     "address": "बागचौर नगरपालिका २ सल्यान, जनताको लागि जनताको रेडियो",
     "province": 5
@@ -2046,7 +2046,7 @@
   {
     "id": "STqU3AJp9AlDq2PZKFNo3",
     "name": "Radio Darpan",
-    "streamUrl": "http://streaming.hamropatro.com:8797",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8797",
     "frequency": 88.4,
     "address": "Gauridanda Mahottari Nepal",
     "province": 2
@@ -2054,7 +2054,7 @@
   {
     "id": "TT19OCswfBCPImaIYbvUi",
     "name": "Radio Sargam",
-    "streamUrl": "http://rstream.abgroupnepal.com:8000/radiosargam",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://rstream.abgroupnepal.com:8000/radiosargam",
     "frequency": 88.8,
     "address": "Mechinagar-10 Dhulabari Jhapa",
     "province": 1
@@ -2062,7 +2062,7 @@
   {
     "id": "_pFoCPaZ19fKIL_9VMIiy",
     "name": "Radio Himali",
-    "streamUrl": "http://streaming.hamropatro.com:8144",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8144",
     "frequency": 101.7,
     "address": "Charikot, Dolakha",
     "province": 3
@@ -2078,7 +2078,7 @@
   {
     "id": "futdbR3WdG4MQeFJAQzdc",
     "name": "Radio Sambridha Nepal (Nesdo Fm)",
-    "streamUrl": "http://streaming.hamropatro.com:8897",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8897",
     "frequency": 92.6,
     "address": "Birauta-17,Damside Marga,  Kaski Pokhara ",
     "province": 4
@@ -2094,7 +2094,7 @@
   {
     "id": "9xGyh_IfKswctkUljf3U7",
     "name": "Dhadkan Fm",
-    "streamUrl": "http://streaming.hamropatro.com:8112",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8112",
     "frequency": 91.8,
     "address": "Gadaita 8 Sarlahi Nepal",
     "province": 2
@@ -2126,7 +2126,7 @@
   {
     "id": "2FluBDIokQX4Ebj-SYa6I",
     "name": "Metro Fm",
-    "streamUrl": "http://216.55.141.189:8134",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8134",
     "frequency": 94.6,
     "address": "BhrikutiMandap Rastriya SavaGriha, Kathmandu",
     "province": 3
@@ -2134,7 +2134,7 @@
   {
     "id": "IaDni_XNqqIGUBU3yrYd0",
     "name": "Radio Mission",
-    "streamUrl": "http://streaming.hamropatro.com:8769",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8769",
     "frequency": 90.6,
     "address": "Kohalpur Banke",
     "province": 5
@@ -2142,7 +2142,7 @@
   {
     "id": "Lbpw8ZG83rw_kR_dMaLx4",
     "name": "BG FM",
-    "streamUrl": "http://streaming.hamropatro.com:8080",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8080",
     "frequency": 93.6,
     "address": "Bheriganga,09 Jahare Bazar Surkhet - Onair Studio : Gurbhakot, 04 Dadadap Surkhet",
     "province": 6
@@ -2166,7 +2166,7 @@
   {
     "id": "DyLfGXwuezuQsxvI-_zw4",
     "name": "Heart Beat F.M.",
-    "streamUrl": "http://216.55.141.189:8737",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8737",
     "frequency": 91.3,
     "address": "Kapilvastu",
     "province": 5
@@ -2174,7 +2174,7 @@
   {
     "id": "gbiM5rpygFxSCBOH7LDGW",
     "name": "Janata Samaj Radio Network",
-    "streamUrl": "http://streaming.hamropatro.com:8635",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8635",
     "frequency": null,
     "address": "New Baneshwor, Kathmandu",
     "province": 3
@@ -2182,7 +2182,7 @@
   {
     "id": "0ZWv8YWN5CeZuADG-aSeN",
     "name": "Radio Pariwartan Silaawaj",
-    "streamUrl": "http://streaming.hamropatro.com:8849",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8849",
     "frequency": null,
     "address": "Jhapa Nepal",
     "province": 1
@@ -2190,7 +2190,7 @@
   {
     "id": "pFOi_Sh-fiSUdiDYtP0K1",
     "name": "Radio Chinari",
-    "streamUrl": "http://streaming.hamropatro.com:8849",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8849",
     "frequency": null,
     "address": "Sukrabare, Terhathum",
     "province": 1
@@ -2198,7 +2198,7 @@
   {
     "id": "N6CV7Soyk14vJvPcowzxu",
     "name": "Janata Radio",
-    "streamUrl": "http://live.itech.host:1970/;?type=http%26nocache=1571378684",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itech.host:1970/;?type=http%26nocache=1571378684",
     "frequency": null,
     "address": "Kathmandu, Nepal",
     "province": 3
@@ -2206,7 +2206,7 @@
   {
     "id": "OVogGbbgXL6zGjAMIA3BH",
     "name": "Radio Sworgabhumee FM",
-    "streamUrl": "http://streaming.hamropatro.com:8681",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8681",
     "frequency": 93,
     "address": "Swargadwari Municipality-3- Bhingri, Pyuthan",
     "province": 5
@@ -2222,7 +2222,7 @@
   {
     "id": "34RdePV5v0G4C8XYilIp8",
     "name": "Dudhauli Fm",
-    "streamUrl": "http://streaming.hamropatro.com:8461",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8461",
     "frequency": 97.2,
     "address": "Dudhauli-09 Dudhauli Bazar Sindhuli",
     "province": 3
@@ -2246,7 +2246,7 @@
   {
     "id": "08Hqsc9BnUqnnPmS5VN_c",
     "name": "Radio Kutumba",
-    "streamUrl": "http://streaming.hamropatro.com:8885",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8885",
     "frequency": 97.8,
     "address": "Palpa Tansen Kailasnagar Lumbini Province",
     "province": 5
@@ -2270,7 +2270,7 @@
   {
     "id": "V-VYoSKhj2Eqgl97r-nrV",
     "name": "Smart FM",
-    "streamUrl": "http://216.55.141.189:8066",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://216.55.141.189:8066",
     "frequency": 106.5,
     "address": "सूदुरपश्चिम प्रदेश डाेटी जिल्ला पुर्विचाैकी गाउँपालिक वडा नं ४ सानागाउँ डाेटी",
     "province": 7
@@ -2286,7 +2286,7 @@
   {
     "id": "GGiy1O69rAzJUGCewVwmK",
     "name": "Nepal Network",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": null,
     "address": "Kathmandu, Nepal",
     "province": 3
@@ -2294,7 +2294,7 @@
   {
     "id": "tPVh9rcGaaoBOlLm08fuc",
     "name": "Radio Baiteshwor",
-    "streamUrl": "http://streaming.hamropatro.com:8531",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8531",
     "frequency": 94.5,
     "address": "Baiteshwor Gaupalika -5 Mainapokhari Dolakha",
     "province": 3
@@ -2302,7 +2302,7 @@
   {
     "id": "nkq00ayLld3WgEPDd_ozC",
     "name": "Radio Janmabhumi",
-    "streamUrl": "http://streaming.hamropatro.com:8170",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8170",
     "frequency": null,
     "address": "Runtigadhi 06 - Holeri Nepal",
     "province": 5
@@ -2310,7 +2310,7 @@
   {
     "id": "h7_25zTBXa-1rY1oxqQgw",
     "name": "Radio Barsha",
-    "streamUrl": "http://streaming.hamropatro.com:8557",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8557",
     "frequency": 91.1,
     "address": "Malangawa -09 - Sarlahi Nepal",
     "province": 2
@@ -2326,7 +2326,7 @@
   {
     "id": "BzyU5KI5u-hUkr-VPmb3B",
     "name": "Rastriya Sandesh",
-    "streamUrl": "http://stream.zeno.fm/qe715t14gwzuv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/qe715t14gwzuv",
     "frequency": null,
     "address": "काठमाडौँ -३२, कोटेश्वोर, नेपाल",
     "province": 3
@@ -2334,7 +2334,7 @@
   {
     "id": "iLtein0dz8vk594gLoWUi",
     "name": "Radio Sanjiwani FM",
-    "streamUrl": "http://streaming.hamropatro.com:8252",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8252",
     "frequency": 91,
     "address": "Dang, Nepal",
     "province": 5
@@ -2342,7 +2342,7 @@
   {
     "id": "g1YFvS34ONe2d8lioyS7o",
     "name": "Radio Belaka FM",
-    "streamUrl": "http://streaming.hamropatro.com:8695",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8695",
     "frequency": 100.9,
     "address": "Belka Municipality 9 Rampur, Udayapur Nepal",
     "province": 1
@@ -2358,7 +2358,7 @@
   {
     "id": "RgjND9aNiETlV7lpcL_Pa",
     "name": "Online Radio Rangin",
-    "streamUrl": "http://stream.zeno.fm/6fdza6c95zhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/6fdza6c95zhvv",
     "frequency": null,
     "address": "Khairawang Media House Pvt.Ltd. Bagchaur Municipality-2, Salyan",
     "province": 6
@@ -2374,7 +2374,7 @@
   {
     "id": "P1Yq3d9f-eFqnjfB7UN5I",
     "name": "Radio Kapilvastu",
-    "streamUrl": "http://streaming.hamropatro.com:8108",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8108",
     "frequency": 104.2,
     "address": "Budhabhumi Municipality 10 , Kapilvastu",
     "province": 5
@@ -2382,7 +2382,7 @@
   {
     "id": "-8f747C82L_0iIA3o1dAG",
     "name": "ARK FM",
-    "streamUrl": "http://stream.zeno.fm/sxr8kkycjseuv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/sxr8kkycjseuv",
     "frequency": null,
     "address": "Pokhara, Kaski",
     "province": 4
@@ -2390,7 +2390,7 @@
   {
     "id": "aEF2s28I2YPA30TNUi17N",
     "name": "Dudhmati FM",
-    "streamUrl": "http://streaming.hamropatro.com:8038",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8038",
     "frequency": 104,
     "address": "Kshireshwarnath Mun-5, Mahendranagar, Dhanusha",
     "province": 2
@@ -2422,7 +2422,7 @@
   {
     "id": "cCluCbEnNG6IlC84fUBEL",
     "name": "Radio Mirmire",
-    "streamUrl": "http://streaming.hamropatro.com:8232",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8232",
     "frequency": 89.4,
     "address": "Anamnagar, Kathmandu Nepal",
     "province": 3
@@ -2430,7 +2430,7 @@
   {
     "id": "o81pljI1gZp3vgwb7U7eS",
     "name": "Myagdikali FM 88.2 Mhz",
-    "streamUrl": "http://streaming.hamropatro.com:8539",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8539",
     "frequency": 88.2,
     "address": "Beni Nagarpalika 07- Myagdi, Nepal",
     "province": 4
@@ -2438,7 +2438,7 @@
   {
     "id": "Vzq7ySvuvs3zqvcIAhREU",
     "name": "Radio Matribhumi",
-    "streamUrl": "http://streaming.hamropatro.com:8811",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8811",
     "frequency": 96.5,
     "address": "Narayan Municipality-06,Janakchowk Dailekha",
     "province": 6
@@ -2446,7 +2446,7 @@
   {
     "id": "0ZbpvB4iEi0ugic9O7Q23",
     "name": "Radio Sambriddhi",
-    "streamUrl": "http://streaming.hamropatro.com:8715",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8715",
     "frequency": 98.1,
     "address": "Resunga Municipality -1 Tamghas Gulmi.",
     "province": 5
@@ -2462,7 +2462,7 @@
   {
     "id": "Y-JnQff1CEzNXU9C0Jznx",
     "name": "Radio Juntara",
-    "streamUrl": "http://streaming.hamropatro.com:8791",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8791",
     "frequency": 103.4,
     "address": "Gaushala -05, Mahottari Nepal",
     "province": 2
@@ -2470,7 +2470,7 @@
   {
     "id": "yv-5--fc5kpNG2p_gvJ1M",
     "name": "Radio Sangeet",
-    "streamUrl": "http://streaming.softnep.net:8047",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.softnep.net:8047",
     "frequency": 92.4,
     "address": "Amarpath, Butwal",
     "province": 5
@@ -2478,7 +2478,7 @@
   {
     "id": "QXDGRIOzV0CHxuRRn4a-r",
     "name": "Maulapur FM",
-    "streamUrl": "http://streaming.hamropatro.com:8220",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8220",
     "frequency": 100.7,
     "address": "Maulapur Municipality - 5, Maulapur Rautahat",
     "province": 2
@@ -2494,7 +2494,7 @@
   {
     "id": "SjlzG__PXI-fROCSqnjA2",
     "name": "Radio King Fm",
-    "streamUrl": "http://streaming.hamropatro.com:8625",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8625",
     "frequency": 104.1,
     "address": "Damak, Jhapa",
     "province": 1
@@ -2502,7 +2502,7 @@
   {
     "id": "wCpPg3O5YSg1i02sAf5Qh",
     "name": "Radio Sajha Online",
-    "streamUrl": "http://streaming.hamropatro.com:8837",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8837",
     "frequency": null,
     "address": "Runtigadhi 7 Rolpa",
     "province": 5
@@ -2526,7 +2526,7 @@
   {
     "id": "GlF99z6RxTkoDzpGBW4cZ",
     "name": "Radio Menchhyayem",
-    "streamUrl": "http://streaming.hamropatro.com:8411",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8411",
     "frequency": 103.4,
     "address": "Myanglung Terhathum",
     "province": 1
@@ -2534,7 +2534,7 @@
   {
     "id": "QXf7riMAXbpowMJdnArJy",
     "name": "Radio Madhyapahad",
-    "streamUrl": "http://streaming.hamropatro.com:8815",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8815",
     "frequency": 88.2,
     "address": "Bagchaur Municipality, Salyan",
     "province": 6
@@ -2542,7 +2542,7 @@
   {
     "id": "CwR7fkeIkowVn-5_NON1H",
     "name": "Radio Chaurjahari",
-    "streamUrl": "http://streaming.hamropatro.com:8483",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8483",
     "frequency": 94.8,
     "address": "Chaurjahari Municipality,04- Rukum West",
     "province": 5
@@ -2550,7 +2550,7 @@
   {
     "id": "ipnOghfuKuex6yaUhcN6J",
     "name": "Radio Saligram",
-    "streamUrl": "http://streaming.hamropatro.com:8254",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8254",
     "frequency": 100.6,
     "address": "Kushma, Municipality 12 Parbat",
     "province": 4
@@ -2558,7 +2558,7 @@
   {
     "id": "Jxp88fLWlcqCsRipHfFkd",
     "name": "Radio Jugar FM",
-    "streamUrl": "http://streaming.hamropatro.com:8003/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8003/stream",
     "frequency": null,
     "address": "Tribeni Rural Municipality 05, Rolpa",
     "province": 5
@@ -2566,7 +2566,7 @@
   {
     "id": "aGeoKzfhmegR2_XCKOKpH",
     "name": "Radio Palung",
-    "streamUrl": "http://streaming.hamropatro.com:8084",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8084",
     "frequency": 107.2,
     "address": "Thaha Municipality-02, Makawanpur",
     "province": 3
@@ -2582,7 +2582,7 @@
   {
     "id": "48JNGy16D7tbbBQlBDthE",
     "name": "Radio Sunaulo FM",
-    "streamUrl": "http://streaming.hamropatro.com:8034",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8034",
     "frequency": 105.6,
     "address": "Main Road Masuriya ,Kailali",
     "province": 7
@@ -2606,7 +2606,7 @@
   {
     "id": "JBhiyrEsh0XkCQ9GvZKwQ",
     "name": "Radio Paschim Pokhara",
-    "streamUrl": "http://streaming.hamropatro.com:8012",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8012",
     "frequency": 107.9,
     "address": "Pokhara 25/14 Kaski Nepal",
     "province": 4
@@ -2654,7 +2654,7 @@
   {
     "id": "K-A-SIJv3jAn-KNG_4XkX",
     "name": "Radio Today",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 91,
     "address": "Dhanusa, Nepal",
     "province": 2
@@ -2662,7 +2662,7 @@
   {
     "id": "Fe8u31fW9nxvyCnL-VcK9",
     "name": "Radio Jaleshwarnath",
-    "streamUrl": "http://streaming.hamropatro.com:8647",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8647",
     "frequency": 90.4,
     "address": "Jaleshwar, Mahotthari Nepal",
     "province": 2
@@ -2670,7 +2670,7 @@
   {
     "id": "7oSMApScGgmJCd9TcCxN3",
     "name": "Geruwa FM",
-    "streamUrl": "http://streaming.hamropatro.com:8315",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8315",
     "frequency": 90.7,
     "address": "Geruwa Rural-Municipality-3, ShantiBazar, Bardiya",
     "province": 5
@@ -2685,7 +2685,7 @@
   {
     "id": "ZBBflfLOUA7c081JKb0p5",
     "name": "Chhathar Fm",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 95.3,
     "address": "Chhathar municipality-2, Sukrabare, Terhathum",
     "province": 1
@@ -2693,7 +2693,7 @@
   {
     "id": "4oMo8EfT66mSEBi0Dxey1",
     "name": "Radio Bhotewodar",
-    "streamUrl": "http://streaming.hamropatro.com:8381",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8381",
     "frequency": 90.8,
     "address": "Sundarbajar Municipality -09, Lamjung Nepal",
     "province": 4
@@ -2709,7 +2709,7 @@
   {
     "id": "7KbvuiYJ2Voqw5Fqp4fAO",
     "name": "Indreni FM",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 97.6,
     "address": "Birgunj-14, Shreepur, Parsa, Birgunj",
     "province": 2
@@ -2717,7 +2717,7 @@
   {
     "id": "J4xDqltsgqyd6wrcWq3HQ",
     "name": "Kirat Awaj",
-    "streamUrl": "http://stream.zeno.fm/cvmbonh20ymtv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/cvmbonh20ymtv",
     "frequency": null,
     "address": "Mangsebung 3,ilam, Nepal",
     "province": 1
@@ -2725,7 +2725,7 @@
   {
     "id": "xuuujFMIs0oV7jQC1S6C-",
     "name": "Radio Bhojpur FM",
-    "streamUrl": "http://live.itechnepal.com:9078/stream",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://live.itechnepal.com:9078/stream",
     "frequency": 93.8,
     "address": "Bhojpur, Nepal",
     "province": 1
@@ -2741,7 +2741,7 @@
   {
     "id": "M8F7CPuGv8FHknkvwfBTL",
     "name": "Radio Saugat",
-    "streamUrl": "http://stream.zeno.fm/nsxexttokuhvv",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://stream.zeno.fm/nsxexttokuhvv",
     "frequency": 88.1,
     "address": "Siraha, Lahan",
     "province": 2
@@ -2749,7 +2749,7 @@
   {
     "id": "YykERnzIjms97wZpM9pSc",
     "name": "Radio Sainamaina",
-    "streamUrl": "http://streaming.hamropatro.com:8030",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:8030",
     "frequency": 91,
     "address": "Sainamaina-8, Colouny. Rupandehi",
     "province": 5
@@ -2773,7 +2773,7 @@
   {
     "id": "TYFWMXhoznA7MEK1zCAMN",
     "name": "Radio Panini FM",
-    "streamUrl": "http://streaming.hamropatro.com:5505",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:5505",
     "frequency": 99.1,
     "address": "Panini Rural Municipality -03, Durgafant Media Chowk, Arghakhachi Nepal",
     "province": 5
@@ -2781,7 +2781,7 @@
   {
     "id": "Yr6Gh85ayyU08ozxP__qh",
     "name": "Radio Smart",
-    "streamUrl": "http://streaming.hamropatro.com:5517",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:5517",
     "frequency": 107.8,
     "address": "Barahathawa Municipality -5, Barahathawa Sarlahi",
     "province": 2
@@ -2789,7 +2789,7 @@
   {
     "id": "eTiGY_MJzv_Iq9tQr3owD",
     "name": "Radio Ghodaghodi FM",
-    "streamUrl": "http://streaming.hamropatro.com:5523",
+    "streamUrl": "https://radio-stream-proxy.onrender.com/stream?url=http://streaming.hamropatro.com:5523",
     "frequency": 88.3,
     "address": "Ghodaghodi Municipality-1 Sukhad Kailali",
     "province": 7
