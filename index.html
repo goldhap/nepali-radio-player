@@ -1,42 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ne">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>नेपाली रेडियो संग्रह</title>
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/nepali-radio-player/icons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/nepali-radio-player/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/nepali-radio-player/icons/favicon-16x16.png">
-  <link rel="manifest" href="/nepali-radio-player/site.webmanifest">
+  <!-- Favicons & Manifest -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/nepali-radio-player/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/nepali-radio-player/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/nepali-radio-player/icons/favicon-16x16.png" />
+  <link rel="manifest" href="/nepali-radio-player/site.webmanifest" />
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Nepali Radio">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Nepali Radio" />
+  <meta name="theme-color" content="#ffffff" />
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <header>
-    <h1>📻 🇳🇵नेपाली रेडियो संग्रह</h1>
+    <h1>📻 🇳🇵 नेपाली रेडियो संग्रह</h1>
   </header>
 
   <div class="sticky-bar">
-    <div class="player-controls">
-      <button class="control-btn" id="prevBtn">⏮️ Prev</button>
-      <button class="control-btn" id="playBtn">▶️ Play</button>
-      <button class="control-btn" id="pauseBtn">⏸️ Pause</button>
-      <button class="control-btn" id="nextBtn">⏭️ Next</button>
+    <div class="player-controls" role="group" aria-label="Player controls">
+      <button class="control-btn" id="prevBtn" aria-label="Previous Station">⏮️ Prev</button>
+      <button class="control-btn" id="playBtn" aria-label="Play">▶️ Play</button>
+      <button class="control-btn" id="pauseBtn" aria-label="Pause">⏸️ Pause</button>
+      <button class="control-btn" id="nextBtn" aria-label="Next Station">⏭️ Next</button>
     </div>
-    <input type="text" id="search" placeholder="🔍 Search your favorite station..." />
-    <div class="now-playing" id="nowPlaying">Not playing</div>
+    <input
+      type="search"
+      id="search"
+      placeholder="🔍 Search your favorite station..."
+      aria-label="Search stations"
+      autocomplete="off"
+    />
+    <div class="now-playing" id="nowPlaying" aria-live="polite" aria-atomic="true">Not playing</div>
   </div>
 
   <div class="credit">Made with ❤️ by <strong>Bali</strong></div>
-  <div id="stations"></div>
-  <audio id="player" controls></audio>
+  <div id="stations" aria-live="polite"></div>
 
-  <script src="radios.js"></script>
-  <script src="script.js"></script>
+  <audio id="player" style="display:none;"></audio>
+
+  <script src="./script.js" defer></script>
 </body>
 </html>

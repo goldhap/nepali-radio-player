@@ -7,12 +7,22 @@ const pauseBtn = document.getElementById("pauseBtn");
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 
+let radios = [];
 let currentStation = null;
 
-const repoName = "nepali-radio-player";
-const basePath = repoName ? `/${repoName}` : "";
+// Load stations from radios.json
+fetch("radios.json")
+  .then(res => res.json())
+  .then(data => {
+    radios = data;
+    renderStations();
+  })
+  .catch(err => {
+    console.error("Failed to load stations:", err);
+    stationsDiv.innerHTML = `<div class="error">⚠️ Failed to load stations</div>`;
+  });
 
-// Function to render stations list with logos
+// Render station list
 function renderStations(filter = "") {
   stationsDiv.innerHTML = "";
   radios
@@ -24,10 +34,10 @@ function renderStations(filter = "") {
 
       const logo = document.createElement("img");
       logo.className = "station-logo";
-      logo.src = `${basePath}/logo/${station.id}.jpg`;
+      logo.src = `logo/${station.id}.jpg`;
       logo.alt = `${station.name} logo`;
-      logo.onerror = function() {
-        this.src = `${basePath}/logo/default.jpg`;
+      logo.onerror = function () {
+        this.src = `logo/default.jpg`;
       };
 
       const nameSpan = document.createElement("span");
@@ -37,40 +47,35 @@ function renderStations(filter = "") {
       div.appendChild(logo);
       div.appendChild(nameSpan);
       div.onclick = () => playStation(station);
+
       stationsDiv.appendChild(div);
     });
 }
 
-// Function to play a specific station
+// Play selected station
 function playStation(station) {
-  try {
-    currentStation = station.name;
-    player.src = station.streamUrl;
-    player.play().catch(error => {
-      console.error("Error playing audio:", error);
-      nowPlaying.innerHTML = `<span class="error">Error: Unable to play ${station.name}</span>`;
-    });
+  currentStation = station.name;
+  player.src = station.streamUrl;
+  player.play().catch(err => {
+    console.error("Audio play error:", err);
+    nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}</span>`;
+  });
 
-    // Update Now Playing with name, address, and frequency (if available)
-    let nowPlayingContent = `<span class="now-playing-name">${station.name}</span>`;
-    if (station.address || station.frequency) {
-      const details = [];
-      if (station.address) details.push(station.address);
-      if (station.frequency) details.push(`${station.frequency}`);
-      nowPlayingContent += `<span class="now-playing-address">${details.join(' | ')}</span>`;
-    }
-    nowPlaying.innerHTML = nowPlayingContent;
-
-    renderStations(searchInput.value);
-    updateMediaSessionMetadata(station);
-    updateButtonStates();
-  } catch (error) {
-    console.error("Error in playStation:", error);
-    nowPlaying.innerHTML = `<span class="error">Error: Failed to load station</span>`;
+  let nowPlayingText = `<span class="now-playing-name">${station.name}</span>`;
+  const details = [];
+  if (station.address) details.push(station.address);
+  if (station.frequency) details.push(station.frequency);
+  if (details.length > 0) {
+    nowPlayingText += `<span class="now-playing-address">${details.join(" | ")}</span>`;
   }
+  nowPlaying.innerHTML = nowPlayingText;
+
+  renderStations(searchInput.value);
+  updateMediaSessionMetadata(station);
+  updateButtonStates();
 }
 
-// Function to play the next station
+// Play next station
 function playNextStation() {
   if (!currentStation || !radios.length) return;
   const currentIndex = radios.findIndex(r => r.name === currentStation);
@@ -78,7 +83,7 @@ function playNextStation() {
   playStation(radios[nextIndex]);
 }
 
-// Function to play the previous station
+// Play previous station
 function playPreviousStation() {
   if (!currentStation || !radios.length) return;
   const currentIndex = radios.findIndex(r => r.name === currentStation);
@@ -86,60 +91,7 @@ function playPreviousStation() {
   playStation(radios[prevIndex]);
 }
 
-// Function to update media session metadata
-function updateMediaSessionMetadata(station) {
-  if ('mediaSession' in navigator && station) {
-    try {
-      const metadata = {
-        title: station.name,
-        artist: "Nepali Radio",
-        album: "Live Streaming",
-        artwork: [
-          { 
-            src: `${basePath}/logo/${station.id}.jpg`, 
-            sizes: "96x96", 
-            type: "image/jpeg" 
-          },
-          { 
-            src: `${basePath}/logo/${station.id}.jpg`, 
-            sizes: "128x128", 
-            type: "image/jpeg" 
-          },
-          { 
-            src: `${basePath}/logo/default.jpg`, 
-            sizes: "96x96", 
-            type: "image/jpeg" 
-          }
-        ]
-      };
-
-      // Add address and frequency to metadata description if available
-      if (station.address || station.frequency) {
-        const details = [];
-        if (station.address) details.push(station.address);
-        if (station.frequency) details.push(`${station.frequency}`);
-        metadata.description = details.join(' | ');
-      }
-
-      navigator.mediaSession.metadata = new MediaMetadata(metadata);
-
-      navigator.mediaSession.setActionHandler("play", () => {
-        player.play().catch(error => console.error("Media play error:", error));
-        updateButtonStates();
-      });
-      navigator.mediaSession.setActionHandler("pause", () => {
-        player.pause();
-        updateButtonStates();
-      });
-      navigator.mediaSession.setActionHandler("previoustrack", playPreviousStation);
-      navigator.mediaSession.setActionHandler("nexttrack", playNextStation);
-    } catch (error) {
-      console.error("Error setting media session metadata:", error);
-    }
-  }
-}
-
-// Function to update play/pause button visibility
+// Update play/pause button visibility
 function updateButtonStates() {
   if (player.paused) {
     playBtn.style.display = "inline-flex";
@@ -150,14 +102,44 @@ function updateButtonStates() {
   }
 }
 
-// Event listeners for buttons
+// Set metadata for media session
+function updateMediaSessionMetadata(station) {
+  if ('mediaSession' in navigator) {
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: station.name,
+        artist: "Nepali Radio",
+        album: "Live Streaming",
+        artwork: [
+          { src: `logo/${station.id}.jpg`, sizes: "96x96", type: "image/jpeg" },
+          { src: `logo/default.jpg`, sizes: "96x96", type: "image/jpeg" }
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler("play", () => {
+        player.play();
+        updateButtonStates();
+      });
+      navigator.mediaSession.setActionHandler("pause", () => {
+        player.pause();
+        updateButtonStates();
+      });
+      navigator.mediaSession.setActionHandler("previoustrack", playPreviousStation);
+      navigator.mediaSession.setActionHandler("nexttrack", playNextStation);
+    } catch (e) {
+      console.warn("Media session error:", e);
+    }
+  }
+}
+
+// Event listeners
 playBtn.addEventListener("click", () => {
   if (currentStation) {
-    player.play().catch(error => console.error("Play error:", error));
-    updateButtonStates();
+    player.play();
   } else if (radios.length > 0) {
-    playStation(radios[0]); // Play first station if none selected
+    playStation(radios[0]);
   }
+  updateButtonStates();
 });
 
 pauseBtn.addEventListener("click", () => {
@@ -168,19 +150,9 @@ pauseBtn.addEventListener("click", () => {
 nextBtn.addEventListener("click", playNextStation);
 prevBtn.addEventListener("click", playPreviousStation);
 
-// Search input event listener
 searchInput.addEventListener("input", () => {
   renderStations(searchInput.value);
 });
 
-// Update button states on player events
 player.addEventListener("play", updateButtonStates);
 player.addEventListener("pause", updateButtonStates);
-
-// Initial rendering of stations
-renderStations();
-
-// Optionally play the first station on load
-if (radios.length > 0) {
-  // playStation(radios[0]); // Uncomment to auto-play first station
-}
