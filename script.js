@@ -10,6 +10,12 @@ const prevBtn = document.getElementById("prevBtn");
 let radios = [];
 let currentStation = null;
 
+// ✅ Proxy wrapper for HTTP streams
+function getSafeStreamUrl(url) {
+  if (url.startsWith("https://")) return url;
+  return `https://radio-stream-proxy-1.onrender.com/proxy?url=${encodeURIComponent(url)}`;
+}
+
 // Load stations from radios.json
 fetch("radios.json")
   .then(res => res.json())
