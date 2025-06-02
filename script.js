@@ -13,7 +13,7 @@ let currentStation = null;
 // ✅ Proxy wrapper for HTTP streams
 function getSafeStreamUrl(url) {
   if (url.startsWith("https://")) return url;
-  return `https://radio-stream-proxy-1.onrender.com/proxy?url=${encodeURIComponent(url)}`;
+  return `https://radio-stream-proxy-1.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
 }
 
 // Load stations from radios.json
@@ -61,7 +61,7 @@ function renderStations(filter = "") {
 // Play selected station
 function playStation(station) {
   currentStation = station.name;
-  player.src = station.streamUrl;
+  player.src = getSafeStreamUrl(station.streamUrl); // Use proxy only for HTTP streams
   player.play().catch(err => {
     console.error("Audio play error:", err);
     nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}</span>`;
