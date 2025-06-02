@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  backface-visibility: hidden;  /* helps prevent flicker on fast scroll */
 }
 
 body {
@@ -11,6 +12,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  -webkit-backface-visibility: hidden;  /* fix flicker on Safari/iOS */
 }
 
 header {
@@ -22,6 +24,7 @@ header {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   position: relative;
   overflow: hidden;
+  will-change: transform, opacity;  /* hint for smoother rendering */
 }
 
 header h1 {
@@ -44,6 +47,7 @@ header::before {
   background-size: 50%;
   opacity: 0.1;
   transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
 .sticky-bar {
@@ -57,6 +61,7 @@ header::before {
   flex-direction: column;
   align-items: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  will-change: transform;
 }
 
 .player-controls {
@@ -80,6 +85,7 @@ header::before {
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
+  backface-visibility: hidden;
 }
 
 .control-btn:hover {
@@ -103,6 +109,7 @@ header::before {
   color: #ffffff;
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
+  will-change: backdrop-filter;
 }
 
 #search::placeholder {
@@ -138,8 +145,8 @@ header::before {
   transition: all 0.3s ease;
   flex: 1 1 calc(50% - 0.25rem);
   box-sizing: border-box;
-  transform: translateZ(0);
   will-change: transform;
+  backface-visibility: hidden;
 }
 
 .station:hover {
@@ -194,7 +201,8 @@ header::before {
   max-width: 36rem;
   border: 1px solid rgba(178, 34, 34, 0.2);
   transition: all 0.3s ease;
-  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .now-playing:hover {
@@ -234,7 +242,7 @@ audio {
 
   .station {
     padding: 0.75rem 1rem;
-    flex: 1 1 100%; /* Single column on smaller screens */
+    flex: 1 1 100%;
   }
 
   .station-logo {
