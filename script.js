@@ -9,8 +9,10 @@ const prevBtn = document.getElementById("prevBtn");
 
 let radios = [];
 let currentStation = null;
+let isSwitching = false; // Flag to prevent rapid switching
+let debounceTimeout = null; // For debouncing station changes
 
-// ✅ Proxy wrapper for HTTP streams
+// Proxy wrapper for HTTP streams
 function getSafeStreamUrl(url) {
   if (url.startsWith("https://")) return url;
   return `https://radio-stream-proxy-1.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
@@ -58,14 +60,35 @@ function renderStations(filter = "") {
     });
 }
 
+// Debounce function to limit rapid calls
+function debounce(func, wait) {
+  return function (...args) {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
 // Play selected station
 function playStation(station) {
+  if (isSwitching || currentStation === station.name) return; // Prevent rapid switches or replaying same station
+  isSwitching = true;
+
+  // Reset audio player
+  player.pause();
+  player.src = ""; // Clear current source
   currentStation = station.name;
-  player.src = getSafeStreamUrl(station.streamUrl); // Use proxy only for HTTP streams
-  player.play().catch(err => {
-    console.error("Audio play error:", err);
-    nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}</span>`;
-  });
+  player.src = getSafeStreamUrl(station.streamUrl);
+
+  // Attempt to play with retry logic
+  const playAttempt = () => {
+    player.play().catch(err => {
+      console.error("Audio play error:", err);
+      nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Retrying...</span>`;
+      setTimeout(playAttempt, 1000); // Retry after 1 second
+    });
+  };
+
+  playAttempt();
 
   let nowPlayingText = `<span class="now-playing-name">${station.name}</span>`;
   const details = [];
@@ -79,6 +102,11 @@ function playStation(station) {
   renderStations(searchInput.value);
   updateMediaSessionMetadata(station);
   updateButtonStates();
+
+  // Reset switching flag after a short delay
+  setTimeout(() => {
+    isSwitching = false;
+  }, 500); // Adjust delay as needed
 }
 
 // Play next station
@@ -153,8 +181,12 @@ pauseBtn.addEventListener("click", () => {
   updateButtonStates();
 });
 
-nextBtn.addEventListener("click", playNextStation);
-prevBtn.addEventListener("click", playPreviousStation);
+// Debounce next/prev button clicks
+const debouncedNextStation = debounce(playNextStation, 500);
+const debouncedPrevStation = debounce(playPreviousStation, 500);
+
+nextBtn.addEventListener("click", debouncedNextStation);
+prevBtn.addEventListener("click", debouncedPrevStation);
 
 searchInput.addEventListener("input", () => {
   renderStations(searchInput.value);

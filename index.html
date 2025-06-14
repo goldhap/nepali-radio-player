@@ -1,48 +1,34 @@
 <!DOCTYPE html>
-<html lang="ne">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>नेपाली रेडियो संग्रह</title>
-
-  <!-- Favicons & Manifest -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/nepali-radio-player/icons/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/nepali-radio-player/icons/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/nepali-radio-player/icons/favicon-16x16.png" />
-  <link rel="manifest" href="/nepali-radio-player/site.webmanifest" />
-
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="Nepali Radio" />
-  <meta name="theme-color" content="#ffffff" />
-
-  <link rel="stylesheet" href="./style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📻 🇳🇵 नेपाली रेडियो संग्रह</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <h1>📻 🇳🇵 नेपाली रेडियो संग्रह</h1>
   </header>
 
-  <div class="sticky-bar">
-    <div class="player-controls" role="group" aria-label="Player controls">
-      <button class="control-btn" id="prevBtn" aria-label="Previous Station">⏮️ Prev</button>
-      <button class="control-btn" id="playBtn" aria-label="Play">▶️ Play</button>
-      <button class="control-btn" id="pauseBtn" aria-label="Pause">⏸️ Pause</button>
-      <button class="control-btn" id="nextBtn" aria-label="Next Station">⏭️ Next</button>
-    </div>
-    <input
-      type="search"
-      id="search"
-      placeholder="🔍 Search your favorite station..."
-      aria-label="Search stations"
-      autocomplete="off"
-    />
-    <div class="now-playing" id="nowPlaying" aria-live="polite" aria-atomic="true">Not playing</div>
+  <div class="notification">
+    ⚠️ This site uses a proxy to play some radio stations. It might take 30–50 seconds to cold start the station.
   </div>
 
-  <div class="credit">Made with ❤️ by <strong>Bali</strong></div>
-  <div id="stations" aria-live="polite"></div>
+  <div id="stations"></div>
 
-  <audio id="player" style="display:none;"></audio>
+  <div class="sticky-bar">
+    <div id="nowPlaying" class="now-playing"></div>
+    <input type="text" id="search" placeholder="Search stations...">
+    <div class="player-controls">
+      <button id="prevBtn" class="control-btn">⏮️ Prev</button>
+      <button id="playBtn" class="control-btn">▶️ Play</button>
+      <button id="pauseBtn" class="control-btn" style="display: none;">⏸️ Pause</button>
+      <button id="nextBtn" class="control-btn">⏭️ Next</button>
+    </div>
+  </div>
+
+  <audio id="player"></audio>
 
   <script src="./script.js" defer></script>
 </body>
