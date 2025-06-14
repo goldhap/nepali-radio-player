@@ -194,3 +194,21 @@ searchInput.addEventListener("input", () => {
 
 player.addEventListener("play", updateButtonStates);
 player.addEventListener("pause", updateButtonStates);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const stickyBar = document.querySelector(".sticky-bar");
+  let isScrolling;
+
+  // Detect scroll and hide sticky bar
+  window.addEventListener("scroll", () => {
+    stickyBar.classList.add("hidden"); // Hide sticky bar during scrolling
+
+    // Clear the timeout if scrolling continues
+    clearTimeout(isScrolling);
+
+    // Show sticky bar after scrolling stops
+    isScrolling = setTimeout(() => {
+      stickyBar.classList.remove("hidden"); // Show sticky bar after scrolling stops
+    }, 200); // Adjust delay as needed
+  });
+});
