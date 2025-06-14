@@ -201,6 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Detect scroll and hide sticky bar
   window.addEventListener("scroll", () => {
+    console.log("Scrolling detected"); // Debugging scroll detection
     stickyBar.classList.add("hidden"); // Hide sticky bar during scrolling
 
     // Clear the timeout if scrolling continues
@@ -208,6 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show sticky bar after scrolling stops
     isScrolling = setTimeout(() => {
+      console.log("Scrolling stopped"); // Debugging scroll stop
       stickyBar.classList.remove("hidden"); // Show sticky bar after scrolling stops
     }, 200); // Adjust delay as needed
   });
