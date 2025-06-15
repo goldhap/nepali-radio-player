@@ -62,6 +62,7 @@ function renderStations(filter = "") {
 
 // Debounce function to limit rapid calls
 function debounce(func, wait) {
+  let debounceTimeout;
   return function (...args) {
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => func.apply(this, args), wait);
