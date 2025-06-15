@@ -1,6 +1,7 @@
 const searchInput = document.getElementById("search");
 const stationsDiv = document.getElementById("stations");
 const player = document.getElementById("player");
+const playerSource = player.querySelector("source");
 const nowPlaying = document.getElementById("nowPlaying");
 const playBtn = document.getElementById("playBtn");
 const pauseBtn = document.getElementById("pauseBtn");
@@ -9,16 +10,13 @@ const prevBtn = document.getElementById("prevBtn");
 
 let radios = [];
 let currentStation = null;
-let isSwitching = false; // Flag to prevent rapid switching
-let debounceTimeout = null; // For debouncing station changes
+let isSwitching = false;
 
-// Proxy wrapper for HTTP streams
 function getSafeStreamUrl(url) {
   if (url.startsWith("https://")) return url;
   return `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
 }
 
-// Load stations from radios.json
 fetch("radios.json")
   .then(res => res.json())
   .then(data => {
@@ -30,7 +28,6 @@ fetch("radios.json")
     stationsDiv.innerHTML = `<div class="error">⚠️ Failed to load stations</div>`;
   });
 
-// Render station list
 function renderStations(filter = "") {
   stationsDiv.innerHTML = "";
   radios
@@ -60,7 +57,6 @@ function renderStations(filter = "") {
     });
 }
 
-// Debounce function to limit rapid calls
 function debounce(func, wait) {
   let debounceTimeout;
   return function (...args) {
@@ -69,27 +65,20 @@ function debounce(func, wait) {
   };
 }
 
-// Play selected station
 function playStation(station) {
-  if (isSwitching || currentStation === station.name) return; // Prevent rapid switches or replaying same station
+  if (isSwitching || currentStation === station.name) return;
   isSwitching = true;
 
-  // Reset audio player
   player.pause();
-  player.src = ""; // Clear current source
   currentStation = station.name;
-  player.src = getSafeStreamUrl(station.streamUrl);
+  playerSource.src = getSafeStreamUrl(station.streamUrl);
+  player.load();
 
-  // Attempt to play with retry logic
-  const playAttempt = () => {
-    player.play().catch(err => {
-      console.error("Audio play error:", err);
-      nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Retrying...</span>`;
-      setTimeout(playAttempt, 1000); // Retry after 1 second
-    });
-  };
-
-  playAttempt();
+  player.play().catch(err => {
+    console.error("Audio play error:", err);
+    nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Retrying...</span>`;
+    setTimeout(() => player.play().catch(() => {}), 1000);
+  });
 
   let nowPlayingText = `<span class="now-playing-name">${station.name}</span>`;
   const details = [];
@@ -104,13 +93,11 @@ function playStation(station) {
   updateMediaSessionMetadata(station);
   updateButtonStates();
 
-  // Reset switching flag after a short delay
   setTimeout(() => {
     isSwitching = false;
-  }, 500); // Adjust delay as needed
+  }, 500);
 }
 
-// Play next station
 function playNextStation() {
   if (!currentStation || !radios.length) return;
   const currentIndex = radios.findIndex(r => r.name === currentStation);
@@ -118,7 +105,6 @@ function playNextStation() {
   playStation(radios[nextIndex]);
 }
 
-// Play previous station
 function playPreviousStation() {
   if (!currentStation || !radios.length) return;
   const currentIndex = radios.findIndex(r => r.name === currentStation);
@@ -126,7 +112,6 @@ function playPreviousStation() {
   playStation(radios[prevIndex]);
 }
 
-// Update play/pause button visibility
 function updateButtonStates() {
   if (player.paused) {
     playBtn.style.display = "inline-flex";
@@ -137,7 +122,6 @@ function updateButtonStates() {
   }
 }
 
-// Set metadata for media session
 function updateMediaSessionMetadata(station) {
   if ('mediaSession' in navigator) {
     try {
@@ -167,7 +151,11 @@ function updateMediaSessionMetadata(station) {
   }
 }
 
-// Event listeners
+player.onerror = () => {
+  console.error("Player error:", player.error);
+  nowPlaying.innerHTML = `<span class="error">⚠️ Audio error: ${player.error?.message || 'unknown'}</span>`;
+};
+
 playBtn.addEventListener("click", () => {
   if (currentStation) {
     player.play();
@@ -182,7 +170,6 @@ pauseBtn.addEventListener("click", () => {
   updateButtonStates();
 });
 
-// Debounce next/prev button clicks
 const debouncedNextStation = debounce(playNextStation, 500);
 const debouncedPrevStation = debounce(playPreviousStation, 500);
 
@@ -200,18 +187,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const stickyBar = document.querySelector(".sticky-bar");
   let isScrolling;
 
-  // Detect scroll and hide sticky bar
   window.addEventListener("scroll", () => {
-    console.log("Scrolling detected"); // Debugging scroll detection
-    stickyBar.classList.add("hidden"); // Hide sticky bar during scrolling
-
-    // Clear the timeout if scrolling continues
+    stickyBar.classList.add("hidden");
     clearTimeout(isScrolling);
-
-    // Show sticky bar after scrolling stops
     isScrolling = setTimeout(() => {
-      console.log("Scrolling stopped"); // Debugging scroll stop
-      stickyBar.classList.remove("hidden"); // Show sticky bar after scrolling stops
-    }, 200); // Adjust delay as needed
+      stickyBar.classList.remove("hidden");
+    }, 200);
   });
 });
