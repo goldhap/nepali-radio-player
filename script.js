@@ -15,7 +15,7 @@ let debounceTimeout = null; // For debouncing station changes
 // Proxy wrapper for HTTP streams
 function getSafeStreamUrl(url) {
   if (url.startsWith("https://")) return url;
-  return `https://radio-stream-proxy-1.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
+  return `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
 }
 
 // Load stations from radios.json
