@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>📻 🇳🇵 नेपाली रेडियो संग्रह</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" type="image/png">
-  <link rel="icon" href="icons/favicon-32x32.png" sizes="32x32" type="image/png">
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="manifest" href="icons/site.webmanifest">  <link rel="icon" href="assets/favicon.ico" type="image/x-icon"> <!-- Favicon link -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" type="image/png" />
+  <link rel="icon" href="icons/favicon-32x32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="manifest" href="icons/site.webmanifest" />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <header>
@@ -23,7 +24,7 @@
 
   <div class="sticky-bar">
     <div id="nowPlaying" class="now-playing"></div>
-    <input type="text" id="search" placeholder="Search stations...">
+    <input type="text" id="search" placeholder="Search stations..." />
     <div class="player-controls">
       <button id="prevBtn" class="control-btn">⏮️ Prev</button>
       <button id="playBtn" class="control-btn">▶️ Play</button>
@@ -32,7 +33,10 @@
     </div>
   </div>
 
-  <audio id="player"></audio>
+  <audio id="player" controls preload="none">
+    <source type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
 
   <script src="./script.js" defer></script>
 </body>
