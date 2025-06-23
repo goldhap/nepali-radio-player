@@ -4,13 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>📻 🇳🇵 नेपाली रेडियो संग्रह</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" type="image/png" />
-  <link rel="icon" href="icons/favicon-32x32.png" sizes="32x32" type="image/png" />
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
-  <link rel="manifest" href="icons/site.webmanifest" />
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+
+  <!-- Favicon & Icons -->
+  <link rel="icon" href="/nepali-radio-player/icons/favicon-16x16.png" sizes="16x16" type="image/png" />
+  <link rel="icon" href="/nepali-radio-player/icons/favicon-32x32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/nepali-radio-player/icons/apple-touch-icon.png" />
+  <link rel="icon" href="/nepali-radio-player/assets/favicon.ico" type="image/x-icon" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/nepali-radio-player/site.webmanifest" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/nepali-radio-player/style.css" />
 </head>
+
 <body>
   <header>
     <h1>📻 🇳🇵 नेपाली रेडियो संग्रह</h1>
@@ -38,6 +46,19 @@
     Your browser does not support the audio element.
   </audio>
 
-  <script src="./script.js" defer></script>
+  <!-- Main Script -->
+  <script src="/nepali-radio-player/script.js" defer></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/nepali-radio-player/sw.js')
+          .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+          .catch(err => console.error('❌ Service Worker registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
