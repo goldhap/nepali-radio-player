@@ -70,26 +70,39 @@ function playStation(station) {
 
   currentStation = station.name;
 
-  // Show buffering text and reset player source
-  nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
+  showBuffering(station.name);
 
   player.pause();
   player.removeAttribute("src");
   player.load();
 
-  // Show Play button, hide Pause button to prompt user to tap Play
-  playBtn.style.display = "inline-flex";
-  pauseBtn.style.display = "none";
+  showPlayPrompt();
 
   renderStations(searchInput.value);
   updateMediaSessionMetadata(station);
   updateButtonStates();
 
-  setTimeout(() => {
+  // Listen for player readiness to clear switching flag
+  const onReady = () => {
     isSwitching = false;
-  }, 500);
+    player.removeEventListener('canplay', onReady);
+    // Optionally update UI here to show ready state
+  };
+  player.addEventListener('canplay', onReady);
 }
 
+function showBuffering(stationName) {
+  if (nowPlaying) {
+    nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${stationName}</span>`;
+  }
+}
+
+function showPlayPrompt() {
+  if (playBtn && pauseBtn) {
+    playBtn.style.display = "inline-flex";
+    pauseBtn.style.display = "none";
+  }
+}
 playBtn.addEventListener("click", () => {
   if (!currentStation) {
     if (radios.length > 0) {
