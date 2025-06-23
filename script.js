@@ -70,11 +70,11 @@ function playStation(station) {
 
   currentStation = station.name;
 
-  // Update UI to buffering and reset player
+  // Show buffering and reset audio element
   nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
 
   player.pause();
-  player.removeAttribute('src');
+  player.removeAttribute("src");
   player.load();
 
   renderStations(searchInput.value);
@@ -96,7 +96,6 @@ playBtn.addEventListener("click", () => {
     }
   }
 
-  // Assign stream src only on Play press if not already set
   if (!player.src) {
     const station = radios.find(r => r.name === currentStation);
     if (!station) {
@@ -107,12 +106,13 @@ playBtn.addEventListener("click", () => {
     player.src = getSafeStreamUrl(station.streamUrl);
     player.load();
 
+    player.play().catch(err => {
+      console.error("Play error:", err);
+      nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Retrying...</span>`;
+      setTimeout(() => player.play().catch(() => {}), 1000);
+    });
+
     player.oncanplay = () => {
-      player.play().catch(err => {
-        console.error("Play error:", err);
-        nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Retrying...</span>`;
-        setTimeout(() => player.play().catch(() => {}), 1000);
-      });
       nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
       updateButtonStates();
     };
@@ -157,7 +157,7 @@ function updateButtonStates() {
 }
 
 function updateMediaSessionMetadata(station) {
-  if ('mediaSession' in navigator) {
+  if ("mediaSession" in navigator) {
     try {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: station.name,
@@ -165,8 +165,8 @@ function updateMediaSessionMetadata(station) {
         album: "Live Streaming",
         artwork: [
           { src: `logo/${station.id}.jpg`, sizes: "96x96", type: "image/jpeg" },
-          { src: `logo/default.jpg`, sizes: "96x96", type: "image/jpeg" }
-        ]
+          { src: `logo/default.jpg`, sizes: "96x96", type: "image/jpeg" },
+        ],
       });
 
       navigator.mediaSession.setActionHandler("play", () => {
@@ -187,7 +187,9 @@ function updateMediaSessionMetadata(station) {
 
 player.onerror = () => {
   console.error("Player error:", player.error);
-  nowPlaying.innerHTML = `<span class="error">⚠️ Audio error: ${player.error?.message || 'unknown'}</span>`;
+  nowPlaying.innerHTML = `<span class="error">⚠️ Audio error: ${
+    player.error?.message || "unknown"
+  }</span>`;
 };
 
 const debouncedNextStation = debounce(playNextStation, 500);
