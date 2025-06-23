@@ -1,7 +1,6 @@
 const searchInput = document.getElementById("search");
 const stationsDiv = document.getElementById("stations");
 const player = document.getElementById("player");
-const playerSource = player.querySelector("source");
 const nowPlaying = document.getElementById("nowPlaying");
 const playBtn = document.getElementById("playBtn");
 const pauseBtn = document.getElementById("pauseBtn");
@@ -69,25 +68,14 @@ function playStation(station) {
   if (isSwitching || currentStation === station.name) return;
   isSwitching = true;
 
-  player.pause();
   currentStation = station.name;
-  playerSource.src = getSafeStreamUrl(station.streamUrl);
+
+  // Update UI to buffering and reset player
+  nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
+
+  player.pause();
+  player.removeAttribute('src');
   player.load();
-
-  player.play().catch(err => {
-    console.error("Audio play error:", err);
-    nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Retrying...</span>`;
-    setTimeout(() => player.play().catch(() => {}), 1000);
-  });
-
-  let nowPlayingText = `<span class="now-playing-name">${station.name}</span>`;
-  const details = [];
-  if (station.address) details.push(station.address);
-  if (station.frequency) details.push(station.frequency);
-  if (details.length > 0) {
-    nowPlayingText += `<span class="now-playing-address">${details.join(" | ")}</span>`;
-  }
-  nowPlaying.innerHTML = nowPlayingText;
 
   renderStations(searchInput.value);
   updateMediaSessionMetadata(station);
@@ -97,6 +85,52 @@ function playStation(station) {
     isSwitching = false;
   }, 500);
 }
+
+playBtn.addEventListener("click", () => {
+  if (!currentStation) {
+    if (radios.length > 0) {
+      playStation(radios[0]);
+    } else {
+      alert("No stations available to play.");
+      return;
+    }
+  }
+
+  // Assign stream src only on Play press if not already set
+  if (!player.src) {
+    const station = radios.find(r => r.name === currentStation);
+    if (!station) {
+      alert("Selected station not found.");
+      return;
+    }
+
+    player.src = getSafeStreamUrl(station.streamUrl);
+    player.load();
+
+    player.oncanplay = () => {
+      player.play().catch(err => {
+        console.error("Play error:", err);
+        nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Retrying...</span>`;
+        setTimeout(() => player.play().catch(() => {}), 1000);
+      });
+      nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
+      updateButtonStates();
+    };
+
+    player.onerror = () => {
+      nowPlaying.innerHTML = `<span class="error">⚠️ Audio error loading ${station.name}</span>`;
+      updateButtonStates();
+    };
+  } else {
+    player.play();
+    updateButtonStates();
+  }
+});
+
+pauseBtn.addEventListener("click", () => {
+  player.pause();
+  updateButtonStates();
+});
 
 function playNextStation() {
   if (!currentStation || !radios.length) return;
@@ -155,20 +189,6 @@ player.onerror = () => {
   console.error("Player error:", player.error);
   nowPlaying.innerHTML = `<span class="error">⚠️ Audio error: ${player.error?.message || 'unknown'}</span>`;
 };
-
-playBtn.addEventListener("click", () => {
-  if (currentStation) {
-    player.play();
-  } else if (radios.length > 0) {
-    playStation(radios[0]);
-  }
-  updateButtonStates();
-});
-
-pauseBtn.addEventListener("click", () => {
-  player.pause();
-  updateButtonStates();
-});
 
 const debouncedNextStation = debounce(playNextStation, 500);
 const debouncedPrevStation = debounce(playPreviousStation, 500);
