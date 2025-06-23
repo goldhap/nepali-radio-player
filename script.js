@@ -10,13 +10,14 @@ const prevBtn = document.getElementById("prevBtn");
 let radios = [];
 let currentStation = null;
 let isSwitching = false;
+player.volume = 1.0;
 
 function getSafeStreamUrl(url) {
   if (url.startsWith("https://")) return url;
   return `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
 }
 
-fetch("radios.json")
+fetch("/nepali-radio-player/radios.json")
   .then(res => res.json())
   .then(data => {
     radios = data;
@@ -29,31 +30,27 @@ fetch("radios.json")
 
 function renderStations(filter = "") {
   stationsDiv.innerHTML = "";
-  radios
-    .filter(station => station.name.toLowerCase().includes(filter.toLowerCase()))
-    .forEach(station => {
-      const div = document.createElement("div");
-      div.className = "station";
-      if (currentStation === station.name) div.classList.add("active");
+  radios.filter(station => station.name.toLowerCase().includes(filter.toLowerCase())).forEach(station => {
+    const div = document.createElement("div");
+    div.className = "station";
+    if (currentStation === station.name) div.classList.add("active");
 
-      const logo = document.createElement("img");
-      logo.className = "station-logo";
-      logo.src = `logo/${station.id}.jpg`;
-      logo.alt = `${station.name} logo`;
-      logo.onerror = function () {
-        this.src = `logo/default.jpg`;
-      };
+    const logo = document.createElement("img");
+    logo.className = "station-logo";
+    logo.src = `/nepali-radio-player/logo/${station.id}.jpg`;
+    logo.alt = `${station.name} logo`;
+    logo.onerror = () => { logo.src = `/nepali-radio-player/logo/default.jpg`; };
 
-      const nameSpan = document.createElement("span");
-      nameSpan.className = "station-name";
-      nameSpan.textContent = station.name;
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "station-name";
+    nameSpan.textContent = station.name;
 
-      div.appendChild(logo);
-      div.appendChild(nameSpan);
-      div.onclick = () => playStation(station);
+    div.appendChild(logo);
+    div.appendChild(nameSpan);
+    div.onclick = () => playStation(station);
 
-      stationsDiv.appendChild(div);
-    });
+    stationsDiv.appendChild(div);
+  });
 }
 
 function debounce(func, wait) {
@@ -67,7 +64,6 @@ function debounce(func, wait) {
 function playStation(station) {
   if (isSwitching || currentStation === station.name) return;
   isSwitching = true;
-
   currentStation = station.name;
 
   player.pause();
@@ -75,8 +71,8 @@ function playStation(station) {
   player.load();
 
   nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
-  updateMediaSessionMetadata(station);
   renderStations(searchInput.value);
+  updateMediaSessionMetadata(station);
 
   player.play()
     .then(() => {
@@ -84,62 +80,35 @@ function playStation(station) {
       updateButtonStates();
     })
     .catch((err) => {
-      console.warn("Autoplay blocked or error:", err);
-      nowPlaying.innerHTML = `
-        <span class="error">⚠️ Tap ▶️ Play to start: ${station.name}</span>
-      `;
+      console.warn("Playback blocked:", err);
+      nowPlaying.innerHTML = `<span class="error">⚠️ Tap ▶️ Play to start: ${station.name}</span>`;
       updateButtonStates();
     });
 
-  setTimeout(() => {
-    isSwitching = false;
-  }, 500);
+  setTimeout(() => { isSwitching = false; }, 500);
 }
 
-function showPlayPrompt() {
-  if (playBtn && pauseBtn) {
-    playBtn.style.display = "inline-flex";
-    pauseBtn.style.display = "none";
-  }
+function playNextStation() {
+  const i = radios.findIndex(r => r.name === currentStation);
+  if (i === -1) return;
+  playStation(radios[(i + 1) % radios.length]);
 }
+
+function playPreviousStation() {
+  const i = radios.findIndex(r => r.name === currentStation);
+  if (i === -1) return;
+  playStation(radios[(i - 1 + radios.length) % radios.length]);
+}
+
+function updateButtonStates() {
+  playBtn.style.display = player.paused ? "inline-flex" : "none";
+  pauseBtn.style.display = player.paused ? "none" : "inline-flex";
+}
+
 playBtn.addEventListener("click", () => {
-  if (!currentStation) {
-    if (radios.length > 0) {
-      playStation(radios[0]);
-    } else {
-      alert("No stations available to play.");
-      return;
-    }
-  }
-
-  if (!player.src) {
-    const station = radios.find(r => r.name === currentStation);
-    if (!station) {
-      alert("Selected station not found.");
-      return;
-    }
-
-    player.src = getSafeStreamUrl(station.streamUrl);
-    player.load();
-
-    player.play().catch(err => {
-      console.error("Play error:", err);
-      nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Please tap Play again.</span>`;
-    });
-
-    player.oncanplay = () => {
-      nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
-      updateButtonStates();
-    };
-
-    player.onerror = () => {
-      nowPlaying.innerHTML = `<span class="error">⚠️ Audio error loading ${station.name}</span>`;
-      updateButtonStates();
-    };
-  } else {
-    player.play();
-    updateButtonStates();
-  }
+  if (!currentStation && radios.length) playStation(radios[0]);
+  else player.play().catch(() => {});
+  updateButtonStates();
 });
 
 pauseBtn.addEventListener("click", () => {
@@ -147,75 +116,35 @@ pauseBtn.addEventListener("click", () => {
   updateButtonStates();
 });
 
-function playNextStation() {
-  if (!currentStation || !radios.length) return;
-  const currentIndex = radios.findIndex(r => r.name === currentStation);
-  const nextIndex = (currentIndex + 1) % radios.length;
-  playStation(radios[nextIndex]);
-}
-
-function playPreviousStation() {
-  if (!currentStation || !radios.length) return;
-  const currentIndex = radios.findIndex(r => r.name === currentStation);
-  const prevIndex = (currentIndex - 1 + radios.length) % radios.length;
-  playStation(radios[prevIndex]);
-}
-
-function updateButtonStates() {
-  if (player.paused) {
-    playBtn.style.display = "inline-flex";
-    pauseBtn.style.display = "none";
-  } else {
-    playBtn.style.display = "none";
-    pauseBtn.style.display = "inline-flex";
-  }
-}
-
 function updateMediaSessionMetadata(station) {
-  if ("mediaSession" in navigator) {
+  if ('mediaSession' in navigator) {
     try {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: station.name,
         artist: "Nepali Radio",
         album: "Live Streaming",
         artwork: [
-          { src: `logo/${station.id}.jpg`, sizes: "96x96", type: "image/jpeg" },
-          { src: `logo/default.jpg`, sizes: "96x96", type: "image/jpeg" },
-        ],
+          { src: `/nepali-radio-player/logo/${station.id}.jpg`, sizes: "96x96", type: "image/jpeg" },
+          { src: `/nepali-radio-player/logo/default.jpg`, sizes: "96x96", type: "image/jpeg" }
+        ]
       });
-
-      navigator.mediaSession.setActionHandler("play", () => {
-        player.play();
-        updateButtonStates();
-      });
-      navigator.mediaSession.setActionHandler("pause", () => {
-        player.pause();
-        updateButtonStates();
-      });
+      navigator.mediaSession.setActionHandler("play", () => player.play());
+      navigator.mediaSession.setActionHandler("pause", () => player.pause());
       navigator.mediaSession.setActionHandler("previoustrack", playPreviousStation);
       navigator.mediaSession.setActionHandler("nexttrack", playNextStation);
     } catch (e) {
-      console.warn("Media session error:", e);
+      console.warn("MediaSession error:", e);
     }
   }
 }
 
-player.onerror = () => {
-  console.error("Player error:", player.error);
-  nowPlaying.innerHTML = `<span class="error">⚠️ Audio error: ${
-    player.error?.message || "unknown"
-  }</span>`;
-};
+searchInput.addEventListener("input", () => renderStations(searchInput.value));
 
-const debouncedNextStation = debounce(playNextStation, 500);
-const debouncedPrevStation = debounce(playPreviousStation, 500);
+const debouncedNext = debounce(playNextStation, 500);
+const debouncedPrev = debounce(playPreviousStation, 500);
 
-nextBtn.addEventListener("click", debouncedNextStation);
-prevBtn.addEventListener("click", debouncedPrevStation);
-
-searchInput.addEventListener("input", () => {
-  renderStations(searchInput.value);
-});
+nextBtn.addEventListener("click", debouncedNext);
+prevBtn.addEventListener("click", debouncedPrev);
 
 player.addEventListener("play", updateButtonStates);
 player.addEventListener("pause", updateButtonStates);
@@ -223,12 +152,9 @@ player.addEventListener("pause", updateButtonStates);
 document.addEventListener("DOMContentLoaded", () => {
   const stickyBar = document.querySelector(".sticky-bar");
   let isScrolling;
-
   window.addEventListener("scroll", () => {
     stickyBar.classList.add("hidden");
     clearTimeout(isScrolling);
-    isScrolling = setTimeout(() => {
-      stickyBar.classList.remove("hidden");
-    }, 200);
+    isScrolling = setTimeout(() => stickyBar.classList.remove("hidden"), 200);
   });
 });
