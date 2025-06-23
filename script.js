@@ -70,12 +70,16 @@ function playStation(station) {
 
   currentStation = station.name;
 
-  // Show buffering and reset audio element
+  // Show buffering text and reset player source
   nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
 
   player.pause();
   player.removeAttribute("src");
   player.load();
+
+  // Show Play button, hide Pause button to prompt user to tap Play
+  playBtn.style.display = "inline-flex";
+  pauseBtn.style.display = "none";
 
   renderStations(searchInput.value);
   updateMediaSessionMetadata(station);
@@ -108,8 +112,7 @@ playBtn.addEventListener("click", () => {
 
     player.play().catch(err => {
       console.error("Play error:", err);
-      nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Retrying...</span>`;
-      setTimeout(() => player.play().catch(() => {}), 1000);
+      nowPlaying.innerHTML = `<span class="error">⚠️ Unable to play ${station.name}. Please tap Play again.</span>`;
     });
 
     player.oncanplay = () => {
