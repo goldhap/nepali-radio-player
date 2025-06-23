@@ -70,31 +70,30 @@ function playStation(station) {
 
   currentStation = station.name;
 
-  showBuffering(station.name);
-
   player.pause();
-  player.removeAttribute("src");
+  player.src = getSafeStreamUrl(station.streamUrl);
   player.load();
 
-  showPlayPrompt();
-
-  renderStations(searchInput.value);
+  nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
   updateMediaSessionMetadata(station);
-  updateButtonStates();
+  renderStations(searchInput.value);
 
-  // Listen for player readiness to clear switching flag
-  const onReady = () => {
+  player.play()
+    .then(() => {
+      nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
+      updateButtonStates();
+    })
+    .catch((err) => {
+      console.warn("Autoplay blocked or error:", err);
+      nowPlaying.innerHTML = `
+        <span class="error">⚠️ Tap ▶️ Play to start: ${station.name}</span>
+      `;
+      updateButtonStates();
+    });
+
+  setTimeout(() => {
     isSwitching = false;
-    player.removeEventListener('canplay', onReady);
-    // Optionally update UI here to show ready state
-  };
-  player.addEventListener('canplay', onReady);
-}
-
-function showBuffering(stationName) {
-  if (nowPlaying) {
-    nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${stationName}</span>`;
-  }
+  }, 500);
 }
 
 function showPlayPrompt() {
