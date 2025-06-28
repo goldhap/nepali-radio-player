@@ -12,12 +12,63 @@ let currentStation = null;
 let isSwitching = false;
 player.volume = 1.0;
 
+// iOS Audio Session Handling
+function setupIOSAudioSession() {
+  // Set audio session category for background playback
+  if (window.webkit && window.webkit.messageHandlers) {
+    // For WKWebView
+    window.webkit.messageHandlers.audioSession.postMessage({
+      action: 'setCategory',
+      category: 'playback'
+    });
+  }
+  
+  // Enable background audio
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', () => {
+      player.play().catch(console.error);
+    });
+    navigator.mediaSession.setActionHandler('pause', () => {
+      player.pause();
+    });
+    navigator.mediaSession.setActionHandler('previoustrack', playPreviousStation);
+    navigator.mediaSession.setActionHandler('nexttrack', playNextStation);
+  }
+  
+  // iOS specific audio settings
+  player.setAttribute('playsinline', 'true');
+  player.setAttribute('webkit-playsinline', 'true');
+  player.setAttribute('x-webkit-airplay', 'allow');
+  
+  // Prevent audio from being paused when app goes to background
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && !player.paused) {
+      // Keep audio playing in background
+      player.play().catch(console.error);
+    }
+  });
+  
+  // Handle page focus/blur events
+  window.addEventListener('focus', () => {
+    if (currentStation && player.paused) {
+      player.play().catch(console.error);
+    }
+  });
+  
+  window.addEventListener('blur', () => {
+    // Don't pause audio when app loses focus
+    if (currentStation && !player.paused) {
+      player.play().catch(console.error);
+    }
+  });
+}
+
 function getSafeStreamUrl(url) {
   if (url.startsWith("https://")) return url;
   return `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
 }
 
-fetch("/nepali-radio-player/radios.json")
+fetch("radios.json")
   .then(res => res.json())
   .then(data => {
     radios = data;
@@ -37,9 +88,9 @@ function renderStations(filter = "") {
 
     const logo = document.createElement("img");
     logo.className = "station-logo";
-    logo.src = `/nepali-radio-player/logo/${station.id}.jpg`;
+    logo.src = `logo/${station.id}.jpg`;
     logo.alt = `${station.name} logo`;
-    logo.onerror = () => { logo.src = `/nepali-radio-player/logo/default.jpg`; };
+    logo.onerror = () => { logo.src = `logo/default.jpg`; };
 
     const nameSpan = document.createElement("span");
     nameSpan.className = "station-name";
@@ -73,6 +124,9 @@ function playStation(station) {
   nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
   renderStations(searchInput.value);
   updateMediaSessionMetadata(station);
+
+  // iOS specific: Ensure audio session is set up
+  setupIOSAudioSession();
 
   player.play()
     .then(() => {
@@ -150,6 +204,9 @@ player.addEventListener("play", updateButtonStates);
 player.addEventListener("pause", updateButtonStates);
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize iOS audio session
+  setupIOSAudioSession();
+  
   const stickyBar = document.querySelector(".sticky-bar");
   let isScrolling;
   window.addEventListener("scroll", () => {

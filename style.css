@@ -37,6 +37,30 @@ header h1 {
   z-index: 1;
 }
 
+/* Flag waving animation - wind effect */
+.flag {
+  display: inline-block;
+  font-size: 2rem;
+  animation: flagWave 2s infinite ease-in-out;
+  transform-origin: left center;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Apply a delay for each character to mimic a wave going across fabric */
+.flag:nth-child(1) { animation-delay: 0s; }
+.flag:nth-child(2) { animation-delay: 0.1s; }
+.flag:nth-child(3) { animation-delay: 0.2s; }
+/* Add more if you split the flag into more parts */
+
+@keyframes flagWave {
+  0%   { transform: rotateZ(0deg) translateY(0px); }
+  25%  { transform: rotateZ(2deg) translateY(-2px); }
+  50%  { transform: rotateZ(0deg) translateY(2px); }
+  75%  { transform: rotateZ(-2deg) translateY(-2px); }
+  100% { transform: rotateZ(0deg) translateY(0px); }
+}
+
 header::before {
   content: '';
   position: absolute;
@@ -74,6 +98,31 @@ header::before {
   flex-wrap: wrap;
   justify-content: center;
   will-change: transform;
+}
+
+.player-controls button {
+  background: #003087;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  backface-visibility: hidden;
+}
+
+.player-controls button:hover {
+  background: #b22222;
+  transform: scale(1.05);
+}
+
+.player-controls button:active {
+  transform: scale(1);
 }
 
 .control-btn {
