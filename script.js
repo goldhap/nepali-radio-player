@@ -40,9 +40,22 @@ function setupIOSAudioSession() {
   player.setAttribute('webkit-playsinline', 'true');
   player.setAttribute('x-webkit-airplay', 'allow');
   
+  // iOS Safari requires user interaction before playing audio
+  let userInteracted = false;
+  
+  // Track user interaction
+  const trackUserInteraction = () => {
+    userInteracted = true;
+    document.removeEventListener('touchstart', trackUserInteraction);
+    document.removeEventListener('click', trackUserInteraction);
+  };
+  
+  document.addEventListener('touchstart', trackUserInteraction);
+  document.addEventListener('click', trackUserInteraction);
+  
   // Prevent audio from being paused when app goes to background
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden && !player.paused) {
+    if (document.hidden && !player.paused && userInteracted) {
       // Keep audio playing in background
       player.play().catch(console.error);
     }
@@ -50,17 +63,20 @@ function setupIOSAudioSession() {
   
   // Handle page focus/blur events
   window.addEventListener('focus', () => {
-    if (currentStation && player.paused) {
+    if (currentStation && player.paused && userInteracted) {
       player.play().catch(console.error);
     }
   });
   
   window.addEventListener('blur', () => {
     // Don't pause audio when app loses focus
-    if (currentStation && !player.paused) {
+    if (currentStation && !player.paused && userInteracted) {
       player.play().catch(console.error);
     }
   });
+  
+  // Return user interaction status
+  return () => userInteracted;
 }
 
 function getSafeStreamUrl(url) {
@@ -126,18 +142,28 @@ function playStation(station) {
   updateMediaSessionMetadata(station);
 
   // iOS specific: Ensure audio session is set up
-  setupIOSAudioSession();
+  const getUserInteractionStatus = setupIOSAudioSession();
 
-  player.play()
-    .then(() => {
-      nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
-      updateButtonStates();
-    })
-    .catch((err) => {
-      console.warn("Playback blocked:", err);
-      nowPlaying.innerHTML = `<span class="error">⚠️ Tap ▶️ Play to start: ${station.name}</span>`;
-      updateButtonStates();
-    });
+  // iOS Safari requires user interaction before playing audio
+  const attemptPlay = () => {
+    player.play()
+      .then(() => {
+        nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
+        updateButtonStates();
+      })
+      .catch((err) => {
+        console.warn("Playback blocked:", err);
+        if (err.name === 'NotAllowedError') {
+          nowPlaying.innerHTML = `<span class="error">⚠️ Tap the play button to start: ${station.name}</span>`;
+        } else {
+          nowPlaying.innerHTML = `<span class="error">⚠️ Error playing: ${station.name}</span>`;
+        }
+        updateButtonStates();
+      });
+  };
+
+  // Try to play immediately, but handle iOS restrictions
+  attemptPlay();
 
   setTimeout(() => { isSwitching = false; }, 500);
 }
@@ -203,9 +229,33 @@ prevBtn.addEventListener("click", debouncedPrev);
 player.addEventListener("play", updateButtonStates);
 player.addEventListener("pause", updateButtonStates);
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Initialize iOS audio session
+// iOS Audio Initialization
+function initIOSAudio() {
+  // Create a silent audio context to unlock audio on iOS
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (AudioContext) {
+    const audioContext = new AudioContext();
+    
+    // Unlock audio context on user interaction
+    const unlockAudio = () => {
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      document.removeEventListener('touchstart', unlockAudio);
+      document.removeEventListener('click', unlockAudio);
+    };
+    
+    document.addEventListener('touchstart', unlockAudio);
+    document.addEventListener('click', unlockAudio);
+  }
+  
+  // Set up iOS audio session
   setupIOSAudioSession();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize iOS audio
+  initIOSAudio();
   
   const stickyBar = document.querySelector(".sticky-bar");
   let isScrolling;
