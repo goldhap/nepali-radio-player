@@ -100,29 +100,54 @@ header::before {
   will-change: transform;
 }
 
-.player-controls button {
-  background: #003087;
-  color: #ffffff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-  backface-visibility: hidden;
+/* Specific button styling for player controls */
+.player-controls button,
+#playBtn,
+#pauseBtn,
+#prevBtn,
+#nextBtn {
+  background: #003087 !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 9999px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  transition: all 0.3s ease !important;
+  backface-visibility: hidden !important;
+  font-family: inherit !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-.player-controls button:hover {
-  background: #b22222;
-  transform: scale(1.05);
+.player-controls button:hover,
+#playBtn:hover,
+#pauseBtn:hover,
+#prevBtn:hover,
+#nextBtn:hover {
+  background: #b22222 !important;
+  transform: scale(1.05) !important;
 }
 
-.player-controls button:active {
-  transform: scale(1);
+.player-controls button:active,
+#playBtn:active,
+#pauseBtn:active,
+#prevBtn:active,
+#nextBtn:active {
+  transform: scale(1) !important;
+}
+
+.player-controls button:focus,
+#playBtn:focus,
+#pauseBtn:focus,
+#prevBtn:focus,
+#nextBtn:focus {
+  outline: 2px solid #b22222 !important;
+  outline-offset: 2px !important;
 }
 
 .control-btn {
