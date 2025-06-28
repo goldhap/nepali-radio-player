@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,46 +14,46 @@
   <link rel="manifest" href="/nepali-radio-player/site.webmanifest" />
   <meta name="theme-color" content="#ffffff" />
 
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <header>
-    <h1>
-      <span class="flag">🇳🇵</span> नेपाली रेडियो संग्रह
-    </h1>
- </h1>
+    <h1><span class="flag">🇳🇵</span> नेपाली रेडियो संग्रह</h1>
   </header>
 
   <div class="notification">
     ⚠️ This site uses a proxy to play some radio stations. It might take 30–50 seconds to cold start.
   </div>
 
-  <div id="stations"></div>
+  <main>
+    <div id="stations" class="stations-container"></div>
+  </main>
 
   <div class="sticky-bar">
-    <div id="nowPlaying" class="now-playing"></div>
+    <div id="nowPlaying" class="now-playing">🎵 Now Playing: </div>
     <div class="player-controls">
-      <button id="prevBtn">⏮️ Prev</button>
-      <button id="playPauseBtn">▶️ Play</button>
-      <button id="nextBtn">⏭️ Next</button>
+      <button id="prevBtn" aria-label="Previous Station">⏮️ Prev</button>
+      <button id="playPauseBtn" aria-label="Play or Pause">▶️ Play</button>
+      <button id="nextBtn" aria-label="Next Station">⏭️ Next</button>
     </div>
-    <input type="text" id="search" placeholder="Search stations..." />
+    <input type="text" id="search" placeholder="Search stations..." aria-label="Search stations" />
   </div>
 
   <audio 
     id="player" 
-    controls 
     preload="none" 
     playsinline 
-    webkit-playsinline
+    webkit-playsinline 
     x-webkit-airplay="allow"
-    style="width: 100%; height: 40px;"
+    style="width: 100%; height: 40px; display: none;"
   ></audio>
 
-  <!-- Fixed script tag -->
+  <!-- Main Script -->
   <script src="script.js" defer></script>
 
+  <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
