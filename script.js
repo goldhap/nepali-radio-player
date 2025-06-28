@@ -2,94 +2,98 @@ let searchInput, stationsDiv, player, nowPlaying, playPauseBtn, nextBtn, prevBtn
 let radios = [];
 let currentStation = null;
 let isSwitching = false;
-player.volume = 1.0;
 
-// iOS Audio Session Handling
+// Setup iOS Audio Session
 function setupIOSAudioSession() {
-  // Set audio session category for background playback
-  if (window.webkit && window.webkit.messageHandlers) {
-    // For WKWebView
+  if (window.webkit?.messageHandlers?.audioSession) {
     window.webkit.messageHandlers.audioSession.postMessage({
       action: 'setCategory',
-      category: 'playback'
+      category: 'playback',
     });
   }
-  
-  // Enable background audio
+
   if ('mediaSession' in navigator) {
-    navigator.mediaSession.setActionHandler('play', () => {
-      player.play().catch(console.error);
-    });
-    navigator.mediaSession.setActionHandler('pause', () => {
-      player.pause();
-    });
+    navigator.mediaSession.setActionHandler('play', () => player.play().catch(console.error));
+    navigator.mediaSession.setActionHandler('pause', () => player.pause());
     navigator.mediaSession.setActionHandler('previoustrack', playPreviousStation);
     navigator.mediaSession.setActionHandler('nexttrack', playNextStation);
   }
-  
-  // iOS specific audio settings
+
   player.setAttribute('playsinline', 'true');
   player.setAttribute('webkit-playsinline', 'true');
   player.setAttribute('x-webkit-airplay', 'allow');
-  
-  // iOS Safari requires user interaction before playing audio
+
   let userInteracted = false;
-  
-  // Track user interaction
+
   const trackUserInteraction = () => {
     userInteracted = true;
     document.removeEventListener('touchstart', trackUserInteraction);
     document.removeEventListener('click', trackUserInteraction);
   };
-  
+
   document.addEventListener('touchstart', trackUserInteraction);
   document.addEventListener('click', trackUserInteraction);
-  
-  // Prevent audio from being paused when app goes to background
+
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && !player.paused && userInteracted) {
-      // Keep audio playing in background
       player.play().catch(console.error);
     }
   });
-  
-  // Handle page focus/blur events
+
   window.addEventListener('focus', () => {
     if (currentStation && player.paused && userInteracted) {
       player.play().catch(console.error);
     }
   });
-  
+
   window.addEventListener('blur', () => {
-    // Don't pause audio when app loses focus
     if (currentStation && !player.paused && userInteracted) {
       player.play().catch(console.error);
     }
   });
-  
-  // Return user interaction status
+
   return () => userInteracted;
 }
 
-function getSafeStreamUrl(url) {
-  if (url.startsWith("https://")) return url;
-  return `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
+function initIOSAudio() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (AudioContext) {
+    const audioContext = new AudioContext();
+    const unlockAudio = () => {
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      document.removeEventListener('touchstart', unlockAudio);
+      document.removeEventListener('click', unlockAudio);
+    };
+    document.addEventListener('touchstart', unlockAudio);
+    document.addEventListener('click', unlockAudio);
+  }
+
+  setupIOSAudioSession();
 }
 
-fetch("radios.json")
-  .then(res => res.json())
-  .then(data => {
-    radios = data;
-    renderStations();
-  })
-  .catch(err => {
-    console.error("Failed to load stations:", err);
-    stationsDiv.innerHTML = `<div class="error">⚠️ Failed to load stations</div>`;
-  });
+function getSafeStreamUrl(url) {
+  return url.startsWith("https://")
+    ? url
+    : `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
+}
 
 function renderStations(filter = "") {
+  if (!stationsDiv) return;
+
+  const filteredStations = radios.filter(station =>
+    station.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
   stationsDiv.innerHTML = "";
-  radios.filter(station => station.name.toLowerCase().includes(filter.toLowerCase())).forEach(station => {
+
+  if (filteredStations.length === 0) {
+    stationsDiv.innerHTML = `<div class="error">⚠️ No stations found</div>`;
+    return;
+  }
+
+  filteredStations.forEach((station) => {
     const div = document.createElement("div");
     div.className = "station";
     if (currentStation === station.name) div.classList.add("active");
@@ -98,7 +102,9 @@ function renderStations(filter = "") {
     logo.className = "station-logo";
     logo.src = `logo/${station.id}.jpg`;
     logo.alt = `${station.name} logo`;
-    logo.onerror = () => { logo.src = `logo/default.jpg`; };
+    logo.onerror = () => {
+      logo.src = `logo/default.jpg`;
+    };
 
     const nameSpan = document.createElement("span");
     nameSpan.className = "station-name";
@@ -113,10 +119,10 @@ function renderStations(filter = "") {
 }
 
 function debounce(func, wait) {
-  let debounceTimeout;
-  return function (...args) {
-    clearTimeout(debounceTimeout);
-    debounceTimeout = setTimeout(() => func.apply(this, args), wait);
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
   };
 }
 
@@ -132,30 +138,20 @@ function playStation(station) {
   nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
   renderStations(searchInput.value);
   updateMediaSessionMetadata(station);
+  setupIOSAudioSession();
 
-  // iOS specific: Ensure audio session is set up
-  const getUserInteractionStatus = setupIOSAudioSession();
-
-  // iOS Safari requires user interaction before playing audio
-  const attemptPlay = () => {
-    player.play()
-      .then(() => {
-        nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
-        updateButtonStates();
-      })
-      .catch((err) => {
-        console.warn("Playback blocked:", err);
-        if (err.name === 'NotAllowedError') {
-          nowPlaying.innerHTML = `<span class="error">⚠️ Tap the play button to start: ${station.name}</span>`;
-        } else {
-          nowPlaying.innerHTML = `<span class="error">⚠️ Error playing: ${station.name}</span>`;
-        }
-        updateButtonStates();
-      });
-  };
-
-  // Try to play immediately, but handle iOS restrictions
-  attemptPlay();
+  player.play()
+    .then(() => {
+      nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
+      updateButtonStates();
+    })
+    .catch(err => {
+      const msg = err.name === 'NotAllowedError'
+        ? `⚠️ Tap to play: ${station.name}`
+        : `⚠️ Error playing: ${station.name}`;
+      nowPlaying.innerHTML = `<span class="error">${msg}</span>`;
+      updateButtonStates();
+    });
 
   setTimeout(() => { isSwitching = false; }, 500);
 }
@@ -173,13 +169,8 @@ function playPreviousStation() {
 }
 
 function updateButtonStates() {
-  if (playPauseBtn) {
-    if (player.paused) {
-      playPauseBtn.innerHTML = "▶️ Play";
-    } else {
-      playPauseBtn.innerHTML = "⏸️ Pause";
-    }
-  }
+  if (!playPauseBtn) return;
+  playPauseBtn.innerHTML = player.paused ? "▶️ Play" : "⏸️ Pause";
 }
 
 function updateMediaSessionMetadata(station) {
@@ -194,42 +185,13 @@ function updateMediaSessionMetadata(station) {
           { src: `/nepali-radio-player/logo/default.jpg`, sizes: "96x96", type: "image/jpeg" }
         ]
       });
-      navigator.mediaSession.setActionHandler("play", () => player.play());
-      navigator.mediaSession.setActionHandler("pause", () => player.pause());
-      navigator.mediaSession.setActionHandler("previoustrack", playPreviousStation);
-      navigator.mediaSession.setActionHandler("nexttrack", playNextStation);
     } catch (e) {
-      console.warn("MediaSession error:", e);
+      console.warn("MediaSession metadata error:", e);
     }
   }
 }
 
-// iOS Audio Initialization
-function initIOSAudio() {
-  // Create a silent audio context to unlock audio on iOS
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (AudioContext) {
-    const audioContext = new AudioContext();
-    
-    // Unlock audio context on user interaction
-    const unlockAudio = () => {
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-      document.removeEventListener('touchstart', unlockAudio);
-      document.removeEventListener('click', unlockAudio);
-    };
-    
-    document.addEventListener('touchstart', unlockAudio);
-    document.addEventListener('click', unlockAudio);
-  }
-  
-  // Set up iOS audio session
-  setupIOSAudioSession();
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize elements
   searchInput = document.getElementById("search");
   stationsDiv = document.getElementById("stations");
   player = document.getElementById("player");
@@ -238,73 +200,46 @@ document.addEventListener("DOMContentLoaded", () => {
   nextBtn = document.getElementById("nextBtn");
   prevBtn = document.getElementById("prevBtn");
 
-  // Debug: Check if elements are found
-  console.log('Elements found:', {
-    searchInput: !!searchInput,
-    stationsDiv: !!stationsDiv,
-    player: !!player,
-    nowPlaying: !!nowPlaying,
-    playPauseBtn: !!playPauseBtn,
-    nextBtn: !!nextBtn,
-    prevBtn: !!prevBtn
-  });
+  if (player) player.volume = 1.0;
 
-  // Set player volume
-  if (player) {
-    player.volume = 1.0;
-  }
+  fetch("radios.json")
+    .then(res => res.json())
+    .then(data => {
+      radios = data;
+      renderStations();
+    })
+    .catch(err => {
+      stationsDiv.innerHTML = `<div class="error">⚠️ Failed to load stations: ${err.message}</div>`;
+    });
 
-  // Set up play/pause button
   if (playPauseBtn) {
     playPauseBtn.addEventListener("click", () => {
-      console.log('Play/Pause button clicked');
       if (player.paused) {
-        if (!currentStation && radios.length) playStation(radios[0]);
-        else player.play().catch((err) => {
-          console.error('Play failed:', err);
-        });
+        currentStation ? player.play() : playStation(radios[0]);
       } else {
         player.pause();
       }
       updateButtonStates();
     });
-  } else {
-    console.error('playPauseBtn not found!');
   }
 
-  // Set up other button listeners
-  if (nextBtn) {
-    const debouncedNext = debounce(playNextStation, 500);
-    nextBtn.addEventListener("click", debouncedNext);
-  }
-
-  if (prevBtn) {
-    const debouncedPrev = debounce(playPreviousStation, 500);
-    prevBtn.addEventListener("click", debouncedPrev);
-  }
-
-  // Set up search
-  if (searchInput) {
-    searchInput.addEventListener("input", () => renderStations(searchInput.value));
-  }
-
-  // Set up player events
+  if (nextBtn) nextBtn.addEventListener("click", debounce(playNextStation, 500));
+  if (prevBtn) prevBtn.addEventListener("click", debounce(playPreviousStation, 500));
+  if (searchInput) searchInput.addEventListener("input", () => renderStations(searchInput.value));
   if (player) {
     player.addEventListener("play", updateButtonStates);
     player.addEventListener("pause", updateButtonStates);
   }
 
-  // Initialize iOS audio
   initIOSAudio();
-  
-  // Set up sticky bar
+
   const stickyBar = document.querySelector(".sticky-bar");
   if (stickyBar) {
-    let isScrolling;
+    let timeout;
     window.addEventListener("scroll", () => {
       stickyBar.classList.add("hidden");
-      clearTimeout(isScrolling);
-      isScrolling = setTimeout(() => stickyBar.classList.remove("hidden"), 200);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => stickyBar.classList.remove("hidden"), 200);
     });
   }
 });
