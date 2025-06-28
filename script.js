@@ -1,4 +1,13 @@
-let searchInput, stationsDiv, player, nowPlaying, playPauseBtn, nextBtn, prevBtn;
+// Element selections
+const searchInput = document.getElementById("search");
+const stationsDiv = document.getElementById("stations");
+const player = document.getElementById("player");
+const nowPlaying = document.getElementById("nowPlaying");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+
+// Global variables
 let radios = [];
 let currentStation = null;
 let isSwitching = false;
@@ -192,14 +201,6 @@ function updateMediaSessionMetadata(station) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  searchInput = document.getElementById("search");
-  stationsDiv = document.getElementById("stations");
-  player = document.getElementById("player");
-  nowPlaying = document.getElementById("nowPlaying");
-  playPauseBtn = document.getElementById("playPauseBtn");
-  nextBtn = document.getElementById("nextBtn");
-  prevBtn = document.getElementById("prevBtn");
-
   if (player) player.volume = 1.0;
 
   fetch("radios.json")
