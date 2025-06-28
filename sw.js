@@ -13,68 +13,72 @@ const urlsToCache = [
   OFFLINE_URL
 ];
 
+// Install event - cache files
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
+      .then(() => self.skipWaiting())
   );
 });
 
+// Activate event - clean old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+      )
+    ).then(() => self.clients.claim())
+  );
+});
+
+// Fetch event - Cache-first strategy except for audio streams & proxy URLs
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  
-  // Skip audio streams, proxy URLs, and external resources
+
   if (
     event.request.destination === 'audio' ||
     url.href.includes('radio-stream') ||
     url.href.includes('.mp3') ||
     url.href.includes('.m3u') ||
-    url.href.includes('stream') // generic stream keyword
+    url.href.includes('stream')
   ) {
-    return; // Let browser handle these requests natively
+    // Bypass SW for streaming audio URLs
+    return;
   }
 
-  // ✅ Otherwise: Cache-first strategy
+  // For navigation requests, fallback to offline page if offline
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(OFFLINE_URL))
+    );
+    return;
+  }
+
+  // For other requests, use cache-first strategy
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+    caches.match(event.request).then(cachedResponse => {
+      return cachedResponse || fetch(event.request);
     })
   );
 });
 
-// Background sync for failed requests
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-radio-data') {
-    event.waitUntil(
-      fetch('radios.json')
-        .then(response => response.json())
-        .then(data => {
-          caches.open(CACHE_NAME)
-            .then(cache => cache.put('radios.json', new Response(JSON.stringify(data))));
-        })
-    );
-  }
-});
-
-// Background sync for failed requests
+// Background Sync for updating radios.json
 self.addEventListener('sync', (event) => {
   if (event.tag === 'sync-radio-data') {
     event.waitUntil(
       fetch('/nepali-radio-player/radios.json')
         .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Failed to fetch radios.json');
+          if (!response.ok) throw new Error('Failed to fetch radios.json');
+          return response.json();
         })
-        .then(data => {
-          return caches.open(CACHE_NAME)
-            .then(cache => cache.put('/nepali-radio-player/radios.json', new Response(JSON.stringify(data))));
-        })
-        .catch(err => {
-          console.log('Background sync failed:', err);
-        })
+        .then(data =>
+          caches.open(CACHE_NAME).then(cache =>
+            cache.put('/nepali-radio-player/radios.json', new Response(JSON.stringify(data)))
+          )
+        )
+        .catch(err => console.log('Background sync failed:', err))
     );
   }
 });
