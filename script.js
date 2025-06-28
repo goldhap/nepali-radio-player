@@ -2,8 +2,7 @@ const searchInput = document.getElementById("search");
 const stationsDiv = document.getElementById("stations");
 const player = document.getElementById("player");
 const nowPlaying = document.getElementById("nowPlaying");
-const playBtn = document.getElementById("playBtn");
-const pauseBtn = document.getElementById("pauseBtn");
+const playPauseBtn = document.getElementById("playPauseBtn");
 const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 
@@ -181,18 +180,20 @@ function playPreviousStation() {
 }
 
 function updateButtonStates() {
-  playBtn.style.display = player.paused ? "inline-flex" : "none";
-  pauseBtn.style.display = player.paused ? "none" : "inline-flex";
+  if (player.paused) {
+    playPauseBtn.innerHTML = "▶️ Play";
+  } else {
+    playPauseBtn.innerHTML = "⏸️ Pause";
+  }
 }
 
-playBtn.addEventListener("click", () => {
-  if (!currentStation && radios.length) playStation(radios[0]);
-  else player.play().catch(() => {});
-  updateButtonStates();
-});
-
-pauseBtn.addEventListener("click", () => {
-  player.pause();
+playPauseBtn.addEventListener("click", () => {
+  if (player.paused) {
+    if (!currentStation && radios.length) playStation(radios[0]);
+    else player.play().catch(() => {});
+  } else {
+    player.pause();
+  }
   updateButtonStates();
 });
 

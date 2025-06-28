@@ -93,61 +93,74 @@ header::before {
 
 .player-controls {
   display: flex;
-  gap: 0.75rem;
-  margin: 0.5rem 0;
-  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
   justify-content: center;
-  will-change: transform;
+  align-items: center;
 }
 
-/* Specific button styling for player controls */
+/* Simple, clean button design */
 .player-controls button,
-#playBtn,
-#pauseBtn,
+#playPauseBtn,
 #prevBtn,
 #nextBtn {
-  background: #003087 !important;
+  background: #2c2c2c !important;
   color: #ffffff !important;
-  border: none !important;
-  padding: 0.75rem 1.5rem !important;
-  border-radius: 9999px !important;
-  font-size: 1rem !important;
-  font-weight: 500 !important;
+  border: 1px solid #444 !important;
+  border-radius: 8px !important;
+  font-size: 0.9rem !important;
   cursor: pointer !important;
-  display: inline-flex !important;
+  display: flex !important;
   align-items: center !important;
-  gap: 0.5rem !important;
-  transition: all 0.3s ease !important;
-  backface-visibility: hidden !important;
-  font-family: inherit !important;
+  justify-content: center !important;
+  padding: 0.75rem 1rem !important;
+  transition: all 0.2s ease !important;
   outline: none !important;
-  box-shadow: none !important;
+  min-width: 3rem !important;
+  height: 2.5rem !important;
+}
+
+/* Play/Pause button - same styling */
+#playPauseBtn {
+  background: #003087 !important;
+  border-color: #0044cc !important;
+  min-width: 4rem !important;
 }
 
 .player-controls button:hover,
-#playBtn:hover,
-#pauseBtn:hover,
 #prevBtn:hover,
 #nextBtn:hover {
-  background: #b22222 !important;
-  transform: scale(1.05) !important;
+  background: #444 !important;
+  border-color: #666 !important;
+}
+
+#playPauseBtn:hover {
+  background: #0044cc !important;
+  border-color: #0055dd !important;
 }
 
 .player-controls button:active,
-#playBtn:active,
-#pauseBtn:active,
+#playPauseBtn:active,
 #prevBtn:active,
 #nextBtn:active {
-  transform: scale(1) !important;
+  transform: translateY(1px) !important;
 }
 
 .player-controls button:focus,
-#playBtn:focus,
-#pauseBtn:focus,
+#playPauseBtn:focus,
 #prevBtn:focus,
 #nextBtn:focus {
   outline: 2px solid #b22222 !important;
   outline-offset: 2px !important;
+}
+
+/* Keep text labels for better UX */
+.player-controls button span,
+#playPauseBtn span,
+#prevBtn span,
+#nextBtn span {
+  display: inline !important;
+  margin-left: 0.25rem !important;
 }
 
 .control-btn {
