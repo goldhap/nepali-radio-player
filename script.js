@@ -1,11 +1,4 @@
-const searchInput = document.getElementById("search");
-const stationsDiv = document.getElementById("stations");
-const player = document.getElementById("player");
-const nowPlaying = document.getElementById("nowPlaying");
-const playPauseBtn = document.getElementById("playPauseBtn");
-const nextBtn = document.getElementById("nextBtn");
-const prevBtn = document.getElementById("prevBtn");
-
+let searchInput, stationsDiv, player, nowPlaying, playPauseBtn, nextBtn, prevBtn;
 let radios = [];
 let currentStation = null;
 let isSwitching = false;
@@ -180,22 +173,14 @@ function playPreviousStation() {
 }
 
 function updateButtonStates() {
-  if (player.paused) {
-    playPauseBtn.innerHTML = "▶️ Play";
-  } else {
-    playPauseBtn.innerHTML = "⏸️ Pause";
+  if (playPauseBtn) {
+    if (player.paused) {
+      playPauseBtn.innerHTML = "▶️ Play";
+    } else {
+      playPauseBtn.innerHTML = "⏸️ Pause";
+    }
   }
 }
-
-playPauseBtn.addEventListener("click", () => {
-  if (player.paused) {
-    if (!currentStation && radios.length) playStation(radios[0]);
-    else player.play().catch(() => {});
-  } else {
-    player.pause();
-  }
-  updateButtonStates();
-});
 
 function updateMediaSessionMetadata(station) {
   if ('mediaSession' in navigator) {
@@ -218,17 +203,6 @@ function updateMediaSessionMetadata(station) {
     }
   }
 }
-
-searchInput.addEventListener("input", () => renderStations(searchInput.value));
-
-const debouncedNext = debounce(playNextStation, 500);
-const debouncedPrev = debounce(playPreviousStation, 500);
-
-nextBtn.addEventListener("click", debouncedNext);
-prevBtn.addEventListener("click", debouncedPrev);
-
-player.addEventListener("play", updateButtonStates);
-player.addEventListener("pause", updateButtonStates);
 
 // iOS Audio Initialization
 function initIOSAudio() {
@@ -255,14 +229,82 @@ function initIOSAudio() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize elements
+  searchInput = document.getElementById("search");
+  stationsDiv = document.getElementById("stations");
+  player = document.getElementById("player");
+  nowPlaying = document.getElementById("nowPlaying");
+  playPauseBtn = document.getElementById("playPauseBtn");
+  nextBtn = document.getElementById("nextBtn");
+  prevBtn = document.getElementById("prevBtn");
+
+  // Debug: Check if elements are found
+  console.log('Elements found:', {
+    searchInput: !!searchInput,
+    stationsDiv: !!stationsDiv,
+    player: !!player,
+    nowPlaying: !!nowPlaying,
+    playPauseBtn: !!playPauseBtn,
+    nextBtn: !!nextBtn,
+    prevBtn: !!prevBtn
+  });
+
+  // Set player volume
+  if (player) {
+    player.volume = 1.0;
+  }
+
+  // Set up play/pause button
+  if (playPauseBtn) {
+    playPauseBtn.addEventListener("click", () => {
+      console.log('Play/Pause button clicked');
+      if (player.paused) {
+        if (!currentStation && radios.length) playStation(radios[0]);
+        else player.play().catch((err) => {
+          console.error('Play failed:', err);
+        });
+      } else {
+        player.pause();
+      }
+      updateButtonStates();
+    });
+  } else {
+    console.error('playPauseBtn not found!');
+  }
+
+  // Set up other button listeners
+  if (nextBtn) {
+    const debouncedNext = debounce(playNextStation, 500);
+    nextBtn.addEventListener("click", debouncedNext);
+  }
+
+  if (prevBtn) {
+    const debouncedPrev = debounce(playPreviousStation, 500);
+    prevBtn.addEventListener("click", debouncedPrev);
+  }
+
+  // Set up search
+  if (searchInput) {
+    searchInput.addEventListener("input", () => renderStations(searchInput.value));
+  }
+
+  // Set up player events
+  if (player) {
+    player.addEventListener("play", updateButtonStates);
+    player.addEventListener("pause", updateButtonStates);
+  }
+
   // Initialize iOS audio
   initIOSAudio();
   
+  // Set up sticky bar
   const stickyBar = document.querySelector(".sticky-bar");
-  let isScrolling;
-  window.addEventListener("scroll", () => {
-    stickyBar.classList.add("hidden");
-    clearTimeout(isScrolling);
-    isScrolling = setTimeout(() => stickyBar.classList.remove("hidden"), 200);
-  });
+  if (stickyBar) {
+    let isScrolling;
+    window.addEventListener("scroll", () => {
+      stickyBar.classList.add("hidden");
+      clearTimeout(isScrolling);
+      isScrolling = setTimeout(() => stickyBar.classList.remove("hidden"), 200);
+    });
+  }
 });
