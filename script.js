@@ -1,12 +1,12 @@
-// Nepali Radio Player - Fully Rewritten Script.js
-
 let searchInput, stationsDiv, player, nowPlaying, playPauseBtn, nextBtn, prevBtn;
 let radios = [];
 let currentStation = null;
 let isSwitching = false;
 
 function getSafeStreamUrl(url) {
-  return url.startsWith("https://") ? url : `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
+  return url.startsWith("https://")
+    ? url
+    : `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
 }
 
 function renderStations(filter = "") {
