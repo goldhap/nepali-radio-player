@@ -57,11 +57,18 @@ function debounce(func, wait) {
 }
 
 function playStation(station) {
-  if (isSwitching || currentStation === station.name) return;
+  if (currentStation === station.name) return;
+
+  // Always allow switching if a station is currently playing or buffering
+  // Reset isSwitching at the start of a new play attempt
   isSwitching = true;
   currentStation = station.name;
 
   player.pause();
+  // Attempt to stop the player if a stop method exists, for more immediate halt
+  if (typeof player.stop === 'function') {
+    player.stop();
+  }
   player.src = getSafeStreamUrl(station.streamUrl);
   player.load();
 
@@ -70,16 +77,19 @@ function playStation(station) {
   updateMediaSessionMetadata(station);
   setupIOSAudioSession();
 
-  player.play().finally(() => {
-    setTimeout(() => {
-      if (!player.paused) {
-        nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
-      } else {
-        nowPlaying.innerHTML = `<span class="error">⚠️ Tap play to start: ${station.name}</span>`;
-      }
-      updateButtonStates();
-      isSwitching = false;
-    }, 300);
+  player.play().then(() => {
+    // Only set now playing if still the current station and not paused by another action
+    if (currentStation === station.name && !player.paused) {
+      nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
+    }
+  }).catch(error => {
+    console.error("Error playing station:", error);
+    if (currentStation === station.name) { // Only update if still on the same station
+      nowPlaying.innerHTML = `<span class="error">⚠️ Play failed: ${station.name}. Tap play to retry.</span>`;
+    }
+  }).finally(() => {
+    updateButtonStates();
+    isSwitching = false;
   });
 }
 
