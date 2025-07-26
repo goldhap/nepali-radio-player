@@ -56,11 +56,27 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For other requests, use cache-first strategy
+  // For other requests, use a network-first strategy with cache fallback
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      return cachedResponse || fetch(event.request);
-    })
+    fetch(event.request)
+      .then(response => {
+        // If the request is successful, cache the new response
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseToCache);
+        });
+        return response;
+      })
+      .catch(() => {
+        // If network fails, try to serve from cache
+        return caches.match(event.request).then(cachedResponse => {
+          // If no cached response and it's a navigation request, serve offline page
+          if (!cachedResponse && event.request.mode === 'navigate') {
+            return caches.match(OFFLINE_URL);
+          }
+          return cachedResponse;
+        });
+      })
   );
 });
 
