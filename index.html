@@ -4,62 +4,100 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Nepali Radio" />
   <title>📻 🇳🇵 नेपाली रेडियो संग्रह</title>
 
-  <!-- Icons -->
   <link rel="icon" href="/nepali-radio-player/icons/favicon-32x32.png" type="image/png" />
   <link rel="apple-touch-icon" href="/nepali-radio-player/icons/apple-touch-icon.png" />
   <link rel="manifest" href="/nepali-radio-player/site.webmanifest" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#0f172a" />
 
-  <!-- Styles -->
- <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <header>
-    <h1><span class="flag">🇳🇵</span> नेपाली रेडियो संग्रह</h1>
-  </header>
+  <div class="app-layout">
+    
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <h1><span class="flag">🇳🇵</span> रेडियो संग्रह</h1>
+        <div class="search-container">
+          <i class="fas fa-search"></i>
+          <input type="text" id="search" placeholder="Search stations..." />
+        </div>
+      </header>
+      
+      <div id="stations" class="stations-container">
+          </div>
 
-  <div class="notification">
-    ⚠️ some radio station are wraped with proxy. It might take 30–50 seconds to cold start.
+      <div class="proxy-note">
+        <p>⚠️ Proxy streams may take 30-50s to start.</p>
+      </div>
+    </aside>
+
+    <main class="player-hero">
+      <div class="now-playing-container">
+        <div class="artwork-card">
+          <img id="main-logo" src="./logo/default.jpg" alt="Station Logo">
+          <div class="wave-animation" id="visualizer">
+              <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        
+        <div class="station-info">
+          <h2 id="nowPlayingName">Select a Station</h2>
+          <p id="nowPlayingLocation">Ready to play</p>
+        </div>
+
+        <div class="eq-container">
+          <div class="eq-slider">
+            <label for="bassSlider">Bass</label>
+            <input type="range" id="bassSlider" min="-10" max="10" value="0">
+          </div>
+          <div class="eq-slider">
+            <label for="midSlider">Mid</label>
+            <input type="range" id="midSlider" min="-10" max="10" value="0">
+          </div>
+          <div class="eq-slider">
+            <label for="trebleSlider">Treble</label>
+            <input type="range" id="trebleSlider" min="-10" max="10" value="0">
+          </div>
+        </div>
+
+        <div class="main-controls">
+          <button id="prevBtn" class="nav-btn"><i class="fas fa-step-backward"></i></button>
+          
+          <button id="playPauseBtn" class="play-trigger" aria-label="Play/Pause">
+            <i id="playIcon" class="fas fa-play"></i>
+          </button>
+          
+          <button id="nextBtn" class="nav-btn"><i class="fas fa-step-forward"></i></button>
+        </div>
+
+        <div class="volume-box">
+          <i class="fas fa-volume-low"></i>
+          <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8">
+          <i class="fas fa-volume-high"></i>
+        </div>
+      </div>
+    </main>
+
   </div>
 
-  <main>
-    <div id="stations" class="stations-container"></div>
-  </main>
+  <audio id="player" preload="none" playsinline></audio>
 
-  <div class="sticky-bar">
-    <div id="nowPlaying" class="now-playing">🎵 Now Playing: </div>
-    <div class="player-controls">
-      <button id="prevBtn" aria-label="Previous Station">⏮️ Prev</button>
-      <button id="playPauseBtn" aria-label="Play or Pause">▶️ Play</button>
-      <button id="nextBtn" aria-label="Next Station">⏭️ Next</button>
-    </div>
-    <input type="text" id="search" placeholder="Search stations..." aria-label="Search stations" />
-  </div>
+  <script src="script.js" defer></script>
 
-  <audio 
-    id="player" 
-    preload="none" 
-    playsinline 
-    webkit-playsinline 
-    x-webkit-airplay="allow"
-    style="width: 100%; height: 40px; display: none;"
-  ></audio>
-
-  <!-- Main Script -->
- <script src="script.js" defer></script>
-
-  <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/nepali-radio-player/sw.js')
-          .then(reg => console.log('✅ Service Worker registered:', reg.scope))
-          .catch(err => console.error('❌ SW registration failed:', err));
+          .then(reg => console.log('✅ SW Registered'))
+          .catch(err => console.error('❌ SW Failed', err));
       });
     }
   </script>

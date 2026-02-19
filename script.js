@@ -1,203 +1,254 @@
-let searchInput, stationsDiv, player, nowPlaying, playPauseBtn, nextBtn, prevBtn;
+/**
+ * Nepali Radio Player - Core Logic
+ * Includes: Web Audio API Equalizer, Proxy Stream Support, and Media Session API
+ */
+
+let searchInput, stationsDiv, player, playPauseBtn, nextBtn, prevBtn;
+let nowPlayingName, nowPlayingLocation, mainLogo;
 let radios = [];
 let currentStation = null;
-let isSwitching = false;
 
+// --- EQ & WEB AUDIO VARIABLES ---
+let audioCtx, source, bassFilter, midFilter, trebleFilter;
+let isAudioContextInitialized = false;
+
+/**
+ * Initializes the Audio Context and EQ Filter Chain
+ * Mandatory to run after a user gesture (click)
+ */
+function initEqualizer() {
+  if (isAudioContextInitialized) return;
+
+  try {
+    // 1. Initialize Context
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // 2. Create Source from <audio> element
+    // Ensure the audio element has crossOrigin set to "anonymous" in HTML or via JS
+    player.crossOrigin = "anonymous";
+    source = audioCtx.createMediaElementSource(player);
+
+    // 3. Create EQ Filters
+    // Bass (Lowshelf: frequencies below 200Hz)
+    bassFilter = audioCtx.createBiquadFilter();
+    bassFilter.type = "lowshelf";
+    bassFilter.frequency.value = 200;
+
+    // Mid (Peaking: frequencies around 1000Hz)
+    midFilter = audioCtx.createBiquadFilter();
+    midFilter.type = "peaking";
+    midFilter.frequency.value = 1000;
+    midFilter.Q.value = 1;
+
+    // Treble (Highshelf: frequencies above 3000Hz)
+    trebleFilter = audioCtx.createBiquadFilter();
+    trebleFilter.type = "highshelf";
+    trebleFilter.frequency.value = 3000;
+
+    // 4. Connect the Chain: Source -> Bass -> Mid -> Treble -> Speakers
+    source.connect(bassFilter);
+    bassFilter.connect(midFilter);
+    midFilter.connect(trebleFilter);
+    trebleFilter.connect(audioCtx.destination);
+
+    isAudioContextInitialized = true;
+    console.log("Audio Pipeline Connected");
+  } catch (e) {
+    console.warn("Web Audio API blocked or not supported:", e);
+  }
+}
+
+
+
+/**
+ * Helper: Routes non-HTTPS streams through a proxy to prevent Mixed Content errors
+ */
 function getSafeStreamUrl(url) {
+  if (!url) return "";
   return url.startsWith("https://")
     ? url
     : `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
 }
 
+/**
+ * Renders the sidebar station list
+ */
 function renderStations(filter = "") {
   if (!stationsDiv) return;
 
-  const filteredStations = radios.filter(station =>
-    station.name.toLowerCase().includes(filter.toLowerCase())
+  const filtered = radios.filter(s =>
+    s.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   stationsDiv.innerHTML = "";
 
-  if (filteredStations.length === 0) {
-    stationsDiv.innerHTML = `<div class="error">⚠️ No matching stations</div>`;
+  if (filtered.length === 0) {
+    stationsDiv.innerHTML = `<div class="error-msg">No stations found</div>`;
     return;
   }
 
-  filteredStations.forEach(station => {
+  filtered.forEach(station => {
     const div = document.createElement("div");
-    div.className = "station";
-    if (currentStation === station.name) div.classList.add("active");
+    div.className = "station-card";
+    if (currentStation && currentStation.id === station.id) div.classList.add("active");
 
-    const logo = document.createElement("img");
-    logo.className = "station-logo";
-    logo.src = `./logo/${station.id}.jpg`;
-    logo.alt = `${station.name} logo`;
-    logo.onerror = () => {
-      logo.src = `./logo/default.jpg`;
-    };
+    div.innerHTML = `
+      <img src="./logo/${station.id}.jpg" onerror="this.src='./logo/default.jpg'" alt="">
+      <div class="station-card-info">
+        <span class="name">${station.name}</span>
+        <span class="location">${station.location || 'Nepal'}</span>
+      </div>
+    `;
 
-    const nameSpan = document.createElement("span");
-    nameSpan.className = "station-name";
-    nameSpan.textContent = station.name;
-
-    div.appendChild(logo);
-    div.appendChild(nameSpan);
     div.onclick = () => playStation(station);
-
     stationsDiv.appendChild(div);
   });
 }
 
-function debounce(func, wait) {
-  let timeout;
-  return function (...args) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func.apply(this, args), wait);
-  };
-}
-
+/**
+ * Core Playback Logic
+ */
 function playStation(station) {
-  if (currentStation === station.name) return;
+  // 1. Initialize Audio Context on first play
+  initEqualizer();
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
-  // Always allow switching if a station is currently playing or buffering
-  // Reset isSwitching at the start of a new play attempt
-  isSwitching = true;
-  currentStation = station.name;
+  if (currentStation && currentStation.id === station.id && !player.paused) return;
 
+  currentStation = station;
+
+  // 2. UI Updates
+  mainLogo.src = `./logo/${station.id}.jpg`;
+  mainLogo.onerror = () => { mainLogo.src = `./logo/default.jpg`; };
+  nowPlayingName.textContent = station.name;
+  nowPlayingLocation.textContent = "Connecting...";
+  
+  const artwork = document.querySelector('.artwork-card');
+  artwork.classList.add('loading');
+  artwork.classList.remove('playing');
+
+  // 3. Audio Stream Handling
   player.pause();
-  // Attempt to stop the player if a stop method exists, for more immediate halt
-  if (typeof player.stop === 'function') {
-    player.stop();
-  }
   player.src = getSafeStreamUrl(station.streamUrl);
   player.load();
 
-  nowPlaying.innerHTML = `<span class="now-playing-name">⏳ Buffering: ${station.name}</span>`;
-  renderStations(searchInput.value);
-  updateMediaSessionMetadata(station);
-  setupIOSAudioSession();
-
   player.play().then(() => {
-    // Only set now playing if still the current station and not paused by another action
-    if (currentStation === station.name && !player.paused) {
-      nowPlaying.innerHTML = `<span class="now-playing-name">▶️ Now Playing: ${station.name}</span>`;
-    }
-  }).catch(error => {
-    console.error("Error playing station:", error);
-    if (currentStation === station.name) { // Only update if still on the same station
-      nowPlaying.innerHTML = `<span class="error">⚠️ Play failed: ${station.name}. Tap play to retry.</span>`;
-    }
-  }).finally(() => {
-    updateButtonStates();
-    isSwitching = false;
+    nowPlayingLocation.textContent = "Live • " + (station.location || "Nepal");
+    artwork.classList.remove('loading');
+    artwork.classList.add('playing');
+  }).catch(err => {
+    console.error("Playback Error:", err);
+    nowPlayingLocation.textContent = "⚠️ Stream Offline";
+    artwork.classList.remove('loading');
   });
+
+  renderStations(searchInput.value);
+  updateMediaSession(station);
 }
 
-function playNextStation() {
-  const i = radios.findIndex(r => r.name === currentStation);
-  if (i !== -1) playStation(radios[(i + 1) % radios.length]);
-}
-
-function playPreviousStation() {
-  const i = radios.findIndex(r => r.name === currentStation);
-  if (i !== -1) playStation(radios[(i - 1 + radios.length) % radios.length]);
-}
-
+/**
+ * UI & Media Controls
+ */
 function updateButtonStates() {
-  if (!playPauseBtn || !player) return;
-  playPauseBtn.innerHTML = player.paused ? "▶️ Play" : "⏸️ Pause";
+  const icon = document.getElementById("playIcon");
+  const artwork = document.querySelector('.artwork-card');
+  
+  if (player.paused) {
+    icon.className = "fas fa-play";
+    artwork.classList.remove('playing');
+  } else {
+    icon.className = "fas fa-pause";
+    artwork.classList.add('playing');
+  }
 }
 
-function updateMediaSessionMetadata(station) {
+function updateMediaSession(station) {
   if ('mediaSession' in navigator) {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: station.name,
-      artist: "Nepali Radio",
-      album: "Live Streaming",
-      artwork: [
-        { src: `./logo/${station.id}.jpg`, sizes: "96x96", type: "image/jpeg" },
-        { src: `./logo/default.jpg`, sizes: "96x96", type: "image/jpeg" }
-      ]
+      artist: "Nepali Radio Collection",
+      artwork: [{ src: `./logo/${station.id}.jpg`, sizes: "512x512", type: "image/jpeg" }]
     });
     navigator.mediaSession.setActionHandler("play", () => player.play());
     navigator.mediaSession.setActionHandler("pause", () => player.pause());
-    navigator.mediaSession.setActionHandler("previoustrack", playPreviousStation);
-    navigator.mediaSession.setActionHandler("nexttrack", playNextStation);
+    navigator.mediaSession.setActionHandler("previoustrack", () => {
+        let i = radios.findIndex(r => r.id === currentStation?.id);
+        playStation(radios[(i - 1 + radios.length) % radios.length]);
+    });
+    navigator.mediaSession.setActionHandler("nexttrack", () => {
+        let i = radios.findIndex(r => r.id === currentStation?.id);
+        playStation(radios[(i + 1) % radios.length]);
+    });
   }
 }
 
-function setupIOSAudioSession() {
-  player.setAttribute('playsinline', 'true');
-  player.setAttribute('webkit-playsinline', 'true');
-  player.setAttribute('x-webkit-airplay', 'allow');
-
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (AudioContext) {
-    const ctx = new AudioContext();
-    const unlock = () => {
-      if (ctx.state === 'suspended') ctx.resume();
-      document.removeEventListener('click', unlock);
-      document.removeEventListener('touchstart', unlock);
-    };
-    document.addEventListener('click', unlock);
-    document.addEventListener('touchstart', unlock);
-  }
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && !player.paused) player.play().catch(() => {});
-  });
-
-  window.addEventListener('focus', () => {
-    if (currentStation && player.paused) player.play().catch(() => {});
-  });
-}
-
+/**
+ * Initialization & Event Listeners
+ */
 document.addEventListener("DOMContentLoaded", () => {
   searchInput = document.getElementById("search");
   stationsDiv = document.getElementById("stations");
   player = document.getElementById("player");
-  nowPlaying = document.getElementById("nowPlaying");
   playPauseBtn = document.getElementById("playPauseBtn");
   nextBtn = document.getElementById("nextBtn");
   prevBtn = document.getElementById("prevBtn");
+  nowPlayingName = document.getElementById("nowPlayingName");
+  nowPlayingLocation = document.getElementById("nowPlayingLocation");
+  mainLogo = document.getElementById("main-logo");
 
+  // Load Station Data
   fetch("./radios.json")
     .then(res => res.json())
     .then(data => {
       radios = data;
       renderStations();
-    })
-    .catch(err => {
-      if (stationsDiv) stationsDiv.innerHTML = `<div class="error">⚠️ Failed to load stations: ${err.message}</div>`;
     });
 
-  if (playPauseBtn) {
-    playPauseBtn.addEventListener("click", () => {
-      if (!currentStation && radios.length > 0) {
-        playStation(radios[0]);
-      } else {
-        if (player.paused) {
-          player.play().catch(err => console.error("Play failed:", err));
-        } else {
-          player.pause();
-        }
-      }
-      updateButtonStates();
-    });
-  }
+  // Controls
+  playPauseBtn.addEventListener("click", () => {
+    initEqualizer();
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
-  if (nextBtn) nextBtn.addEventListener("click", debounce(playNextStation, 500));
-  if (prevBtn) prevBtn.addEventListener("click", debounce(playPreviousStation, 500));
+    if (!currentStation && radios.length > 0) {
+      playStation(radios[0]);
+    } else {
+      player.paused ? player.play() : player.pause();
+    }
+  });
 
-  if (searchInput) {
-    searchInput.addEventListener("input", () => renderStations(searchInput.value));
-  }
+  nextBtn.addEventListener("click", () => {
+    const i = radios.findIndex(r => r.id === currentStation?.id);
+    if (i !== -1) playStation(radios[(i + 1) % radios.length]);
+  });
 
-  if (player) {
-    player.addEventListener("play", updateButtonStates);
-    player.addEventListener("pause", updateButtonStates);
-    player.volume = 1.0;
-  }
+  prevBtn.addEventListener("click", () => {
+    const i = radios.findIndex(r => r.id === currentStation?.id);
+    if (i !== -1) playStation(radios[(i - 1 + radios.length) % radios.length]);
+  });
 
-  setupIOSAudioSession();
+  // Equalizer Sliders
+  document.getElementById("bassSlider").addEventListener("input", e => {
+    if (bassFilter) bassFilter.gain.value = e.target.value;
+  });
+  document.getElementById("midSlider").addEventListener("input", e => {
+    if (midFilter) midFilter.gain.value = e.target.value;
+  });
+  document.getElementById("trebleSlider").addEventListener("input", e => {
+    if (trebleFilter) trebleFilter.gain.value = e.target.value;
+  });
+
+  // Search & Volume
+  searchInput.addEventListener("input", e => renderStations(e.target.value));
+  document.getElementById("volumeSlider").addEventListener("input", e => {
+    player.volume = e.target.value;
+  });
+
+  player.addEventListener("play", updateButtonStates);
+  player.addEventListener("pause", updateButtonStates);
+
+  // iOS Background Fix
+  document.addEventListener('click', () => {
+    initEqualizer();
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  }, { once: true });
 });
