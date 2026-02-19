@@ -12,11 +12,12 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+body, html {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100vh;
+  /* Fixes the Safari 100vh toolbar jumping bug */
   height: -webkit-fill-available;
   background-color: var(--bg-dark);
   color: var(--text-primary);
@@ -24,14 +25,16 @@ html, body {
   overflow: hidden; 
 }
 
+/* THE FIX: Main container must be a flexbox */
 .app-layout {
   display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: row; /* PC View */
+  width: 100vw;
+  height: 100vh;
+  height: -webkit-fill-available;
+  flex-direction: row; /* Desktop Side-by-Side */
 }
 
-/* SIDEBAR - Desktop */
+/* SIDEBAR: Fixed width on PC, scrollable list */
 .sidebar {
   width: 380px;
   min-width: 320px;
@@ -40,30 +43,31 @@ html, body {
   flex-direction: column;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 10;
-  overflow: hidden;
 }
 
 .sidebar-header {
   padding: 1.5rem;
   background: rgba(0, 0, 0, 0.2);
-  flex-shrink: 0;
 }
 
 .stations-container {
   flex: 1; 
   overflow-y: auto; 
   padding: 1rem;
+  /* Critical for iPhone smooth scrolling */
   -webkit-overflow-scrolling: touch; 
 }
 
-/* PLAYER HERO - Desktop */
+/* PLAYER HERO: Right side functionality */
 .player-hero {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
   padding: 2rem;
+  overflow: hidden;
 }
 
 .now-playing-container {
@@ -81,7 +85,7 @@ html, body {
   margin-bottom: 1.5rem;
 }
 
-/* EQ & CONTROLS */
+/* 5. EQ & VOLUME */
 .eq-container {
   display: flex;
   justify-content: center;
@@ -96,10 +100,14 @@ html, body {
   display: flex;
   flex-direction: column;
   font-size: 10px;
-  align-items: center;
+  color: var(--text-dim);
 }
 
-.eq-slider input { width: 60px; accent-color: var(--accent); }
+.eq-slider input {
+  width: 60px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
 
 .main-controls {
   display: flex;
@@ -110,85 +118,57 @@ html, body {
 }
 
 .play-trigger {
-  width: 75px; height: 75px; border-radius: 50%;
-  background: var(--accent); color: white; border: none;
-  font-size: 1.8rem; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
 }
 
-.volume-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-dim);
-}
-
-.volume-box input { flex: 1; accent-color: var(--accent); }
-
-/* --- THE MOBILE REWRITE --- */
-@media (max-width: 850px) {
-  .app-layout {
-    flex-direction: column;
-  }
-
-  /* 1. Shrink the Player section */
-  .player-hero {
-    height: 50vh; /* Exactly half screen */
-    min-height: 50vh;
-    flex: none;
-    padding: 15px;
-  }
-
-  /* 2. Scale down the content inside the Player */
-  .now-playing-container {
-    transform: scale(0.85); /* Shrinks everything inside by 15% */
-    transform-origin: center;
-  }
-
-  /* 3. Give the Station List back its space */
-  .sidebar {
-    height: 50vh; /* The other half */
-    width: 100%;
-    flex: 1; /* Allow it to grow if needed */
-    border-right: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  #main-logo {
-    width: 140px; /* Much smaller on mobile */
-    height: 140px;
-    margin-bottom: 0.5rem;
-  }
-
-  .station-info h2 {
-    font-size: 1.3rem;
-    margin-bottom: 4px;
-  }
-
-  .eq-container {
-    margin: 5px 0;
-    padding: 8px;
-  }
-
-  .main-controls {
-    gap: 1.2rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .play-trigger {
-    width: 60px;
-    height: 60px;
-    font-size: 1.4rem;
-  }
-}
-
-/* Station Cards (Mobile Friendly) */
+/* STATION CARDS */
 .station-card {
   display: flex;
   align-items: center;
   padding: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   background: var(--glass);
   border-radius: 12px;
+  cursor: pointer;
 }
-.station-card img { width: 44px; height: 44px; border-radius: 8px; margin-right: 12px; }
+
+.station-card.active {
+  background: rgba(0, 122, 255, 0.2);
+  border: 1px solid var(--accent);
+}
+
+.station-card img { width: 45px; height: 45px; border-radius: 8px; margin-right: 12px; }
+
+/* MOBILE RESPONSIVE FIX */
+@media (max-width: 850px) {
+  .app-layout {
+    flex-direction: column; /* Stacks Player on TOP of List */
+  }
+
+  /* 1. Shrink the Player section */
+  .player-hero {
+    height: 55%; /* Top 55% is Player */
+    flex: none;
+  }
+
+  .sidebar {
+    height: 45%; /* Bottom 45% is Station List */
+    width: 100%;
+    flex: 1; /* Allow it to grow if needed */
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    flex: none;
+  }
+
+  #main-logo {
+    width: 160px;
+    height: 160px;
+  }
+}
