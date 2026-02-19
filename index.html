@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Nepali Radio" />
@@ -27,12 +27,12 @@
         <h1><span class="flag">🇳🇵</span> रेडियो संग्रह</h1>
         <div class="search-container">
           <i class="fas fa-search"></i>
-          <input type="text" id="search" placeholder="Search stations..." />
+          <input type="text" id="search" placeholder="Search stations..." autocomplete="off" />
         </div>
       </header>
       
       <div id="stations" class="stations-container">
-          </div>
+        </div>
 
       <div class="proxy-note">
         <p>⚠️ Proxy streams may take 30-50s to start.</p>
@@ -56,26 +56,26 @@
         <div class="eq-container">
           <div class="eq-slider">
             <label for="bassSlider">Bass</label>
-            <input type="range" id="bassSlider" min="-10" max="10" value="0">
+            <input type="range" id="bassSlider" min="-10" max="10" value="0" step="1">
           </div>
           <div class="eq-slider">
             <label for="midSlider">Mid</label>
-            <input type="range" id="midSlider" min="-10" max="10" value="0">
+            <input type="range" id="midSlider" min="-10" max="10" value="0" step="1">
           </div>
           <div class="eq-slider">
             <label for="trebleSlider">Treble</label>
-            <input type="range" id="trebleSlider" min="-10" max="10" value="0">
+            <input type="range" id="trebleSlider" min="-10" max="10" value="0" step="1">
           </div>
         </div>
 
         <div class="main-controls">
-          <button id="prevBtn" class="nav-btn"><i class="fas fa-step-backward"></i></button>
+          <button id="prevBtn" class="nav-btn" aria-label="Previous"><i class="fas fa-step-backward"></i></button>
           
           <button id="playPauseBtn" class="play-trigger" aria-label="Play/Pause">
             <i id="playIcon" class="fas fa-play"></i>
           </button>
           
-          <button id="nextBtn" class="nav-btn"><i class="fas fa-step-forward"></i></button>
+          <button id="nextBtn" class="nav-btn" aria-label="Next"><i class="fas fa-step-forward"></i></button>
         </div>
 
         <div class="volume-box">
@@ -88,7 +88,7 @@
 
   </div>
 
-  <audio id="player" preload="none" playsinline></audio>
+  <audio id="player" preload="none" playsinline crossorigin="anonymous"></audio>
 
   <script src="script.js" defer></script>
 
