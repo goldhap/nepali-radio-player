@@ -1,15 +1,15 @@
-const CACHE_NAME = 'nepali-radio-cache-v11';
-const OFFLINE_URL = '/nepali-radio-player/offline.html';
+const CACHE_NAME = 'nepali-radio-cache-v12';
+const OFFLINE_URL = '/offline.html';
 
 const urlsToCache = [
-  '/nepali-radio-player/',
-  '/nepali-radio-player/index.html',
-  '/nepali-radio-player/style.css',
-  '/nepali-radio-player/script.js',
-  '/nepali-radio-player/radios.json',
-  '/nepali-radio-player/logo/default.jpg',
-  '/nepali-radio-player/icons/android-chrome-192x192.png',
-  '/nepali-radio-player/icons/android-chrome-512x512.png',
+  '/',
+  '/index.html',
+  '/style.css',
+  '/script.js',
+  '/radios.json',
+  '/logo/default.jpg',
+  '/icons/android-chrome-192x192.png',
+  '/icons/android-chrome-512x512.png',
   OFFLINE_URL
 ];
 
@@ -84,14 +84,14 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('sync', (event) => {
   if (event.tag === 'sync-radio-data') {
     event.waitUntil(
-      fetch('/nepali-radio-player/radios.json')
+      fetch('/radios.json')
         .then(response => {
           if (!response.ok) throw new Error('Failed to fetch radios.json');
           return response.json();
         })
         .then(data =>
           caches.open(CACHE_NAME).then(cache =>
-            cache.put('/nepali-radio-player/radios.json', new Response(JSON.stringify(data)))
+            cache.put('/radios.json', new Response(JSON.stringify(data)))
           )
         )
         .catch(err => console.log('Background sync failed:', err))

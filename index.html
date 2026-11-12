@@ -8,9 +8,9 @@
   <meta name="apple-mobile-web-app-title" content="Nepali Radio" />
   <title>📻 🇳🇵 नेपाली रेडियो संग्रह</title>
 
-  <link rel="icon" href="/nepali-radio-player/icons/favicon-32x32.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/nepali-radio-player/icons/apple-touch-icon.png" />
-  <link rel="manifest" href="/nepali-radio-player/site.webmanifest" />
+  <link rel="icon" href="/icons/favicon-32x32.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#0f172a" />
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -169,7 +169,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/nepali-radio-player/sw.js')
+        navigator.serviceWorker.register('/sw.js')
           .then(reg => console.log('✅ SW Registered'))
           .catch(err => console.error('❌ SW Failed', err));
       });
