@@ -466,3 +466,10 @@ img {
     width: 320px;
   }
 }
+/* Result count under the filters (added with the province-filter fix) */
+.station-count {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  min-height: 1em;
+}

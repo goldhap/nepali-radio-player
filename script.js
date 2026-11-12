@@ -10,6 +10,7 @@ let searchInput, stationsDiv, player, playPauseBtn, nextBtn, prevBtn;
 let nowPlayingName, nowPlayingLocation, mainLogo;
 let provinceFilter, favoritesToggle, recentSection, recentDiv;
 let shuffleBtn, shareBtn, sleepTimerSelect, sleepTimerStatus;
+let stationCountEl;
 let radios = [];
 let currentStation = null;
 
@@ -279,6 +280,17 @@ function renderStations(filter) {
     ];
     return haystacks.some(h => h.toLowerCase().includes(query));
   });
+
+  // Visible result count, so a filter change is obvious at a glance.
+  if (stationCountEl) {
+    const recentShown = listFilterActive ? 0 : recentIds.map(findStation).filter(Boolean).length;
+    const total = filtered.length + recentShown;
+    let suffix = "";
+    if (province && PROVINCE_NAMES[province]) suffix = ` in ${PROVINCE_NAMES[province]}`;
+    else if (showFavoritesOnly) suffix = " in Favorites";
+    else if (query) suffix = ` for "${query}"`;
+    stationCountEl.textContent = `${total} station${total === 1 ? "" : "s"}${suffix}`;
+  }
 
   stationsDiv.innerHTML = "";
 
@@ -574,6 +586,7 @@ document.addEventListener("DOMContentLoaded", () => {
   recentDiv = document.getElementById("recentStations");
   shuffleBtn = document.getElementById("shuffleBtn");
   shareBtn = document.getElementById("shareBtn");
+  stationCountEl = document.getElementById("stationCount");
   sleepTimerSelect = document.getElementById("sleepTimerSelect");
   sleepTimerStatus = document.getElementById("sleepTimerStatus");
 
@@ -638,7 +651,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Search, Province & Favorites filters
   searchInput.addEventListener("input", e => renderStations(e.target.value));
-  if (provinceFilter) provinceFilter.addEventListener("change", () => renderStations());
+  if (provinceFilter) {
+    // 'input' fires earlier than 'change' on some mobile pickers (iOS
+    // wheel); listening to both makes the filter feel instant. Rendering
+    // is idempotent, so a double fire is harmless.
+    provinceFilter.addEventListener("change", () => renderStations());
+    provinceFilter.addEventListener("input", () => renderStations());
+  }
   if (favoritesToggle) {
     favoritesToggle.addEventListener("click", () => {
       showFavoritesOnly = !showFavoritesOnly;
