@@ -46,6 +46,16 @@
           </button>
         </div>
         <p id="stationCount" class="station-count" aria-live="polite"></p>
+        <div id="provinceChips" class="province-chips" role="group" aria-label="Filter by province">
+          <button type="button" class="province-chip active" data-value="">All</button>
+          <button type="button" class="province-chip" data-value="1">Koshi</button>
+          <button type="button" class="province-chip" data-value="2">Madhesh</button>
+          <button type="button" class="province-chip" data-value="3">Bagmati</button>
+          <button type="button" class="province-chip" data-value="4">Gandaki</button>
+          <button type="button" class="province-chip" data-value="5">Lumbini</button>
+          <button type="button" class="province-chip" data-value="6">Karnali</button>
+          <button type="button" class="province-chip" data-value="7">Sudurpashchim</button>
+        </div>
       </header>
 
       <section id="recentSection" class="recent-section" aria-label="Recently played stations" hidden>
@@ -74,6 +84,8 @@
           <h2 id="nowPlayingName">Select a Station</h2>
           <p id="nowPlayingLocation">Ready to play</p>
         </div>
+
+        <button id="eqToggle" class="eq-toggle" type="button" aria-expanded="false" aria-label="Show equalizer controls">🎚️ Tune</button>
 
         <div class="eq-container">
           <div class="eq-slider">
@@ -135,6 +147,17 @@
       </div>
     </main>
 
+  </div>
+
+  <div id="miniPlayer" class="mini-player" hidden>
+    <img id="miniLogo" src="./logo/default.jpg" alt="">
+    <div class="mini-info">
+      <span id="miniName" class="mini-name"></span>
+      <span id="miniMeta" class="mini-meta"></span>
+    </div>
+    <button id="miniPrev" class="mini-btn" type="button" aria-label="Previous station"><i class="fas fa-step-backward"></i></button>
+    <button id="miniPlay" class="mini-play" type="button" aria-label="Play/Pause"><i id="miniPlayIcon" class="fas fa-play"></i></button>
+    <button id="miniNext" class="mini-btn" type="button" aria-label="Next station"><i class="fas fa-step-forward"></i></button>
   </div>
 
   <audio id="player" preload="none" playsinline crossorigin="anonymous"></audio>

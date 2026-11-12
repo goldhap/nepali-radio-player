@@ -11,6 +11,7 @@ let nowPlayingName, nowPlayingLocation, mainLogo;
 let provinceFilter, favoritesToggle, recentSection, recentDiv;
 let shuffleBtn, shareBtn, sleepTimerSelect, sleepTimerStatus;
 let stationCountEl;
+let miniPlayer, miniLogo, miniName, miniMeta, miniPlayIcon;
 let radios = [];
 let currentStation = null;
 
@@ -227,7 +228,7 @@ function buildStationCard(station, extraClass) {
 
   const isFav = favorites.has(station.id);
   div.innerHTML = `
-    <img src="./logo/${station.id}.jpg" onerror="this.src='./logo/default.jpg'" alt="">
+    <img src="./logo/${station.id}.jpg" onerror="this.src='./logo/default.jpg'" alt="" loading="lazy" decoding="async">
     <div class="station-card-info">
       <span class="name">${escapeHtml(station.name)}</span>
       <span class="location">${escapeHtml(formatStationMeta(station))}</span>
@@ -328,6 +329,36 @@ function renderRecent() {
 }
 
 /**
+ * Sync the mobile mini-player bar with the current station and the
+ * main player's status text. Hidden until a station is selected;
+ * CSS only ever displays it below desktop width.
+ */
+function syncMiniPlayer() {
+  if (!miniPlayer) return;
+  if (!currentStation) {
+    miniPlayer.hidden = true;
+    document.body.classList.remove("has-mini-player");
+    return;
+  }
+  miniPlayer.hidden = false;
+  document.body.classList.add("has-mini-player");
+  if (miniLogo) {
+    miniLogo.src = `./logo/${currentStation.id}.jpg`;
+    miniLogo.onerror = () => { miniLogo.src = `./logo/default.jpg`; };
+  }
+  if (miniName) miniName.textContent = currentStation.name;
+  if (miniMeta && nowPlayingLocation) miniMeta.textContent = nowPlayingLocation.textContent;
+}
+
+/** Mark the province chip matching the <select> value as active. */
+function syncProvinceChips() {
+  if (!provinceFilter) return;
+  document.querySelectorAll(".province-chip").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.value === provinceFilter.value);
+  });
+}
+
+/**
  * Core Playback Logic
  */
 function playStation(station) {
@@ -359,6 +390,7 @@ function playStation(station) {
     nowPlayingLocation.textContent = "Live • " + formatStationMeta(station);
     artwork.classList.remove('loading');
     artwork.classList.add('playing');
+    syncMiniPlayer();
   }).catch(err => {
     // AbortError = play() was interrupted by a newer load()/pause()
     // (e.g. the user tapped another station) - not a dead stream.
@@ -369,6 +401,7 @@ function playStation(station) {
 
   renderStations();
   updateMediaSession(station);
+  syncMiniPlayer();
 }
 
 /** Play the station `offset` steps away in the playable list (wraps around). */
@@ -420,10 +453,12 @@ function handleStreamFailure(station) {
   if (consecutiveFailures >= MAX_STREAM_FAILURES) {
     consecutiveFailures = 0; // a fresh manual attempt gets a fresh budget
     nowPlayingLocation.textContent = "⚠️ Stream Offline";
+    syncMiniPlayer();
     return;
   }
 
   nowPlayingLocation.textContent = "⚠️ Stream Offline — skipping…";
+  syncMiniPlayer();
   const failedId = station.id;
   setTimeout(() => {
     // Only skip if the user hasn't already moved on to something else.
@@ -526,9 +561,11 @@ function updateButtonStates() {
 
   if (player.paused) {
     icon.className = "fas fa-play";
+    if (miniPlayIcon) miniPlayIcon.className = "fas fa-play";
     artwork.classList.remove('playing');
   } else {
     icon.className = "fas fa-pause";
+    if (miniPlayIcon) miniPlayIcon.className = "fas fa-pause";
     artwork.classList.add('playing');
   }
 }
@@ -565,6 +602,7 @@ function preselectLastStation() {
   const meta = formatStationMeta(station);
   nowPlayingLocation.textContent = (meta && meta !== "Nepal" ? meta + " • " : "") + "Ready to play";
   updateMediaSession(station);
+  syncMiniPlayer();
 }
 
 /**
@@ -587,6 +625,11 @@ document.addEventListener("DOMContentLoaded", () => {
   shuffleBtn = document.getElementById("shuffleBtn");
   shareBtn = document.getElementById("shareBtn");
   stationCountEl = document.getElementById("stationCount");
+  miniPlayer = document.getElementById("miniPlayer");
+  miniLogo = document.getElementById("miniLogo");
+  miniName = document.getElementById("miniName");
+  miniMeta = document.getElementById("miniMeta");
+  miniPlayIcon = document.getElementById("miniPlayIcon");
   sleepTimerSelect = document.getElementById("sleepTimerSelect");
   sleepTimerStatus = document.getElementById("sleepTimerStatus");
 
@@ -623,6 +666,36 @@ document.addEventListener("DOMContentLoaded", () => {
   if (shuffleBtn) shuffleBtn.addEventListener("click", playRandomStation);
   if (shareBtn) shareBtn.addEventListener("click", shareStation);
 
+  // Mini-player (mobile): same behaviour as the main controls.
+  const miniPlay = document.getElementById("miniPlay");
+  const miniPrev = document.getElementById("miniPrev");
+  const miniNext = document.getElementById("miniNext");
+  if (miniPlay) miniPlay.addEventListener("click", () => playPauseBtn.click());
+  if (miniPrev) miniPrev.addEventListener("click", () => playRelative(-1));
+  if (miniNext) miniNext.addEventListener("click", () => playRelative(1));
+
+  // Province chips (mobile): two-way sync with the province <select>.
+  document.querySelectorAll(".province-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      if (provinceFilter) provinceFilter.value = chip.dataset.value;
+      syncProvinceChips();
+      renderStations();
+    });
+  });
+  syncProvinceChips();
+
+  // EQ collapse toggle (mobile only; CSS keeps EQ always visible on desktop)
+  const eqToggle = document.getElementById("eqToggle");
+  if (eqToggle) {
+    eqToggle.addEventListener("click", () => {
+      const open = eqToggle.getAttribute("aria-expanded") !== "true";
+      eqToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      document.querySelectorAll(".eq-container, .eq-presets").forEach(el => {
+        el.classList.toggle("open", open);
+      });
+    });
+  }
+
   // Sleep Timer
   if (sleepTimerSelect) {
     sleepTimerSelect.addEventListener("change", e => {
@@ -655,8 +728,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 'input' fires earlier than 'change' on some mobile pickers (iOS
     // wheel); listening to both makes the filter feel instant. Rendering
     // is idempotent, so a double fire is harmless.
-    provinceFilter.addEventListener("change", () => renderStations());
-    provinceFilter.addEventListener("input", () => renderStations());
+    provinceFilter.addEventListener("change", () => { renderStations(); syncProvinceChips(); });
+    provinceFilter.addEventListener("input", () => { renderStations(); syncProvinceChips(); });
   }
   if (favoritesToggle) {
     favoritesToggle.addEventListener("click", () => {
