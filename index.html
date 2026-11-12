@@ -27,10 +27,31 @@
         <h1><span class="flag">🇳🇵</span> रेडियो संग्रह</h1>
         <div class="search-container">
           <i class="fas fa-search"></i>
-          <input type="text" id="search" placeholder="Search stations..." autocomplete="off" />
+          <input type="text" id="search" placeholder="Search stations, places or frequency..." autocomplete="off" />
+        </div>
+        <div class="filter-row">
+          <label class="visually-hidden" for="provinceFilter">Filter by province</label>
+          <select id="provinceFilter" class="filter-select" aria-label="Filter by province">
+            <option value="">All Provinces</option>
+            <option value="1">Koshi</option>
+            <option value="2">Madhesh</option>
+            <option value="3">Bagmati</option>
+            <option value="4">Gandaki</option>
+            <option value="5">Lumbini</option>
+            <option value="6">Karnali</option>
+            <option value="7">Sudurpashchim</option>
+          </select>
+          <button id="favoritesToggle" class="fav-toggle-btn" type="button" aria-pressed="false" aria-label="Show favorites only">
+            <i class="fas fa-heart"></i> Favorites
+          </button>
         </div>
       </header>
-      
+
+      <section id="recentSection" class="recent-section" aria-label="Recently played stations" hidden>
+        <h2 class="section-title"><i class="fas fa-clock-rotate-left"></i> Recently Played</h2>
+        <div id="recentStations" class="recent-container"></div>
+      </section>
+
       <div id="stations" class="stations-container">
         </div>
 
@@ -68,14 +89,41 @@
           </div>
         </div>
 
+        <div class="eq-presets" role="group" aria-label="Equalizer presets">
+          <button type="button" class="preset-btn active" data-preset="flat">Flat</button>
+          <button type="button" class="preset-btn" data-preset="bass">Bass Boost</button>
+          <button type="button" class="preset-btn" data-preset="vocal">Vocal</button>
+          <button type="button" class="preset-btn" data-preset="music">Music</button>
+        </div>
+
         <div class="main-controls">
           <button id="prevBtn" class="nav-btn" aria-label="Previous"><i class="fas fa-step-backward"></i></button>
-          
+
           <button id="playPauseBtn" class="play-trigger" aria-label="Play/Pause">
             <i id="playIcon" class="fas fa-play"></i>
           </button>
-          
+
           <button id="nextBtn" class="nav-btn" aria-label="Next"><i class="fas fa-step-forward"></i></button>
+        </div>
+
+        <div class="player-tools">
+          <button id="shuffleBtn" class="tool-btn" type="button" aria-label="Play a random station">
+            <i class="fas fa-shuffle"></i> Surprise Me
+          </button>
+          <button id="shareBtn" class="tool-btn" type="button" aria-label="Share this station">
+            <i class="fas fa-share-nodes"></i> <span id="shareBtnLabel">Share</span>
+          </button>
+          <div class="sleep-box">
+            <label for="sleepTimerSelect"><i class="fas fa-moon"></i> Sleep</label>
+            <select id="sleepTimerSelect" class="filter-select" aria-label="Sleep timer">
+              <option value="0">Off</option>
+              <option value="15">15 min</option>
+              <option value="30">30 min</option>
+              <option value="45">45 min</option>
+              <option value="60">60 min</option>
+            </select>
+            <span id="sleepTimerStatus" class="sleep-status" aria-live="polite"></span>
+          </div>
         </div>
 
         <div class="volume-box">

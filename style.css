@@ -93,6 +93,89 @@ img {
   gap: 10px;
 }
 
+/* FILTERS (Province + Favorites) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.filter-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.filter-select {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.filter-select option {
+  color: #0f172a;
+}
+
+.filter-select.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.fav-toggle-btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.fav-toggle-btn.active {
+  background: rgba(0, 122, 255, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* RECENTLY PLAYED */
+.recent-section {
+  padding: 1rem 1rem 0;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.recent-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.error-msg {
+  color: var(--text-dim);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
 /* PLAYER HERO (On Mobile, this is the top section) */
 .player-hero {
   width: 100%;
@@ -199,6 +282,84 @@ img {
   accent-color: var(--text-dim);
 }
 
+/* EQ PRESETS */
+.eq-presets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.preset-btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preset-btn.active {
+  background: rgba(0, 122, 255, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* PLAYER TOOLS (Shuffle / Share / Sleep Timer) */
+.player-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.tool-btn {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tool-btn:active {
+  transform: scale(0.97);
+}
+
+.sleep-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.sleep-box .filter-select {
+  flex: none;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+}
+
+.sleep-status {
+  min-width: 44px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.sleep-status.active {
+  color: var(--accent);
+}
+
 /* STATION CARDS */
 .station-card {
   display: flex;
@@ -225,6 +386,28 @@ img {
   height: 50px;
   border-radius: 8px;
   margin-right: 15px;
+}
+
+.station-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* FAVORITE HEART ON STATION CARDS */
+.fav-btn {
+  flex: none;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  padding: 10px;
+  margin-left: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fav-btn.favorited {
+  color: var(--accent);
 }
 
 .name {

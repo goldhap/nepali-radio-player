@@ -1,16 +1,106 @@
 /**
  * Nepali Radio Player - Core Logic
- * Includes: Web Audio API Equalizer, Proxy Stream Support, and Media Session API
+ * Includes: Web Audio API Equalizer (+ presets), Proxy Stream Support, Media Session API,
+ * Favorites, Recently Played, Province Filter, Sleep Timer, Shuffle, Share,
+ * Stream error auto-skip and Keyboard Shortcuts.
+ * All personal state (favorites / recent / last station) lives in localStorage only.
  */
 
 let searchInput, stationsDiv, player, playPauseBtn, nextBtn, prevBtn;
 let nowPlayingName, nowPlayingLocation, mainLogo;
+let provinceFilter, favoritesToggle, recentSection, recentDiv;
+let shuffleBtn, shareBtn, sleepTimerSelect, sleepTimerStatus;
 let radios = [];
 let currentStation = null;
+
+// --- FEATURE STATE ---
+const PROVINCE_NAMES = {
+  1: "Koshi", 2: "Madhesh", 3: "Bagmati", 4: "Gandaki",
+  5: "Lumbini", 6: "Karnali", 7: "Sudurpashchim"
+};
+const LS_FAVORITES = "nrp-favorites";
+const LS_RECENT = "nrp-recent";
+const LS_LAST = "nrp-last-station";
+const MAX_RECENT = 10;
+const MAX_STREAM_FAILURES = 5;
+
+let favorites = new Set(loadJSON(LS_FAVORITES, []));
+let recentIds = loadJSON(LS_RECENT, []);
+let showFavoritesOnly = false;
+
+// --- STREAM ERROR / AUTO-SKIP STATE ---
+let consecutiveFailures = 0;
+let lastFailedKey = "";
+let lastFailedAt = 0;
+
+// --- SLEEP TIMER STATE ---
+let sleepTimeoutId = null;
+let sleepIntervalId = null;
+let sleepEndAt = null;
 
 // --- EQ & WEB AUDIO VARIABLES ---
 let audioCtx, source, bassFilter, midFilter, trebleFilter;
 let isAudioContextInitialized = false;
+
+const EQ_PRESETS = {
+  flat:  { bass: 0,  mid: 0, treble: 0 },
+  bass:  { bass: 6,  mid: 0, treble: 2 },
+  vocal: { bass: -2, mid: 5, treble: 3 },
+  music: { bass: 4,  mid: 2, treble: 5 }
+};
+
+// --- SMALL HELPERS ---
+function loadJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function saveJSON(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    /* storage unavailable (private mode etc.) - feature just won't persist */
+  }
+}
+
+function escapeHtml(text) {
+  return String(text == null ? "" : text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Stations the user is allowed to see/play (existing `disabled` flag respected). */
+function playableRadios() {
+  return radios.filter(s => !s.disabled);
+}
+
+function findStation(id) {
+  return playableRadios().find(s => s.id === id) || null;
+}
+
+/**
+ * Human readable station meta from the real radios.json fields.
+ * e.g. "96.1 FM • Pulchowk, Lalitpur" (replaces the old non-existent
+ * station.location field, which always fell back to "Nepal").
+ */
+function formatStationMeta(station) {
+  if (!station) return "Nepal";
+  const parts = [];
+  if (station.frequency) parts.push(`${station.frequency} FM`);
+  if (station.address) parts.push(station.address);
+  else if (station.province && PROVINCE_NAMES[station.province]) {
+    parts.push(PROVINCE_NAMES[station.province]);
+  }
+  return parts.length ? parts.join(" • ") : "Nepal";
+}
 
 /**
  * Initializes the Audio Context and EQ Filter Chain
@@ -22,7 +112,7 @@ function initEqualizer() {
   try {
     // 1. Initialize Context
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    
+
     // 2. Create Source from <audio> element
     // Ensure the audio element has crossOrigin set to "anonymous" in HTML or via JS
     player.crossOrigin = "anonymous";
@@ -51,6 +141,10 @@ function initEqualizer() {
     midFilter.connect(trebleFilter);
     trebleFilter.connect(audioCtx.destination);
 
+    // Apply whatever the sliders currently show (e.g. a preset chosen
+    // before the first play), so preset/manual choices are never lost.
+    applySliderValuesToFilters();
+
     isAudioContextInitialized = true;
     console.log("Audio Pipeline Connected");
   } catch (e) {
@@ -58,7 +152,40 @@ function initEqualizer() {
   }
 }
 
+function applySliderValuesToFilters() {
+  const bass = document.getElementById("bassSlider");
+  const mid = document.getElementById("midSlider");
+  const treble = document.getElementById("trebleSlider");
+  if (bassFilter && bass) bassFilter.gain.value = Number(bass.value);
+  if (midFilter && mid) midFilter.gain.value = Number(mid.value);
+  if (trebleFilter && treble) trebleFilter.gain.value = Number(treble.value);
+}
 
+/** Set the three EQ bands (filters + slider positions) in one go. */
+function setEQ(bass, mid, treble) {
+  const bassSlider = document.getElementById("bassSlider");
+  const midSlider = document.getElementById("midSlider");
+  const trebleSlider = document.getElementById("trebleSlider");
+  if (bassSlider) bassSlider.value = bass;
+  if (midSlider) midSlider.value = mid;
+  if (trebleSlider) trebleSlider.value = treble;
+  if (bassFilter) bassFilter.gain.value = bass;
+  if (midFilter) midFilter.gain.value = mid;
+  if (trebleFilter) trebleFilter.gain.value = treble;
+}
+
+function applyPreset(name) {
+  const preset = EQ_PRESETS[name];
+  if (!preset) return;
+  setEQ(preset.bass, preset.mid, preset.treble);
+  document.querySelectorAll(".preset-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.preset === name);
+  });
+}
+
+function clearPresetHighlight() {
+  document.querySelectorAll(".preset-btn").forEach(btn => btn.classList.remove("active"));
+}
 
 /**
  * Helper: Routes non-HTTPS streams through a proxy to prevent Mixed Content errors
@@ -70,38 +197,104 @@ function getSafeStreamUrl(url) {
     : `https://proxy-b9u6.onrender.com/radio-stream?url=${encodeURIComponent(url)}`;
 }
 
+// --- FAVORITES / RECENT ---
+function toggleFavorite(station, event) {
+  if (event) event.stopPropagation();
+  if (favorites.has(station.id)) favorites.delete(station.id);
+  else favorites.add(station.id);
+  saveJSON(LS_FAVORITES, [...favorites]);
+  renderStations();
+  renderRecent();
+}
+
+function rememberStation(station) {
+  recentIds = [station.id, ...recentIds.filter(id => id !== station.id)].slice(0, MAX_RECENT);
+  saveJSON(LS_RECENT, recentIds);
+  try { localStorage.setItem(LS_LAST, station.id); } catch (e) { /* ignore */ }
+  renderRecent();
+}
+
+/** Build one station card (shared by the main list and Recently Played). */
+function buildStationCard(station, extraClass) {
+  const div = document.createElement("div");
+  div.className = "station-card" + (extraClass ? " " + extraClass : "");
+  if (currentStation && currentStation.id === station.id) div.classList.add("active");
+
+  const isFav = favorites.has(station.id);
+  div.innerHTML = `
+    <img src="./logo/${station.id}.jpg" onerror="this.src='./logo/default.jpg'" alt="">
+    <div class="station-card-info">
+      <span class="name">${escapeHtml(station.name)}</span>
+      <span class="location">${escapeHtml(formatStationMeta(station))}</span>
+    </div>
+  `;
+
+  const favBtn = document.createElement("button");
+  favBtn.type = "button";
+  favBtn.className = "fav-btn" + (isFav ? " favorited" : "");
+  favBtn.innerHTML = `<i class="${isFav ? "fas" : "far"} fa-heart"></i>`;
+  favBtn.setAttribute("aria-pressed", isFav ? "true" : "false");
+  favBtn.setAttribute("aria-label", isFav
+    ? `Remove ${station.name} from favorites`
+    : `Add ${station.name} to favorites`);
+  favBtn.addEventListener("click", (e) => toggleFavorite(station, e));
+  div.appendChild(favBtn);
+
+  div.onclick = () => playStation(station);
+  return div;
+}
+
 /**
- * Renders the sidebar station list
+ * Renders the sidebar station list.
+ * Filters (all combined): text search (name + address + frequency),
+ * province select, favorites-only toggle. Disabled stations never render.
  */
-function renderStations(filter = "") {
+function renderStations(filter) {
   if (!stationsDiv) return;
 
-  const filtered = radios.filter(s =>
-    s.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const query = (typeof filter === "string" ? filter : (searchInput ? searchInput.value : "") || "")
+    .trim().toLowerCase();
+  const province = provinceFilter ? provinceFilter.value : "";
+
+  const filtered = playableRadios().filter(s => {
+    if (province && String(s.province == null ? "" : s.province) !== province) return false;
+    if (showFavoritesOnly && !favorites.has(s.id)) return false;
+    if (!query) return true;
+    const haystacks = [
+      s.name || "",
+      s.address || "",
+      s.frequency != null ? String(s.frequency) : "",
+      s.frequency != null ? `${s.frequency} fm` : ""
+    ];
+    return haystacks.some(h => h.toLowerCase().includes(query));
+  });
 
   stationsDiv.innerHTML = "";
 
   if (filtered.length === 0) {
-    stationsDiv.innerHTML = `<div class="error-msg">No stations found</div>`;
+    stationsDiv.innerHTML = `<div class="error-msg">${
+      showFavoritesOnly ? "No favorite stations yet — tap the heart on a station to add one." : "No stations found"
+    }</div>`;
     return;
   }
 
   filtered.forEach(station => {
-    const div = document.createElement("div");
-    div.className = "station-card";
-    if (currentStation && currentStation.id === station.id) div.classList.add("active");
+    stationsDiv.appendChild(buildStationCard(station));
+  });
+}
 
-    div.innerHTML = `
-      <img src="./logo/${station.id}.jpg" onerror="this.src='./logo/default.jpg'" alt="">
-      <div class="station-card-info">
-        <span class="name">${station.name}</span>
-        <span class="location">${station.location || 'Nepal'}</span>
-      </div>
-    `;
-
-    div.onclick = () => playStation(station);
-    stationsDiv.appendChild(div);
+/** Renders the "Recently Played" row above the main list (hidden when empty). */
+function renderRecent() {
+  if (!recentSection || !recentDiv) return;
+  const recentStations = recentIds.map(findStation).filter(Boolean);
+  recentDiv.innerHTML = "";
+  if (recentStations.length === 0) {
+    recentSection.hidden = true;
+    return;
+  }
+  recentSection.hidden = false;
+  recentStations.forEach(station => {
+    recentDiv.appendChild(buildStationCard(station, "recent-card"));
   });
 }
 
@@ -116,13 +309,14 @@ function playStation(station) {
   if (currentStation && currentStation.id === station.id && !player.paused) return;
 
   currentStation = station;
+  rememberStation(station);
 
   // 2. UI Updates
   mainLogo.src = `./logo/${station.id}.jpg`;
   mainLogo.onerror = () => { mainLogo.src = `./logo/default.jpg`; };
   nowPlayingName.textContent = station.name;
   nowPlayingLocation.textContent = "Connecting...";
-  
+
   const artwork = document.querySelector('.artwork-card');
   artwork.classList.add('loading');
   artwork.classList.remove('playing');
@@ -133,17 +327,165 @@ function playStation(station) {
   player.load();
 
   player.play().then(() => {
-    nowPlayingLocation.textContent = "Live • " + (station.location || "Nepal");
+    nowPlayingLocation.textContent = "Live • " + formatStationMeta(station);
     artwork.classList.remove('loading');
     artwork.classList.add('playing');
   }).catch(err => {
+    // AbortError = play() was interrupted by a newer load()/pause()
+    // (e.g. the user tapped another station) - not a dead stream.
+    if (err && err.name === "AbortError") return;
     console.error("Playback Error:", err);
-    nowPlayingLocation.textContent = "⚠️ Stream Offline";
-    artwork.classList.remove('loading');
+    handleStreamFailure(station);
   });
 
-  renderStations(searchInput.value);
+  renderStations();
   updateMediaSession(station);
+}
+
+/** Play the station `offset` steps away in the playable list (wraps around). */
+function playRelative(offset) {
+  const list = playableRadios();
+  if (list.length === 0) return;
+  const i = list.findIndex(r => r.id === currentStation?.id);
+  if (i === -1) {
+    playStation(list[0]);
+    return;
+  }
+  playStation(list[(i + offset + list.length) % list.length]);
+}
+
+/** Shuffle / Surprise Me: random station, never the one already playing. */
+function playRandomStation() {
+  const list = playableRadios();
+  if (list.length === 0) return;
+  let pool = list;
+  if (list.length > 1 && currentStation) {
+    pool = list.filter(s => s.id !== currentStation.id);
+  }
+  playStation(pool[Math.floor(Math.random() * pool.length)]);
+}
+
+/**
+ * Stream failure handling with loop protection.
+ * Shows "Stream Offline", then auto-skips to the next playable station.
+ * After MAX_STREAM_FAILURES consecutive failures it stops for good and
+ * leaves the offline message up. The counter resets on a successful
+ * 'playing' event (see init below).
+ */
+function handleStreamFailure(station) {
+  if (!station || !currentStation || station.id !== currentStation.id) return; // stale
+
+  // The play() promise rejection and the audio 'error' event can both
+  // fire for the same broken stream - count each broken stream once.
+  const key = station.id + "|" + (player.currentSrc || player.src || "");
+  const now = Date.now();
+  if (key === lastFailedKey && now - lastFailedAt < 3000) return;
+  lastFailedKey = key;
+  lastFailedAt = now;
+
+  consecutiveFailures++;
+
+  const artwork = document.querySelector('.artwork-card');
+  if (artwork) artwork.classList.remove('loading');
+
+  if (consecutiveFailures >= MAX_STREAM_FAILURES) {
+    consecutiveFailures = 0; // a fresh manual attempt gets a fresh budget
+    nowPlayingLocation.textContent = "⚠️ Stream Offline";
+    return;
+  }
+
+  nowPlayingLocation.textContent = "⚠️ Stream Offline — skipping…";
+  const failedId = station.id;
+  setTimeout(() => {
+    // Only skip if the user hasn't already moved on to something else.
+    if (currentStation && currentStation.id === failedId) playRelative(1);
+  }, 500);
+}
+
+// --- SLEEP TIMER ---
+function clearSleepTimer() {
+  if (sleepTimeoutId) clearTimeout(sleepTimeoutId);
+  if (sleepIntervalId) clearInterval(sleepIntervalId);
+  sleepTimeoutId = null;
+  sleepIntervalId = null;
+  sleepEndAt = null;
+  if (sleepTimerStatus) {
+    sleepTimerStatus.textContent = "";
+    sleepTimerStatus.classList.remove("active");
+  }
+  if (sleepTimerSelect) sleepTimerSelect.classList.remove("active");
+}
+
+function setSleepTimer(minutes) {
+  clearSleepTimer();
+  if (!minutes || minutes <= 0) return;
+
+  sleepEndAt = Date.now() + minutes * 60 * 1000;
+  if (sleepTimerSelect) sleepTimerSelect.classList.add("active");
+  if (sleepTimerStatus) sleepTimerStatus.classList.add("active");
+
+  const tick = () => {
+    const remaining = Math.max(0, sleepEndAt - Date.now());
+    const totalSecs = Math.ceil(remaining / 1000);
+    const m = Math.floor(totalSecs / 60);
+    const s = String(totalSecs % 60).padStart(2, "0");
+    if (sleepTimerStatus) sleepTimerStatus.textContent = `⏱ ${m}:${s}`;
+  };
+  tick();
+  sleepIntervalId = setInterval(tick, 1000);
+
+  sleepTimeoutId = setTimeout(() => {
+    player.pause();
+    if (sleepTimerSelect) sleepTimerSelect.value = "0";
+    clearSleepTimer();
+  }, minutes * 60 * 1000);
+}
+
+// --- SHARE ---
+async function shareStation() {
+  const url = window.location.href;
+  const shareData = currentStation
+    ? {
+        title: currentStation.name,
+        text: `📻 I'm listening to ${currentStation.name} (${formatStationMeta(currentStation)}) on Nepali Radio`,
+        url
+      }
+    : { title: document.title, text: "📻 Nepali Radio — listen to Nepali stations live", url };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      /* user cancelled the share sheet - nothing to do */
+    }
+    return;
+  }
+
+  // Fallback: copy the link and briefly confirm on the button itself.
+  const label = document.getElementById("shareBtnLabel");
+  let copied = false;
+  try {
+    await navigator.clipboard.writeText(url);
+    copied = true;
+  } catch (e) {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = url;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      copied = document.execCommand("copy");
+      document.body.removeChild(ta);
+    } catch (e2) { /* clipboard unavailable */ }
+  }
+
+  if (label) {
+    const original = label.textContent;
+    label.textContent = copied ? "Link Copied!" : "Copy Failed";
+    setTimeout(() => { label.textContent = original; }, 1600);
+  }
+  if (!copied) window.prompt("Copy this link:", url);
 }
 
 /**
@@ -152,7 +494,7 @@ function playStation(station) {
 function updateButtonStates() {
   const icon = document.getElementById("playIcon");
   const artwork = document.querySelector('.artwork-card');
-  
+
   if (player.paused) {
     icon.className = "fas fa-play";
     artwork.classList.remove('playing');
@@ -171,15 +513,29 @@ function updateMediaSession(station) {
     });
     navigator.mediaSession.setActionHandler("play", () => player.play());
     navigator.mediaSession.setActionHandler("pause", () => player.pause());
-    navigator.mediaSession.setActionHandler("previoustrack", () => {
-        let i = radios.findIndex(r => r.id === currentStation?.id);
-        playStation(radios[(i - 1 + radios.length) % radios.length]);
-    });
-    navigator.mediaSession.setActionHandler("nexttrack", () => {
-        let i = radios.findIndex(r => r.id === currentStation?.id);
-        playStation(radios[(i + 1) % radios.length]);
-    });
+    navigator.mediaSession.setActionHandler("previoustrack", () => playRelative(-1));
+    navigator.mediaSession.setActionHandler("nexttrack", () => playRelative(1));
   }
+}
+
+/**
+ * Preselect the last played station on load WITHOUT autoplaying:
+ * shows its name/logo/meta with a "Ready" state so one tap resumes it.
+ */
+function preselectLastStation() {
+  let lastId = null;
+  try { lastId = localStorage.getItem(LS_LAST); } catch (e) { /* ignore */ }
+  if (!lastId) return;
+  const station = findStation(lastId);
+  if (!station) return;
+
+  currentStation = station;
+  mainLogo.src = `./logo/${station.id}.jpg`;
+  mainLogo.onerror = () => { mainLogo.src = `./logo/default.jpg`; };
+  nowPlayingName.textContent = station.name;
+  const meta = formatStationMeta(station);
+  nowPlayingLocation.textContent = (meta && meta !== "Nepal" ? meta + " • " : "") + "Ready to play";
+  updateMediaSession(station);
 }
 
 /**
@@ -195,13 +551,25 @@ document.addEventListener("DOMContentLoaded", () => {
   nowPlayingName = document.getElementById("nowPlayingName");
   nowPlayingLocation = document.getElementById("nowPlayingLocation");
   mainLogo = document.getElementById("main-logo");
+  provinceFilter = document.getElementById("provinceFilter");
+  favoritesToggle = document.getElementById("favoritesToggle");
+  recentSection = document.getElementById("recentSection");
+  recentDiv = document.getElementById("recentStations");
+  shuffleBtn = document.getElementById("shuffleBtn");
+  shareBtn = document.getElementById("shareBtn");
+  sleepTimerSelect = document.getElementById("sleepTimerSelect");
+  sleepTimerStatus = document.getElementById("sleepTimerStatus");
+
+  const volumeSlider = document.getElementById("volumeSlider");
 
   // Load Station Data
   fetch("./radios.json")
     .then(res => res.json())
     .then(data => {
       radios = data;
+      preselectLastStation();
       renderStations();
+      renderRecent();
     });
 
   // Controls
@@ -209,42 +577,102 @@ document.addEventListener("DOMContentLoaded", () => {
     initEqualizer();
     if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
-    if (!currentStation && radios.length > 0) {
-      playStation(radios[0]);
+    if (!currentStation && playableRadios().length > 0) {
+      playStation(playableRadios()[0]);
+    } else if (currentStation && !player.src) {
+      // A station is preselected (last played) but nothing is loaded yet.
+      playStation(currentStation);
     } else {
       player.paused ? player.play() : player.pause();
     }
   });
 
-  nextBtn.addEventListener("click", () => {
-    const i = radios.findIndex(r => r.id === currentStation?.id);
-    if (i !== -1) playStation(radios[(i + 1) % radios.length]);
-  });
+  nextBtn.addEventListener("click", () => playRelative(1));
+  prevBtn.addEventListener("click", () => playRelative(-1));
 
-  prevBtn.addEventListener("click", () => {
-    const i = radios.findIndex(r => r.id === currentStation?.id);
-    if (i !== -1) playStation(radios[(i - 1 + radios.length) % radios.length]);
-  });
+  if (shuffleBtn) shuffleBtn.addEventListener("click", playRandomStation);
+  if (shareBtn) shareBtn.addEventListener("click", shareStation);
+
+  // Sleep Timer
+  if (sleepTimerSelect) {
+    sleepTimerSelect.addEventListener("change", e => {
+      setSleepTimer(Number(e.target.value));
+    });
+  }
 
   // Equalizer Sliders
   document.getElementById("bassSlider").addEventListener("input", e => {
+    clearPresetHighlight();
     if (bassFilter) bassFilter.gain.value = e.target.value;
   });
   document.getElementById("midSlider").addEventListener("input", e => {
+    clearPresetHighlight();
     if (midFilter) midFilter.gain.value = e.target.value;
   });
   document.getElementById("trebleSlider").addEventListener("input", e => {
+    clearPresetHighlight();
     if (trebleFilter) trebleFilter.gain.value = e.target.value;
   });
 
-  // Search & Volume
+  // Equalizer Presets
+  document.querySelectorAll(".preset-btn").forEach(btn => {
+    btn.addEventListener("click", () => applyPreset(btn.dataset.preset));
+  });
+
+  // Search, Province & Favorites filters
   searchInput.addEventListener("input", e => renderStations(e.target.value));
-  document.getElementById("volumeSlider").addEventListener("input", e => {
+  if (provinceFilter) provinceFilter.addEventListener("change", () => renderStations());
+  if (favoritesToggle) {
+    favoritesToggle.addEventListener("click", () => {
+      showFavoritesOnly = !showFavoritesOnly;
+      favoritesToggle.classList.toggle("active", showFavoritesOnly);
+      favoritesToggle.setAttribute("aria-pressed", showFavoritesOnly ? "true" : "false");
+      renderStations();
+    });
+  }
+
+  // Volume
+  volumeSlider.addEventListener("input", e => {
     player.volume = e.target.value;
   });
 
   player.addEventListener("play", updateButtonStates);
   player.addEventListener("pause", updateButtonStates);
+
+  // A stream that actually starts playing clears the failure budget.
+  player.addEventListener("playing", () => {
+    consecutiveFailures = 0;
+    lastFailedKey = "";
+  });
+
+  // Dead / unreachable stream: show offline + auto-skip (loop-guarded).
+  player.addEventListener("error", () => {
+    if (currentStation) handleStreamFailure(currentStation);
+  });
+
+  // Keyboard Shortcuts (ignored while typing in a field)
+  document.addEventListener("keydown", e => {
+    const target = e.target;
+    const tag = target && target.tagName ? target.tagName.toLowerCase() : "";
+    if (tag === "input" || tag === "select" || tag === "textarea" || (target && target.isContentEditable)) return;
+
+    if (e.code === "Space" || e.key === " ") {
+      e.preventDefault();
+      playPauseBtn.click();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      playRelative(1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      playRelative(-1);
+    } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      e.preventDefault();
+      const step = e.key === "ArrowUp" ? 0.05 : -0.05;
+      const next = Math.min(1, Math.max(0, (player.volume || 0) + step));
+      player.volume = next;
+      if (volumeSlider) volumeSlider.value = next;
+    }
+  });
 
   // iOS Background Fix
   document.addEventListener('click', () => {
