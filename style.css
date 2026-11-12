@@ -707,3 +707,12 @@ button, select, .station-card, .province-chip {
     margin-bottom: 1rem;
   }
 }
+
+/* Audio engine status line (inside the EQ/Tune area) */
+.audio-diag {
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: var(--text-secondary, #94a3b8);
+  text-align: center;
+  opacity: 0.85;
+}

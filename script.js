@@ -52,6 +52,7 @@ let audioCtx, source, bassFilter, midFilter, trebleFilter, gainNode;
 // currentVolume is the single source of truth for the slider position.
 let currentVolume = 0.8;
 let webAudioFailed = false;
+let audioError = "";
 let isAudioContextInitialized = false;
 
 const EQ_PRESETS = {
@@ -171,6 +172,7 @@ function initEqualizer() {
     console.log("Audio Pipeline Connected");
   } catch (e) {
     webAudioFailed = true;
+    audioError = (e && e.name) || "Error";
     console.warn("Web Audio API blocked or not supported:", e);
     // Fallback: drive the element directly (works everywhere except iOS).
     try { player.volume = currentVolume; } catch (err) { /* ignore */ }
@@ -201,6 +203,35 @@ function ensureAudioRunning() {
     const p = audioCtx.resume();
     if (p && p.catch) p.catch(() => { /* needs a user gesture; next tap retries */ });
   }
+  updateAudioDiag();
+}
+
+/** Resume an existing context without creating one (plain page taps). */
+function resumeAudioIfExists() {
+  if (audioCtx && audioCtx.state !== "running") {
+    const p = audioCtx.resume();
+    if (p && p.catch) p.catch(() => { /* ignore */ });
+  }
+  updateAudioDiag();
+}
+
+/**
+ * Small status line in the Tune panel showing the audio engine's real
+ * state — turns "the EQ does nothing" into a readable diagnosis.
+ */
+function updateAudioDiag() {
+  const el = document.getElementById("audioDiag");
+  if (!el) return;
+  let text;
+  if (webAudioFailed) {
+    text = "🔊 Engine: FAILED (" + (audioError || "error") + ") — direct sound, EQ/volume limited";
+  } else if (!audioCtx) {
+    text = "🔊 Engine: not started yet — play a station first";
+  } else {
+    const vol = gainNode ? Math.round(gainNode.gain.value * 100) + "%" : "element";
+    text = "🔊 Engine: " + audioCtx.state + " • EQ connected • Volume: " + vol;
+  }
+  el.textContent = text;
 }
 
 function applySliderValuesToFilters() {
@@ -407,9 +438,6 @@ function syncProvinceChips() {
  * Core Playback Logic
  */
 function playStation(station) {
-  // 1. Initialize Audio Context on first play
-  ensureAudioRunning();
-
   if (currentStation && currentStation.id === station.id && !player.paused) return;
 
   currentStation = station;
@@ -429,6 +457,13 @@ function playStation(station) {
   player.pause();
   player.src = getSafeStreamUrl(station.streamUrl);
   player.load();
+
+  // Build/resume the Web Audio graph only now: the element already has a
+  // stream loaded. Creating the media-element source earlier (e.g. on a
+  // random first tap, with nothing loaded) is a known iOS Safari failure
+  // mode where the graph never actually processes the audio.
+  ensureAudioRunning();
+  updateAudioDiag();
 
   player.play().then(() => {
     nowPlayingLocation.textContent = "Live • " + formatStationMeta(station);
@@ -830,10 +865,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // iOS Background Fix: every tap is a chance to (re)start the
-  // AudioContext — iOS suspends/interrupts it when the tab loses focus,
-  // and a parked context silently disables the EQ and gain volume.
+  // iOS Background Fix: taps resume an existing context (iOS parks it
+  // when the tab loses focus), but never CREATE the graph here — graph
+  // creation happens in playStation, once a stream is loaded.
   document.addEventListener('click', () => {
-    ensureAudioRunning();
+    resumeAudioIfExists();
   });
 });
