@@ -620,6 +620,48 @@ button, select, .station-card, .province-chip {
     color: var(--accent);
   }
 
+  /* SLIM STICKY HEADER: the solid header was eating ~half the phone
+     screen, so tighten every row inside it (mobile/tablet only) */
+  .sidebar-header {
+    padding: 0.7rem 1rem 0.55rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .sidebar-header h1 {
+    font-size: 1.02rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .search-container input {
+    padding: 9px 12px 9px 38px;
+    font-size: 0.95rem;
+  }
+
+  .filter-row {
+    margin-top: 8px;
+    gap: 8px;
+  }
+
+  .filter-select,
+  .fav-toggle-btn {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .station-count {
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+  }
+
+  .province-chips {
+    padding-top: 8px;
+  }
+
+  .province-chip {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
   /* COMPACT PLAYER: small artwork + info in one row, list starts higher */
   .player-hero {
     padding: calc(1rem + var(--safe-top)) 1rem 1.25rem;
