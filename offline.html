@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>📻 नेपाली रेडियो — Offline</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: system-ui, -apple-system, sans-serif;
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .box { max-width: 340px; }
+    .big { font-size: 3rem; margin-bottom: 0.5rem; }
+    h1 { font-size: 1.25rem; margin: 0 0 0.5rem; }
+    p { color: #94a3b8; font-size: 0.95rem; line-height: 1.5; }
+    button {
+      margin-top: 1rem;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 999px;
+      background: #007aff;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="big">📻</div>
+    <h1>तपाईं offline हुनुहुन्छ</h1>
+    <p>Nepali Radio लाई internet चाहिन्छ। Connection फेरि आएपछि तलको button थिच्नुहोस्।<br><br>You're offline — Nepali Radio needs an internet connection.</p>
+    <button onclick="window.location.reload()">फेरि प्रयास गर्नुहोस् · Retry</button>
+  </div>
+</body>
+</html>

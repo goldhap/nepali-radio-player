@@ -34,6 +34,17 @@ let showFavoritesOnly = false;
 // match, so a station still appears exactly once on screen.
 let listFilterActive = false;
 
+// --- CHUNKED LIST RENDERING ---
+// All ~590 cards in the DOM at once made scrolling janky on phones.
+// The list now renders in chunks: the first chunk paints immediately
+// and an IntersectionObserver sentinel appends the next chunk as the
+// user scrolls near the bottom, so the full list is still reachable by
+// scrolling alone while the live DOM stays small.
+const LIST_CHUNK_SIZE = 60;
+let currentFilteredList = [];
+let renderedCardCount = 0;
+let listObserver = null;
+
 // --- STREAM ERROR / AUTO-SKIP STATE ---
 let consecutiveFailures = 0;
 let lastFailedKey = "";
@@ -45,7 +56,7 @@ let sleepIntervalId = null;
 let sleepEndAt = null;
 
 // --- EQ & WEB AUDIO VARIABLES ---
-let audioCtx, source, bassFilter, midFilter, trebleFilter, gainNode;
+let audioCtx, source, bassFilter, midFilter, trebleFilter, gainNode, analyserNode;
 // Volume lives in the Web Audio graph (GainNode), not in player.volume:
 // iOS Safari ignores programmatic changes to an <audio> element's volume
 // (hardware buttons only), but gain applied inside the graph always works.
@@ -130,6 +141,11 @@ function initEqualizer() {
     // Ensure the audio element has crossOrigin set to "anonymous" in HTML or via JS
     player.crossOrigin = "anonymous";
     source = audioCtx.createMediaElementSource(player);
+    // From this line the element is routed into the graph. Mark the
+    // graph as initialized NOW: if anything below ever threw, a retry
+    // would call createMediaElementSource again on an already-routed
+    // element, which throws InvalidStateError and poisons the fallback.
+    isAudioContextInitialized = true;
 
     // 3. Create EQ Filters
     // Bass (Lowshelf: frequencies below 200Hz)
@@ -153,12 +169,18 @@ function initEqualizer() {
     gainNode = audioCtx.createGain();
     gainNode.gain.value = currentVolume;
 
-    // 5. Connect the Chain: Source -> Bass -> Mid -> Treble -> Gain -> Speakers
+    // Analyser at the end of the chain: lets the status line verify
+    // that audio samples are REALLY flowing through the EQ graph.
+    analyserNode = audioCtx.createAnalyser();
+    analyserNode.fftSize = 256;
+
+    // 5. Connect the Chain: Source -> Bass -> Mid -> Treble -> Gain -> Analyser -> Speakers
     source.connect(bassFilter);
     bassFilter.connect(midFilter);
     midFilter.connect(trebleFilter);
     trebleFilter.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
+    gainNode.connect(analyserNode);
+    analyserNode.connect(audioCtx.destination);
 
     // The graph now owns the volume; keep the element itself at full so
     // the two never multiply on browsers that honor both.
@@ -168,7 +190,6 @@ function initEqualizer() {
     // before the first play), so preset/manual choices are never lost.
     applySliderValuesToFilters();
 
-    isAudioContextInitialized = true;
     console.log("Audio Pipeline Connected");
   } catch (e) {
     webAudioFailed = true;
@@ -230,6 +251,20 @@ function updateAudioDiag() {
   } else {
     const vol = gainNode ? Math.round(gainNode.gain.value * 100) + "%" : "element";
     text = "🔊 Engine: " + audioCtx.state + " • EQ connected • Volume: " + vol;
+    // Ground truth while a station is audible: are samples actually
+    // passing through the graph? If a browser ever routes the audio
+    // around the graph, the analyser stays silent and we say so
+    // instead of claiming the EQ works when it cannot.
+    if (analyserNode && player && !player.paused && player.readyState >= 2) {
+      const buf = new Uint8Array(analyserNode.fftSize);
+      analyserNode.getByteTimeDomainData(buf);
+      let peak = 0;
+      for (let i = 0; i < buf.length; i++) {
+        const d = Math.abs(buf[i] - 128);
+        if (d > peak) peak = d;
+      }
+      text += peak > 1 ? " • Signal: YES ✓" : " • Signal: NO — browser bypass, use hardware volume";
+    }
   }
   el.textContent = text;
 }
@@ -306,6 +341,7 @@ function rememberStation(station) {
 function buildStationCard(station, extraClass) {
   const div = document.createElement("div");
   div.className = "station-card" + (extraClass ? " " + extraClass : "");
+  div.dataset.stationId = station.id;
   if (currentStation && currentStation.id === station.id) div.classList.add("active");
 
   const isFav = favorites.has(station.id);
@@ -376,6 +412,9 @@ function renderStations(filter) {
   }
 
   stationsDiv.innerHTML = "";
+  currentFilteredList = filtered;
+  renderedCardCount = 0;
+  if (listObserver) { listObserver.disconnect(); listObserver = null; }
 
   if (filtered.length === 0) {
     stationsDiv.innerHTML = `<div class="error-msg">${
@@ -384,9 +423,70 @@ function renderStations(filter) {
     return;
   }
 
-  filtered.forEach(station => {
-    stationsDiv.appendChild(buildStationCard(station));
+  renderNextChunk();
+}
+
+/** Append the next chunk of station cards (+ keep the scroll sentinel last). */
+function renderNextChunk() {
+  if (!stationsDiv) return;
+  const oldSentinel = stationsDiv.querySelector(".list-sentinel");
+  if (oldSentinel) oldSentinel.remove();
+
+  const frag = document.createDocumentFragment();
+  const end = Math.min(renderedCardCount + LIST_CHUNK_SIZE, currentFilteredList.length);
+  for (let i = renderedCardCount; i < end; i++) {
+    frag.appendChild(buildStationCard(currentFilteredList[i]));
+  }
+  renderedCardCount = end;
+  stationsDiv.appendChild(frag);
+
+  if (renderedCardCount < currentFilteredList.length) {
+    const sentinel = document.createElement("div");
+    sentinel.className = "list-sentinel";
+    sentinel.setAttribute("aria-hidden", "true");
+    stationsDiv.appendChild(sentinel);
+    if ("IntersectionObserver" in window) {
+      listObserver = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting)) renderNextChunk();
+      }, { rootMargin: "800px 0px" });
+      listObserver.observe(sentinel);
+    } else {
+      // Very old browser without IntersectionObserver: render the rest.
+      renderNextChunk();
+    }
+  }
+}
+
+/**
+ * Move the .active highlight to the now-playing station's card without
+ * rebuilding the list (a full re-render on every play tap was a visible
+ * scroll hitch). Cards not rendered yet get the highlight when their
+ * chunk is built, because buildStationCard checks currentStation.
+ */
+function updateActiveCard() {
+  if (!currentStation) return;
+  document.querySelectorAll(".station-card").forEach(c => {
+    c.classList.toggle("active", c.dataset.stationId === currentStation.id);
   });
+}
+
+/**
+ * In the default (unfiltered) view the played station now lives under
+ * Recently Played, so remove its card from the main list to keep the
+ * "each station appears exactly once" rule — surgically, without a
+ * full re-render. The chunk bookkeeping is adjusted so later chunks
+ * still append the right stations.
+ */
+function removePlayedCardFromMainList(station) {
+  if (!stationsDiv || listFilterActive || !station) return;
+  const idx = currentFilteredList.findIndex(s => s.id === station.id);
+  if (idx === -1) return;
+  currentFilteredList.splice(idx, 1);
+  if (idx < renderedCardCount) {
+    renderedCardCount--;
+    const card = stationsDiv.querySelector(`.station-card[data-station-id="${station.id}"]`);
+    if (card) card.remove();
+  }
 }
 
 /** Renders the "Recently Played" row above the main list (hidden when empty). */
@@ -444,7 +544,14 @@ function syncProvinceChips() {
  * Core Playback Logic
  */
 function playStation(station) {
-  if (currentStation && currentStation.id === station.id && !player.paused) return;
+  if (currentStation && currentStation.id === station.id) {
+    if (!player.paused) return; // already playing this station
+    if (player.src) { // paused on this station: resume, don't reload the stream
+      ensureAudioRunning();
+      player.play().catch(() => { /* 'playing' event / error handler will update UI */ });
+      return;
+    }
+  }
 
   currentStation = station;
   rememberStation(station);
@@ -484,7 +591,8 @@ function playStation(station) {
     handleStreamFailure(station);
   });
 
-  renderStations();
+  removePlayedCardFromMainList(station);
+  updateActiveCard();
   updateMediaSession(station);
   syncMiniPlayer();
 }
@@ -722,12 +830,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load Station Data
   fetch("./radios.json")
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error("radios.json HTTP " + res.status);
+      return res.json();
+    })
     .then(data => {
       radios = data;
       preselectLastStation();
       renderStations();
       renderRecent();
+    })
+    .catch(err => {
+      console.error("Failed to load station data:", err);
+      if (stationsDiv) {
+        stationsDiv.innerHTML = `<div class="error-msg">⚠️ Station list load भएन — connection check गरेर page reload गर्नुहोस्।</div>`;
+      }
+      if (stationCountEl) stationCountEl.textContent = "";
     });
 
   // Controls
@@ -810,8 +928,14 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => { ensureAudioRunning(); applyPreset(btn.dataset.preset); });
   });
 
-  // Search, Province & Favorites filters
-  searchInput.addEventListener("input", e => renderStations(e.target.value));
+  // Search, Province & Favorites filters (debounced: rebuilding the
+  // list on every single keystroke made typing feel laggy)
+  let searchDebounce = null;
+  searchInput.addEventListener("input", e => {
+    const value = e.target.value;
+    if (searchDebounce) clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => renderStations(value), 120);
+  });
   if (provinceFilter) {
     // 'input' fires earlier than 'change' on some mobile pickers (iOS
     // wheel); listening to both makes the filter feel instant. Rendering
@@ -836,10 +960,19 @@ document.addEventListener("DOMContentLoaded", () => {
   player.addEventListener("play", updateButtonStates);
   player.addEventListener("pause", updateButtonStates);
 
-  // A stream that actually starts playing clears the failure budget.
+  // A stream that actually starts playing clears the failure budget,
+  // re-asserts the graph volume (iOS can reset context state when a
+  // stream (re)starts) and refreshes the engine status line once audio
+  // is really flowing, so its signal check measures a live stream.
   player.addEventListener("playing", () => {
     consecutiveFailures = 0;
     lastFailedKey = "";
+    if (gainNode) gainNode.gain.value = currentVolume;
+    if (audioCtx && audioCtx.state !== "running") {
+      const p = audioCtx.resume();
+      if (p && p.catch) p.catch(() => { /* next tap retries */ });
+    }
+    setTimeout(updateAudioDiag, 1200);
   });
 
   // Dead / unreachable stream: show offline + auto-skip (loop-guarded).

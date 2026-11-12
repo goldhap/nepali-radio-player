@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nepali-radio-cache-v12';
+const CACHE_NAME = 'nepali-radio-cache-v13';
 const OFFLINE_URL = '/offline.html';
 
 const urlsToCache = [
@@ -13,11 +13,17 @@ const urlsToCache = [
   OFFLINE_URL
 ];
 
-// Install event - cache files
+// Install event - cache files.
+// Each URL is cached independently: cache.addAll() is all-or-nothing,
+// so a single missing file (this once shipped with /offline.html in
+// the list before the file existed) silently killed the WHOLE install
+// — no offline shell, no caching, every visit a cold network load.
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+      .then(cache => Promise.allSettled(
+        urlsToCache.map(url => cache.add(url))
+      ))
       .then(() => self.skipWaiting())
   );
 });
