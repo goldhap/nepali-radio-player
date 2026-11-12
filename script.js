@@ -27,6 +27,10 @@ const MAX_STREAM_FAILURES = 5;
 let favorites = new Set(loadJSON(LS_FAVORITES, []));
 let recentIds = loadJSON(LS_RECENT, []);
 let showFavoritesOnly = false;
+// True while search / province / favorites filtering is active. In that
+// state the Recently Played section hides and the main list shows every
+// match, so a station still appears exactly once on screen.
+let listFilterActive = false;
 
 // --- STREAM ERROR / AUTO-SKIP STATE ---
 let consecutiveFailures = 0;
@@ -256,7 +260,14 @@ function renderStations(filter) {
     .trim().toLowerCase();
   const province = provinceFilter ? provinceFilter.value : "";
 
+  listFilterActive = !!(query || province || showFavoritesOnly);
+  renderRecent();
+
   const filtered = playableRadios().filter(s => {
+    // Default (unfiltered) view: stations already shown under
+    // "Recently Played" are not repeated in the main list — each
+    // station appears exactly once on screen.
+    if (!listFilterActive && recentIds.includes(s.id)) return false;
     if (province && String(s.province == null ? "" : s.province) !== province) return false;
     if (showFavoritesOnly && !favorites.has(s.id)) return false;
     if (!query) return true;
@@ -286,6 +297,12 @@ function renderStations(filter) {
 /** Renders the "Recently Played" row above the main list (hidden when empty). */
 function renderRecent() {
   if (!recentSection || !recentDiv) return;
+  // While filtering/searching, the main list carries every match —
+  // hide this section so no station is shown twice.
+  if (listFilterActive) {
+    recentSection.hidden = true;
+    return;
+  }
   const recentStations = recentIds.map(findStation).filter(Boolean);
   recentDiv.innerHTML = "";
   if (recentStations.length === 0) {
