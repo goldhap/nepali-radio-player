@@ -28,6 +28,10 @@ const MAX_STREAM_FAILURES = 5;
 
 let favorites = new Set(loadJSON(LS_FAVORITES, []));
 let recentIds = loadJSON(LS_RECENT, []);
+// Current list view: "all" | "favorites" | "recent" — driven by the
+// mobile bottom tab bar (Spotify-style) and mirrored by the header
+// Favorites toggle. showFavoritesOnly is derived from it.
+let listView = "all";
 let showFavoritesOnly = false;
 // True while search / province / favorites filtering is active. In that
 // state the Recently Played section hides and the main list shows every
@@ -328,6 +332,32 @@ function toggleFavorite(station, event) {
   saveJSON(LS_FAVORITES, [...favorites]);
   renderStations();
   renderRecent();
+  syncNpFavBtn();
+}
+
+/** Keep the Now Playing "Favorite" button in step with the current station. */
+function syncNpFavBtn() {
+  const btn = document.getElementById("npFavBtn");
+  if (!btn) return;
+  const isFav = !!(currentStation && favorites.has(currentStation.id));
+  btn.setAttribute("aria-pressed", isFav ? "true" : "false");
+  const icon = btn.querySelector("i");
+  if (icon) icon.className = (isFav ? "fas" : "far") + " fa-heart";
+  const label = document.getElementById("npFavLabel");
+  if (label) label.textContent = isFav ? "Favorited" : "Favorite";
+}
+
+/** Switch the station list between Home / Favorites / Recent views. */
+function setListView(view) {
+  listView = view;
+  showFavoritesOnly = view === "favorites";
+  document.querySelectorAll(".tab-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.view === view));
+  if (favoritesToggle) {
+    favoritesToggle.classList.toggle("active", showFavoritesOnly);
+    favoritesToggle.setAttribute("aria-pressed", showFavoritesOnly ? "true" : "false");
+  }
+  renderStations();
 }
 
 function rememberStation(station) {
@@ -380,10 +410,16 @@ function renderStations(filter) {
     .trim().toLowerCase();
   const province = provinceFilter ? provinceFilter.value : "";
 
-  listFilterActive = !!(query || province || showFavoritesOnly);
+  listFilterActive = !!(query || province || showFavoritesOnly || listView === "recent");
   renderRecent();
 
-  const filtered = playableRadios().filter(s => {
+  // Recent view lists the recently played stations in play order;
+  // every other view scans the full playable catalog.
+  const pool = listView === "recent"
+    ? recentIds.map(findStation).filter(Boolean)
+    : playableRadios();
+
+  const filtered = pool.filter(s => {
     // Default (unfiltered) view: stations already shown under
     // "Recently Played" are not repeated in the main list — each
     // station appears exactly once on screen.
@@ -407,6 +443,7 @@ function renderStations(filter) {
     let suffix = "";
     if (province && PROVINCE_NAMES[province]) suffix = ` in ${PROVINCE_NAMES[province]}`;
     else if (showFavoritesOnly) suffix = " in Favorites";
+    else if (listView === "recent") suffix = " recently played";
     else if (query) suffix = ` for "${query}"`;
     stationCountEl.textContent = `${total} station${total === 1 ? "" : "s"}${suffix}`;
   }
@@ -418,7 +455,11 @@ function renderStations(filter) {
 
   if (filtered.length === 0) {
     stationsDiv.innerHTML = `<div class="error-msg">${
-      showFavoritesOnly ? "No favorite stations yet — tap the heart on a station to add one." : "No stations found"
+      showFavoritesOnly
+        ? "No favorite stations yet — tap the heart on a station to add one."
+        : listView === "recent"
+          ? "Nothing played yet — tap any station and it will appear here."
+          : "No stations found"
     }</div>`;
     return;
   }
@@ -595,6 +636,7 @@ function playStation(station) {
   updateActiveCard();
   updateMediaSession(station);
   syncMiniPlayer();
+  syncNpFavBtn();
 }
 
 /** Play the station `offset` steps away in the playable list (wraps around). */
@@ -796,6 +838,7 @@ function preselectLastStation() {
   nowPlayingLocation.textContent = (meta && meta !== "Nepal" ? meta + " • " : "") + "Ready to play";
   updateMediaSession(station);
   syncMiniPlayer();
+  syncNpFavBtn();
 }
 
 /**
@@ -945,12 +988,72 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (favoritesToggle) {
     favoritesToggle.addEventListener("click", () => {
-      showFavoritesOnly = !showFavoritesOnly;
-      favoritesToggle.classList.toggle("active", showFavoritesOnly);
-      favoritesToggle.setAttribute("aria-pressed", showFavoritesOnly ? "true" : "false");
-      renderStations();
+      setListView(listView === "favorites" ? "all" : "favorites");
     });
   }
+
+  // Bottom tab bar (mobile): Home / Favorites / Recent views.
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => setListView(btn.dataset.view));
+  });
+
+  // Favorite button for the station in the Now Playing view.
+  const npFavBtn = document.getElementById("npFavBtn");
+  if (npFavBtn) {
+    npFavBtn.addEventListener("click", () => {
+      if (currentStation) toggleFavorite(currentStation);
+    });
+  }
+
+  // --- NOW PLAYING SHEET (mobile, Spotify-style) ---
+  // The player controls are the SAME DOM nodes at every size: on
+  // mobile the .now-playing-container moves into the full-screen
+  // sheet, on desktop it lives in the hero. Moving the node keeps
+  // every listener, slider position and the audio graph wiring
+  // intact — nothing is duplicated.
+  const npSheet = document.getElementById("nowPlayingSheet");
+  const npSheetBody = document.getElementById("npSheetBody");
+  const heroMain = document.querySelector(".player-hero");
+  const npContainer = document.querySelector(".now-playing-container");
+  const mobileMq = window.matchMedia
+    ? window.matchMedia("(max-width: 1023px)")
+    : { matches: false };
+
+  function closeSheet() {
+    if (!npSheet || npSheet.hidden) return;
+    npSheet.classList.remove("open");
+    npSheet.hidden = true;
+    document.body.classList.remove("sheet-open");
+  }
+  function openSheet() {
+    if (!npSheet || !mobileMq.matches || !currentStation) return;
+    npSheet.hidden = false;
+    document.body.classList.add("sheet-open");
+    requestAnimationFrame(() => npSheet.classList.add("open"));
+    updateAudioDiag();
+  }
+  function placePlayerContainer() {
+    if (!npContainer) return;
+    if (mobileMq.matches) {
+      if (npSheetBody) npSheetBody.appendChild(npContainer);
+    } else {
+      closeSheet();
+      if (heroMain) heroMain.appendChild(npContainer);
+    }
+  }
+  placePlayerContainer();
+  if (mobileMq.addEventListener) mobileMq.addEventListener("change", placePlayerContainer);
+  else if (mobileMq.addListener) mobileMq.addListener(placePlayerContainer);
+
+  if (miniPlayer) {
+    // Tapping the mini-player body (not its buttons) opens the sheet.
+    miniPlayer.addEventListener("click", e => {
+      if (e.target.closest("button")) return;
+      openSheet();
+    });
+  }
+  const npClose = document.getElementById("npClose");
+  if (npClose) npClose.addEventListener("click", closeSheet);
 
   // Volume
   volumeSlider.addEventListener("input", e => {
@@ -982,6 +1085,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Keyboard Shortcuts (ignored while typing in a field)
   document.addEventListener("keydown", e => {
+    if (e.key === "Escape") { closeSheet(); return; }
     const target = e.target;
     const tag = target && target.tagName ? target.tagName.toLowerCase() : "";
     if (tag === "input" || tag === "select" || tag === "textarea" || (target && target.isContentEditable)) return;

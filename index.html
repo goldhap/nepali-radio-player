@@ -128,6 +128,9 @@
           <button id="shareBtn" class="tool-btn" type="button" aria-label="Share this station">
             <i class="fas fa-share-nodes"></i> <span id="shareBtnLabel">Share</span>
           </button>
+          <button id="npFavBtn" class="tool-btn" type="button" aria-label="Favorite this station" aria-pressed="false">
+            <i class="far fa-heart"></i> <span id="npFavLabel">Favorite</span>
+          </button>
           <div class="sleep-box">
             <label for="sleepTimerSelect"><i class="fas fa-moon"></i> Sleep</label>
             <select id="sleepTimerSelect" class="filter-select" aria-label="Sleep timer">
@@ -150,6 +153,21 @@
     </main>
 
   </div>
+
+  <!-- Full-screen Now Playing sheet (Spotify-style): on mobile the
+       .now-playing-container is moved inside here; tapping the
+       mini-player opens it. Desktop keeps the player in the hero. -->
+  <div id="nowPlayingSheet" class="np-sheet" hidden role="dialog" aria-label="Now playing">
+    <button id="npClose" class="np-close" type="button" aria-label="Close now playing"><i class="fas fa-chevron-down"></i></button>
+    <div id="npSheetBody" class="np-sheet-body"></div>
+  </div>
+
+  <!-- Bottom tab bar (mobile only, Spotify-style view switcher) -->
+  <nav id="tabBar" class="tab-bar" aria-label="Station views">
+    <button type="button" class="tab-btn active" data-view="all"><i class="fas fa-house"></i><span>Home</span></button>
+    <button type="button" class="tab-btn" data-view="favorites"><i class="fas fa-heart"></i><span>Favorites</span></button>
+    <button type="button" class="tab-btn" data-view="recent"><i class="fas fa-clock-rotate-left"></i><span>Recent</span></button>
+  </nav>
 
   <div id="miniPlayer" class="mini-player" hidden>
     <img id="miniLogo" src="./logo/default.jpg" alt="">

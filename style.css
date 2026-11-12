@@ -771,3 +771,146 @@ button, select, .station-card, .province-chip {
   text-align: center;
   opacity: 0.85;
 }
+
+/* --- 6. SPOTIFY-STYLE MOBILE SHELL --- */
+/* Tab bar + Now Playing sheet exist in the DOM at all sizes but are
+   only ever shown below desktop width. */
+.tab-bar {
+  display: none;
+}
+
+.np-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: radial-gradient(circle at top, #1e293b 0%, #0f172a 70%);
+  transform: translateY(102%);
+  transition: transform 0.34s cubic-bezier(0.32, 0.72, 0.28, 1);
+  overflow-y: auto;
+  padding: calc(0.25rem + var(--safe-top)) 1.25rem calc(1.5rem + var(--safe-bottom));
+}
+
+.np-sheet[hidden] {
+  display: none;
+}
+
+.np-sheet.open {
+  transform: translateY(0);
+}
+
+.np-close {
+  position: sticky;
+  top: 0;
+  display: flex;
+  margin: 0 auto 0.25rem;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.25rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+body.sheet-open {
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  /* Desktop keeps the in-flow hero player; sheet + tabs never show */
+  .np-sheet,
+  .tab-bar {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  /* LIST-FIRST: the hero leaves the flow on mobile — its controls
+     live in the Now Playing sheet (JS moves the same DOM node). */
+  .player-hero {
+    display: none;
+  }
+
+  /* BOTTOM TAB BAR (Home / Favorites / Recent) */
+  .tab-bar {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    background: #0b1220;
+    border-top: 1px solid var(--glass-border);
+    padding: 6px 8px calc(6px + var(--safe-bottom));
+  }
+
+  .tab-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 0.68rem;
+    font-family: inherit;
+    padding: 6px 0 2px;
+    cursor: pointer;
+  }
+
+  .tab-btn i {
+    font-size: 1.15rem;
+  }
+
+  .tab-btn.active {
+    color: var(--accent);
+  }
+
+  /* Mini-player floats as a card above the tab bar (Spotify-style) */
+  .mini-player {
+    left: 8px;
+    right: 8px;
+    bottom: calc(62px + var(--safe-bottom));
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    cursor: pointer;
+  }
+
+  /* Keep list content clear of tab bar (+ mini-player when present) */
+  .sidebar {
+    padding-bottom: calc(78px + var(--safe-bottom));
+  }
+
+  body.has-mini-player .sidebar {
+    padding-bottom: calc(158px + var(--safe-bottom));
+  }
+
+  /* NOW PLAYING SHEET: centered, artwork-led layout */
+  .np-sheet .now-playing-container {
+    display: block;
+    max-width: 430px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .np-sheet .artwork-card {
+    display: flex;
+    justify-content: center;
+  }
+
+  .np-sheet #main-logo {
+    width: min(68vw, 280px);
+    margin: 0 auto 1.25rem;
+  }
+
+  .np-sheet .station-info {
+    flex: none;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .np-sheet .station-info p {
+    margin-bottom: 1.25rem;
+  }
+}
