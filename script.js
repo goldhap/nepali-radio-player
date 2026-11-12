@@ -45,7 +45,13 @@ let sleepIntervalId = null;
 let sleepEndAt = null;
 
 // --- EQ & WEB AUDIO VARIABLES ---
-let audioCtx, source, bassFilter, midFilter, trebleFilter;
+let audioCtx, source, bassFilter, midFilter, trebleFilter, gainNode;
+// Volume lives in the Web Audio graph (GainNode), not in player.volume:
+// iOS Safari ignores programmatic changes to an <audio> element's volume
+// (hardware buttons only), but gain applied inside the graph always works.
+// currentVolume is the single source of truth for the slider position.
+let currentVolume = 0.8;
+let webAudioFailed = false;
 let isAudioContextInitialized = false;
 
 const EQ_PRESETS = {
@@ -141,11 +147,21 @@ function initEqualizer() {
     trebleFilter.type = "highshelf";
     trebleFilter.frequency.value = 3000;
 
-    // 4. Connect the Chain: Source -> Bass -> Mid -> Treble -> Speakers
+    // 4. Volume GainNode (this is what makes the volume slider work on
+    // iPhone, where <audio>.volume is read-only for web pages)
+    gainNode = audioCtx.createGain();
+    gainNode.gain.value = currentVolume;
+
+    // 5. Connect the Chain: Source -> Bass -> Mid -> Treble -> Gain -> Speakers
     source.connect(bassFilter);
     bassFilter.connect(midFilter);
     midFilter.connect(trebleFilter);
-    trebleFilter.connect(audioCtx.destination);
+    trebleFilter.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    // The graph now owns the volume; keep the element itself at full so
+    // the two never multiply on browsers that honor both.
+    try { player.volume = 1; } catch (e) { /* iOS: read-only, harmless */ }
 
     // Apply whatever the sliders currently show (e.g. a preset chosen
     // before the first play), so preset/manual choices are never lost.
@@ -154,7 +170,36 @@ function initEqualizer() {
     isAudioContextInitialized = true;
     console.log("Audio Pipeline Connected");
   } catch (e) {
+    webAudioFailed = true;
     console.warn("Web Audio API blocked or not supported:", e);
+    // Fallback: drive the element directly (works everywhere except iOS).
+    try { player.volume = currentVolume; } catch (err) { /* ignore */ }
+  }
+}
+
+/**
+ * Set playback volume (0..1) from any control. Routes through the
+ * GainNode when the Web Audio graph is live; otherwise falls back to
+ * the element's own volume. Also wakes the AudioContext — iOS parks it
+ * in 'suspended'/'interrupted' and a parked context means a silent EQ.
+ */
+function setVolume(value) {
+  const v = Math.min(1, Math.max(0, Number(value) || 0));
+  currentVolume = v;
+  if (gainNode) {
+    gainNode.gain.value = v;
+  } else if (!isAudioContextInitialized || webAudioFailed) {
+    try { player.volume = v; } catch (e) { /* iOS read-only */ }
+  }
+  ensureAudioRunning();
+}
+
+/** Create (once) and resume the AudioContext; safe to call on any tap. */
+function ensureAudioRunning() {
+  initEqualizer();
+  if (audioCtx && audioCtx.state !== "running") {
+    const p = audioCtx.resume();
+    if (p && p.catch) p.catch(() => { /* needs a user gesture; next tap retries */ });
   }
 }
 
@@ -363,8 +408,7 @@ function syncProvinceChips() {
  */
 function playStation(station) {
   // 1. Initialize Audio Context on first play
-  initEqualizer();
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  ensureAudioRunning();
 
   if (currentStation && currentStation.id === station.id && !player.paused) return;
 
@@ -647,8 +691,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Controls
   playPauseBtn.addEventListener("click", () => {
-    initEqualizer();
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    ensureAudioRunning();
 
     if (!currentStation && playableRadios().length > 0) {
       playStation(playableRadios()[0]);
@@ -703,23 +746,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Equalizer Sliders
+  // Equalizer Sliders (each interaction also wakes the AudioContext —
+  // on iOS a suspended context is the usual reason the EQ "does nothing")
   document.getElementById("bassSlider").addEventListener("input", e => {
     clearPresetHighlight();
+    ensureAudioRunning();
     if (bassFilter) bassFilter.gain.value = e.target.value;
   });
   document.getElementById("midSlider").addEventListener("input", e => {
     clearPresetHighlight();
+    ensureAudioRunning();
     if (midFilter) midFilter.gain.value = e.target.value;
   });
   document.getElementById("trebleSlider").addEventListener("input", e => {
     clearPresetHighlight();
+    ensureAudioRunning();
     if (trebleFilter) trebleFilter.gain.value = e.target.value;
   });
 
   // Equalizer Presets
   document.querySelectorAll(".preset-btn").forEach(btn => {
-    btn.addEventListener("click", () => applyPreset(btn.dataset.preset));
+    btn.addEventListener("click", () => { ensureAudioRunning(); applyPreset(btn.dataset.preset); });
   });
 
   // Search, Province & Favorites filters
@@ -742,7 +789,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Volume
   volumeSlider.addEventListener("input", e => {
-    player.volume = e.target.value;
+    setVolume(Number(e.target.value));
   });
 
   player.addEventListener("play", updateButtonStates);
@@ -777,15 +824,16 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
       e.preventDefault();
       const step = e.key === "ArrowUp" ? 0.05 : -0.05;
-      const next = Math.min(1, Math.max(0, (player.volume || 0) + step));
-      player.volume = next;
+      const next = Math.min(1, Math.max(0, currentVolume + step));
+      setVolume(next);
       if (volumeSlider) volumeSlider.value = next;
     }
   });
 
-  // iOS Background Fix
+  // iOS Background Fix: every tap is a chance to (re)start the
+  // AudioContext — iOS suspends/interrupts it when the tab loses focus,
+  // and a parked context silently disables the EQ and gain volume.
   document.addEventListener('click', () => {
-    initEqualizer();
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-  }, { once: true });
+    ensureAudioRunning();
+  });
 });
