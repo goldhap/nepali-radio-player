@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nepali-radio-cache-v16';
+const CACHE_NAME = 'nepali-radio-cache-v17';
 const OFFLINE_URL = '/offline.html';
 
 const urlsToCache = [
@@ -39,7 +39,8 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - Cache-first strategy except for audio streams & proxy URLs
+// Fetch event - network-first for app files (fresh code wins, cache is
+// only the offline fallback); audio streams & proxy URLs bypass the SW.
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 

@@ -191,9 +191,40 @@
 
   <script>
     if ('serviceWorker' in navigator) {
+      // Update delivery hardening: an installed PWA that is resumed
+      // from the app switcher never re-runs this page, so without help
+      // it can keep running an old stylesheet/script for days while
+      // fixes are already live (this is how the v16 scroll fix failed
+      // to reach a phone that "still had the bug"). Three defences:
+      // 1. updateViaCache:'none' — SW update checks always hit the
+      //    network, never the HTTP cache.
+      // 2. reg.update() whenever the app returns to the foreground —
+      //    a resumed PWA checks for a new SW instead of waiting for a
+      //    cold start. sw.js uses skipWaiting + clients.claim, so a
+      //    found update activates immediately...
+      // 3. ...and controllerchange then reloads the page ONCE so the
+      //    new code is what is actually on screen. Skipped while music
+      //    is playing (never interrupt a stream; the update then
+      //    applies on the next cold start instead).
+      const hadController = !!navigator.serviceWorker.controller;
+      let swReloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!hadController || swReloading) return;
+        const playerEl = document.getElementById('player');
+        if (playerEl && !playerEl.paused) return;
+        swReloading = true;
+        window.location.reload();
+      });
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('✅ SW Registered'))
+        navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
+          .then(reg => {
+            console.log('✅ SW Registered');
+            document.addEventListener('visibilitychange', () => {
+              if (document.visibilityState === 'visible') {
+                reg.update().catch(() => { /* offline etc. - next time */ });
+              }
+            });
+          })
           .catch(err => console.error('❌ SW Failed', err));
       });
     }
