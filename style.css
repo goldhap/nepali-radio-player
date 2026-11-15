@@ -467,11 +467,25 @@ button, select, .station-card, .province-chip {
     height: 100vh;
     order: 1;
     border-right: 1px solid var(--glass-border);
+    /* The sidebar is the ONE scroll container on desktop: the header
+       sticks (position: sticky, see base rule) while Recently Played
+       and the station list scroll together underneath it. Previously
+       only .stations-container scrolled, so the recent section sat
+       outside the scroller and played stations stayed pinned on
+       screen — the "played station sticks while scrolling" bug. */
+    overflow-y: auto;
+  }
+
+  /* Natural heights inside the scrolling sidebar (no flex shrinking) */
+  .sidebar-header,
+  .recent-section,
+  .stations-container {
+    flex: none;
   }
 
   .stations-container {
     grid-template-columns: 1fr; /* Back to single column in the sidebar */
-    overflow-y: auto;
+    overflow-y: visible; /* No nested scroller — the sidebar scrolls */
   }
 
   .player-hero {
