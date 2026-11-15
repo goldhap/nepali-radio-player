@@ -383,10 +383,10 @@ button, select, .station-card, .province-chip {
   /* Only the cheap properties transition; "all" made every class or
      state change on any of ~590 cards a candidate for animation work. */
   transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
-  /* Off-screen cards cost almost nothing to render/scroll past.
-     Card height: 12px padding x2 + 50px logo = 74px. */
-  content-visibility: auto;
-  contain-intrinsic-size: auto 74px;
+  /* NOTE: content-visibility: auto was removed — with the chunked
+     renderer the DOM is already bounded, and the property made a
+     previously-played card stick in place while the rest of the
+     list scrolled past it (rendering-containment artifact). */
 }
 
 /* Invisible marker the chunked renderer watches to load more cards */
