@@ -309,15 +309,17 @@ function clearPresetHighlight() {
 }
 
 /**
- * Helper: Routes ALL streams through our own VPS proxy
- * (https://nepali-radio.duckdns.org). The proxy re-serves every stream
- * with CORS headers, so the Web Audio EQ/volume graph works on every
- * station — including HTTPS stations whose own servers send no
- * Access-Control-Allow-Origin (e.g. Image FM) and plain-HTTP stations
- * that would otherwise hit Mixed Content blocks. (Replaced the old
- * Render proxy, which only handled HTTP streams and had cold starts.)
+ * Helper: Routes ALL streams through our own VPS proxy, same-origin
+ * (/radio-stream), so the identical build works on every host that
+ * serves it (radio.moklav.tokyo and nepali-radio.duckdns.org). The
+ * proxy re-serves every stream with CORS headers, so the Web Audio
+ * EQ/volume graph works on every station — including HTTPS stations
+ * whose own servers send no Access-Control-Allow-Origin (e.g.
+ * Image FM) and plain-HTTP stations that would otherwise hit Mixed
+ * Content blocks. (Replaced the old Render proxy, which only handled
+ * HTTP streams and had cold starts.)
  */
-const STREAM_PROXY = "https://nepali-radio.duckdns.org/radio-stream?url=";
+const STREAM_PROXY = "/radio-stream?url=";
 function getSafeStreamUrl(url) {
   if (!url) return "";
   if (url.startsWith(STREAM_PROXY)) return url;

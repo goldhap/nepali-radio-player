@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nepali-radio-cache-v14';
+const CACHE_NAME = 'nepali-radio-cache-v15';
 const OFFLINE_URL = '/offline.html';
 
 const urlsToCache = [
